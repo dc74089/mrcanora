@@ -40,3 +40,20 @@ class TeambuildingResponse(models.Model):
 
     def __str__(self):
         return f"{self.student.fname} {self.student.lname} answered \"{self.answer}\" to \"{self.question.text}\""
+
+
+class SiteConfig(models.Model):
+    key = models.TextField(primary_key=True)
+    value = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.key
+
+    def __bool__(self):
+        return self.value
+
+    @staticmethod
+    def init():
+        SiteConfig.objects.get_or_create(key="student_login")
+        SiteConfig.objects.get_or_create(key="answer_questions")
+        SiteConfig.objects.get_or_create(key="view_answers")

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import auth, views, questions
+from .views import auth, views, questions, configuration
 
 urlpatterns = [
     path('login/admin', auth.login, name='login'),
@@ -13,4 +13,5 @@ urlpatterns = [
 
     path('questions/create', questions.create, name="create_question"),
     path('questions/select', questions.select, name="choose_questions"),
+    path('configuration/set', configuration.configure, name="configure"),
 ]

@@ -43,6 +43,18 @@
       <div class="card">
         <div class="card-body">
           <h2>Site Features</h2>
+          <form action="{% url 'configure' %}" method="post">
+          {% csrf_token %}
+            {% for item in config %}
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="{{ item.key }}" name="{{ item.key }}"
+                        {% if item.value %}checked{% endif %}>
+                <label class="form-check-label" for="{{ item.key }}">{{ item.key }}</label>
+              </div>
+            {% endfor %}
+
+            <button class="btn btn-success mt-3">Submit</button>
+          </form>
         </div>
       </div>
     </div>
@@ -53,7 +65,7 @@
           <h2>Choose Questions</h2>
           <hr>
           <form action="{% url 'choose_questions' %}" method="post">
-          {% csrf_token %}
+            {% csrf_token %}
             <select name="questions" id="multiselect" class="form-control w-100" size="8" multiple="multiple">
               {% for q in questions %}
                 <option value="{{ q.id }}" {% if q.active %}selected{% endif %}>

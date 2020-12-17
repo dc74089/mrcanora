@@ -1,6 +1,7 @@
 from django.http.response import HttpResponseBadRequest
 from django.shortcuts import redirect
 
+from classroom import util
 from classroom.models import TeambuildingQuestion, TeambuildingResponse
 
 
@@ -33,3 +34,20 @@ def select(request):
             q.save()
 
     return redirect('admin')
+
+
+def answer(request):
+    if not util.check_active_student(request): return redirect("student_login")
+
+    if request.method == "GET" and all([x in request.GET for x in ("qid", "ans")]):
+        data = request.GET
+
+        q = TeambuildingQuestion.objects.get(id=data['qid'])
+        r = TeambuildingResponse(question=q, student_id=request.session['sid'])
+        r.answer = q.get_answers()[int(data['ans'])]
+
+        r.save()
+
+        return redirect('index')
+
+    return HttpResponseBadRequest()

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import auth, views, questions, configuration
+from .views import auth, views, questions, configuration, exitticket
 
 urlpatterns = [
     path('login/admin', auth.login, name='login'),
@@ -13,5 +13,9 @@ urlpatterns = [
 
     path('questions/create', questions.create, name="create_question"),
     path('questions/select', questions.select, name="choose_questions"),
+    path('questions/answer', questions.answer, name="answer_question"),
+
+    path('exitticket/submit', exitticket.submit, name="submit_exitticket"),
+
     path('configuration/set', configuration.configure, name="configure"),
 ]

@@ -35,11 +35,19 @@ class TeambuildingQuestion(models.Model):
 
 class TeambuildingResponse(models.Model):
     student = models.ForeignKey("Student", on_delete=models.CASCADE)
-    question = models.ForeignKey("TeambuildingQuestion", on_delete=models.CASCADE)
+    question = models.ForeignKey("TeambuildingQuestion", on_delete=models.CASCADE, related_name="response")
     answer = models.TextField()
 
     def __str__(self):
         return f"{self.student.fname} {self.student.lname} answered \"{self.answer}\" to \"{self.question.text}\""
+
+
+class ExitTicket(models.Model):
+    student = models.ForeignKey("Student", on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    learning_goal = models.TextField()
+    understanding = models.IntegerField()
+    extra = models.TextField()
 
 
 class SiteConfig(models.Model):
@@ -55,5 +63,6 @@ class SiteConfig(models.Model):
     @staticmethod
     def init():
         SiteConfig.objects.get_or_create(key="student_login")
+        SiteConfig.objects.get_or_create(key="exit_ticket")
         SiteConfig.objects.get_or_create(key="answer_questions")
         SiteConfig.objects.get_or_create(key="view_answers")

@@ -1,8 +1,80 @@
 {% extends 'classroom/base.html' %}
 
+{% block script %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+        crossorigin="anonymous"/>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/themes/fontawesome-stars.min.css"
+        integrity="sha512-UvAQolpyYameV9OFfNVAstakl6LZLNL8BYGsgaM8aO1t19TVY3VYwbcib0DyrvuIwaTt9va5yR5kOZs7hdZK0A=="
+        crossorigin="anonymous"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/jquery.barrating.min.js"
+          integrity="sha512-nUuQ/Dau+I/iyRH0p9sp2CpKY9zrtMQvDUG7iiVY8IBMj8ZL45MnONMbgfpFAdIDb7zS5qEJ7S056oE7f+mCXw=="
+          crossorigin="anonymous"></script>
+
+  <script>
+      $(function () {
+          $("#rating").barrating({
+              theme: 'fontawesome-stars'
+          });
+      })
+  </script>
+{% endblock %}
+
 {% block content %}
   <div class="jumbotron">
     <h1>Welcome, {{ student.fname }}!</h1>
     <hr>
+  </div>
+
+  <div class="row mb-5">
+    {% if questions %}
+      <div class="col-12 col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h2>Question(s) of the day</h2>
+            {% for q in questions %}
+              <hr>
+              <p class="">{{ q.text }}</p>
+              {% for option in q.get_answers %}
+                <p><a href="{% url 'answer_question' %}?qid={{ q.id }}&ans={{ forloop.counter0 }}"
+                      class="btn btn-success">{{ option }}</a></p>
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% if exit_ticket %}
+      <div class="col-12 col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h2>Exit Ticket</h2>
+            <form action="{% url 'submit_exitticket' %}" method="post">
+              {% csrf_token %}
+              <div class="mx-auto">
+                <label for="rating">Rate your understanding of class today</label>
+                <select id="rating" name="rating" type="text" class="rating">
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                  <option value="4">Four</option>
+                  <option value="5">Five</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="learning">In a couple words, what did you learn today?</label>
+                <textarea class="form-control" name="learning" id="learning"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="extra">What's the answer to Mr. Canora's extra question?</label>
+                <textarea class="form-control" name="extra" id="extra"></textarea>
+              </div>
+              <button class="btn btn-success">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endif %}
   </div>
 {% endblock %}

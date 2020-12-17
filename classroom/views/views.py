@@ -1,15 +1,20 @@
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
+from django.utils import timezone
 
 from classroom import util
-from classroom.models import Student, TeambuildingQuestion, SiteConfig
+from classroom.models import Student, TeambuildingQuestion, SiteConfig, ExitTicket
 
 
 def index(request):
     if not util.check_active_student(request): return redirect("student_login")
 
     return render(request, "classroom/index.html", {
-        "student": Student.objects.get(id=request.session['sid'])
+        "student": Student.objects.get(id=request.session['sid']),
+        "questions": TeambuildingQuestion.objects.filter(active=True)
+                  .exclude(response__student__id=request.session['sid']),
+        "exit_ticket": SiteConfig.objects.get(key="exit_ticket")
+                       and not ExitTicket.objects.filter(student__id=request.session['sid'], date=timezone.now())
     })
 
 

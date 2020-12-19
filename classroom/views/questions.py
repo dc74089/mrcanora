@@ -1,8 +1,8 @@
-from django.http.response import HttpResponseBadRequest
-from django.shortcuts import redirect
+from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
+from django.shortcuts import redirect, render
 
 from classroom import util
-from classroom.models import TeambuildingQuestion, TeambuildingResponse
+from classroom.models import TeambuildingQuestion, TeambuildingResponse, SiteConfig
 
 
 def create(request):
@@ -48,6 +48,40 @@ def answer(request):
 
         r.save()
 
+        q.used = True
+        q.save()
+
         return redirect('index')
 
     return HttpResponseBadRequest()
+
+
+def view(request):
+    if not util.check_active_student(request): return redirect("student_login")
+
+    if not SiteConfig.objects.get(key="view_answers") and not request.user.is_superuser:
+        return HttpResponseForbidden()
+
+    ctx = {}
+
+    if "qid" in request.GET:
+        q = TeambuildingQuestion.objects.get(id=request.GET['qid'])
+        ctx['question'] = q
+
+        ans = TeambuildingResponse.objects.filter(question__id=q.id)
+        out = {}
+
+        for a in ans:
+            if a.answer not in out:
+                out[a.answer] = []
+
+            out[a.answer].append(a)
+
+        ctx['answers'] = out
+        ctx['coltype'] = "col-lg-" + str(12//len(out)) if len(out) <= 4 else "col-4"
+
+        ctx['questions'] = TeambuildingQuestion.objects.filter(used=True).exclude(id=q.id)
+    else:
+        ctx['questions'] = TeambuildingQuestion.objects.filter(used=True)
+
+    return render(request, "classroom/view_answers.html", ctx)

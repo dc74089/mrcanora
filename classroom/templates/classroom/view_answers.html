@@ -1,0 +1,41 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+  {% if answers %}
+    <div class="card mb-3">
+      <div class="card-body text-center">
+        <h2>{{ question.text }}</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      {% for title, anslist in answers.items %}
+        <div class="col-12 {{ coltype }}">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">{{ title }}</h4>
+              <table class="table">
+                {% for ans in anslist %}
+                  <tr>
+                    <td>{{ ans.student.fname }} {{ ans.student.lname }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <hr>
+  {% endif %}
+  <div class="w-100">
+    <div class="card">
+      <div class="card-body text-center">
+        <h3>{% if question %}More {% endif %}Questions:</h3>
+        {% for q in questions %}
+          <a class="btn btn-danger" href="{% url 'view_answers' %}?qid={{ q.id }}">{{ q.text }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

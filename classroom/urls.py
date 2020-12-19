@@ -14,6 +14,7 @@ urlpatterns = [
     path('questions/create', questions.create, name="create_question"),
     path('questions/select', questions.select, name="choose_questions"),
     path('questions/answer', questions.answer, name="answer_question"),
+    path('questions/view', questions.view, name="view_answers"),
 
     path('exitticket/submit', exitticket.submit, name="submit_exitticket"),
 

@@ -12,7 +12,8 @@ def index(request):
     return render(request, "classroom/index.html", {
         "student": Student.objects.get(id=request.session['sid']),
         "questions": TeambuildingQuestion.objects.filter(active=True)
-                  .exclude(response__student__id=request.session['sid']),
+                     .exclude(response__student__id=request.session['sid'])
+                     if SiteConfig.objects.get(key="answer_questions") else False,
         "exit_ticket": SiteConfig.objects.get(key="exit_ticket")
                        and not ExitTicket.objects.filter(student__id=request.session['sid'], date=timezone.now())
     })

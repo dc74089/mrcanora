@@ -75,6 +75,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mrcanora.urls'
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 * 8  # 8 Weeks
 
 TEMPLATES = [
     {

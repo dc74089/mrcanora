@@ -49,6 +49,9 @@ class ExitTicket(models.Model):
     understanding = models.IntegerField()
     extra = models.TextField()
 
+    def __str__(self):
+        return f"ExitTicket {self.date} from {str(self.student)}"
+
 
 class SiteConfig(models.Model):
     key = models.TextField(primary_key=True)

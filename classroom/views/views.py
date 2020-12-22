@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 
 from classroom import util
-from classroom.models import Student, TeambuildingQuestion, SiteConfig, ExitTicket
+from classroom.models import Student, TeambuildingQuestion, SiteConfig, ExitTicket, homerooms
 
 
 def index(request):
@@ -20,8 +20,12 @@ def index(request):
 
 
 def student_login(request):
-    if not SiteConfig.objects.get(key="student_login"):
-        return HttpResponseForbidden()
+    try:
+        if not SiteConfig.objects.get(key="student_login"):
+            return HttpResponseForbidden()
+    except:
+        SiteConfig.init()
+        return redirect('index')
 
     if request.method == "GET":
         return render(request, "classroom/student_login.html")
@@ -44,5 +48,6 @@ def admin(request):
     return render(request, "classroom/admin.html", {
         "questions": TeambuildingQuestion.objects.filter(used=False) |
                      TeambuildingQuestion.objects.filter(active=True),
-        "config": SiteConfig.objects.all()
+        "config": SiteConfig.objects.all(),
+        "homerooms": homerooms,
     })

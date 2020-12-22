@@ -63,6 +63,8 @@ def view(request):
         return HttpResponseForbidden()
 
     ctx = {}
+    if 'homeroom' in request.GET:
+        ctx['homeroom'] = request.GET['homeroom']
 
     if "qid" in request.GET:
         q = TeambuildingQuestion.objects.get(id=request.GET['qid'])
@@ -71,6 +73,9 @@ def view(request):
         ans = TeambuildingResponse.objects.filter(question__id=q.id)
         out = {}
 
+        if 'homeroom' in request.GET:
+            ans = ans.filter(student__homeroom=request.GET['homeroom'])
+
         for a in ans:
             if a.answer not in out:
                 out[a.answer] = []
@@ -78,7 +83,8 @@ def view(request):
             out[a.answer].append(a)
 
         ctx['answers'] = out
-        ctx['coltype'] = "col-lg-" + str(12//len(out)) if len(out) <= 4 else "col-4"
+        if len(out) > 0:
+            ctx['coltype'] = "col-lg-" + str(12//len(out)) if len(out) <= 4 else "col-4"
 
         ctx['questions'] = TeambuildingQuestion.objects.filter(used=True).exclude(id=q.id)
     else:

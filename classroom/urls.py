@@ -17,6 +17,7 @@ urlpatterns = [
     path('questions/view', questions.view, name="view_answers"),
 
     path('exitticket/submit', exitticket.submit, name="submit_exitticket"),
+    path('exitticket/analytics', exitticket.view, name="view_analytics"),
 
     path('configuration/set', configuration.configure, name="configure"),
 ]

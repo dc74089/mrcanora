@@ -57,6 +57,27 @@
           </form>
         </div>
       </div>
+      <div class="card mt-3">
+        <div class="card-body">
+          <h2 class="card-title">Links</h2>
+          <form class="mb-2" action="{% url 'view_answers' %}" method="get">
+            <select class="custom-select d-inline-block w-auto" name="homeroom">
+              {% for hr in homerooms %}
+                <option value="{{ hr.0 }}">{{ hr.1 }}</option>
+              {% endfor %}
+            </select>
+            <button class="btn btn-secondary">View Question Answers</button>
+          </form>
+          <form class="mb-2" action="{% url 'view_analytics' %}" method="get">
+            <select class="custom-select d-inline-block w-auto" name="homeroom">
+              {% for hr in homerooms %}
+                <option value="{{ hr.0 }}">{{ hr.1 }}</option>
+              {% endfor %}
+            </select>
+            <button class="btn btn-danger">View Lesson Analytics</button>
+          </form>
+        </div>
+      </div>
     </div>
 
     <div class="col-12 mt-3">
@@ -75,7 +96,6 @@
             </select>
             <div class="mt-3">
               <button class="btn btn-success">Submit</button>
-              <a href="{% url 'view_answers' %}" class="btn btn-danger">View Answers</a>
             </div>
           </form>
         </div>

@@ -33,7 +33,7 @@
       <div class="card-body text-center">
         <h3>{% if question %}More {% endif %}Questions:</h3>
         {% for q in questions %}
-          <a class="btn btn-danger" href="{% url 'view_answers' %}?qid={{ q.id }}">{{ q.text }}</a>
+          <a class="btn btn-danger" href="{% url 'view_answers' %}?qid={{ q.id }}&homeroom={{ homeroom }}">{{ q.text }}</a>
         {% endfor %}
       </div>
     </div>

@@ -2,12 +2,25 @@ import json
 
 from django.db import models
 
+homerooms = (
+    ("6A", "6A"),
+    ("6B", "6B"),
+    ("6C", "6C"),
+    ("6D", "6D"),
+    ("6E", "6E"),
+    ("6F", "6F"),
+    ("6G", "6G"),
+    ("6H", "6H"),
+    ("NA", "N/A"),
+)
+
 
 # Create your models here.
 class Student(models.Model):
     id = models.CharField(max_length=15, primary_key=True)
     fname = models.TextField()
     lname = models.TextField()
+    homeroom = models.CharField(max_length=5, default="NA", choices=homerooms)
     enabled = models.BooleanField(default=True)
 
     def __str__(self):
@@ -51,6 +64,9 @@ class ExitTicket(models.Model):
 
     def __str__(self):
         return f"ExitTicket {self.date} from {str(self.student)}"
+
+    def __int__(self):
+        return self.understanding
 
 
 class SiteConfig(models.Model):

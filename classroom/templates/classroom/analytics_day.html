@@ -1,0 +1,81 @@
+{% extends 'classroom/base.html' %}
+
+{% block script %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"
+          integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA=="
+          crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css"
+        integrity="sha512-C7hOmCgGzihKXzyPU/z4nv97W0d9bv4ALuuEbSf6hm93myico9qa0hv4dODThvCsqQUmKmLcJmlpRmCaApr83g=="
+        crossorigin="anonymous"/>
+
+
+  <script>
+      $(function () {
+          let ctx = $("#chart1")
+          var chart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels: {{ names|safe }},
+                  datasets: [{
+                      label: "Understanding",
+                      data: {{ ratings|safe }},
+                      backgroundColor: "rgba(248,117,117,0.5)",
+                  }]
+              },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true,
+                              max: 5
+                          }
+                      }]
+                  }
+              }
+          })
+
+          ctx.click(function (evt) {
+              var activePoints = chart.getElementAtEvent(evt);
+
+              // make sure click was on an actual point
+              if (activePoints.length > 0) {
+                  var clickedDatasetIndex = activePoints[0]._datasetIndex;
+                  var clickedElementindex = activePoints[0]._index;
+                  var label = chart.data.labels[clickedElementindex];
+                  var value = chart.data.datasets[clickedDatasetIndex].data[clickedElementindex];
+                  // TODO: Jump to correct row (if needed?)
+              }
+          });
+      })
+  </script>
+{% endblock %}
+
+{% block content %}
+  <div class="card mb-5">
+    <div class="card-body">
+      <h2 class="card-title">Self-Rating</h2>
+      <canvas id="chart1" height="80px"></canvas>
+    </div>
+  </div>
+
+  <table class="table table-striped table-hover">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Self-Rating</th>
+      <th>Reflection</th>
+      <th>Extra</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for et in tickets %}
+      <tr>
+        <td>{{ et.student.fname }} {{ et.student.lname }}</td>
+        <td>{{ et.understanding }}</td>
+        <td>{{ et.learning_goal }}</td>
+        <td>{{ et.extra }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

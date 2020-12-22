@@ -1,0 +1,64 @@
+{% extends 'classroom/base.html' %}
+
+{% block script %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"
+          integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA=="
+          crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css"
+        integrity="sha512-C7hOmCgGzihKXzyPU/z4nv97W0d9bv4ALuuEbSf6hm93myico9qa0hv4dODThvCsqQUmKmLcJmlpRmCaApr83g=="
+        crossorigin="anonymous"/>
+
+
+  <script>
+      $(function () {
+          let ctx = $("#chart1")
+          var chart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: {{ dates|safe }},
+                  datasets: [{
+                      label: "Average Understanding",
+                      data: {{ averages|safe }},
+                      backgroundColor: "rgba(248,117,117,0.5)",
+                  }]
+              },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true,
+                              max: 5.5
+                          }
+                      }]
+                  }
+              }
+          })
+
+          ctx.click(function (evt) {
+              var activePoints = chart.getElementAtEvent(evt);
+
+              // make sure click was on an actual point
+              if (activePoints.length > 0) {
+                  var clickedDatasetIndex = activePoints[0]._datasetIndex;
+                  var clickedElementindex = activePoints[0]._index;
+                  var label = chart.data.labels[clickedElementindex];
+                  var value = chart.data.datasets[clickedDatasetIndex].data[clickedElementindex];
+                  window.location.href = `{% url 'view_analytics' %}?homeroom={{ homeroom }}&date=${label}`
+              }
+          });
+      })
+  </script>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">Average Self-Rating</h2>
+          <canvas id="chart1" height="80px"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

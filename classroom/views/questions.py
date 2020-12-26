@@ -74,7 +74,7 @@ def view(request):
         out = {}
 
         if 'homeroom' in request.GET:
-            ans = ans.filter(student__homeroom=request.GET['homeroom'])
+            ans = ans.filter(student__homeroom=request.GET['homeroom']) | ans.filter(student__homeroom="NA")
 
         for a in ans:
             if a.answer not in out:

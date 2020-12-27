@@ -24,7 +24,7 @@ class Student(models.Model):
     enabled = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.fname} {self.lname} ({self.id})"
+        return f"{self.fname} {self.lname} ({self.id}, {self.homeroom})"
 
 
 class TeambuildingQuestion(models.Model):

@@ -21,14 +21,15 @@ def index(request):
 
 def student_login(request):
     try:
-        if not SiteConfig.objects.get(key="student_login"):
-            return HttpResponseForbidden()
+        allowed = bool(SiteConfig.objects.get(key="student_login"))
     except:
         SiteConfig.init()
         return redirect('index')
 
     if request.method == "GET":
-        return render(request, "classroom/student_login.html")
+        return render(request, "classroom/student_login.html", {
+            "login_allowed": allowed
+        })
     else:
         data = request.POST
         sid = data['sid']

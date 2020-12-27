@@ -4,11 +4,13 @@
   <div class="jumbotron">
     <h1>Mr. Canora's Enrichment Site</h1>
     <hr>
-    <form action="{% url 'student_login' %}" method="POST">
-      <p>Enter your 5-digit student number to log in:</p>
-      {% csrf_token %}
-      <input class="form-control" type="number" name="sid">
-      <button class="btn btn-success mt-3">Let's Go!</button>
-    </form>
+    {% if login_allowed %}
+      <form action="{% url 'student_login' %}" method="POST">
+        <p>Enter your 5-digit student number to log in:</p>
+        {% csrf_token %}
+        <input class="form-control" type="number" name="sid">
+        <button class="btn btn-success mt-3">Let's Go!</button>
+      </form>
+    {% endif %}
   </div>
 {% endblock %}

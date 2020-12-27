@@ -70,7 +70,7 @@ class ExitTicket(models.Model):
 
 
 class SiteConfig(models.Model):
-    key = models.TextField(primary_key=True)
+    key = models.CharField(max_length=100, primary_key=True)
     value = models.BooleanField(default=False)
 
     def __str__(self):

@@ -47,8 +47,7 @@ def admin(request):
     SiteConfig.init()
 
     return render(request, "classroom/admin.html", {
-        "questions": TeambuildingQuestion.objects.filter(used=False) |
-                     TeambuildingQuestion.objects.filter(active=True),
+        "questions": TeambuildingQuestion.objects.all(),
         "config": SiteConfig.objects.all(),
         "homerooms": homerooms,
     })

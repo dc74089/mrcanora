@@ -90,7 +90,7 @@
             <select name="questions" id="multiselect" class="form-control w-100" size="8" multiple="multiple">
               {% for q in questions %}
                 <option value="{{ q.id }}" {% if q.active %}selected{% endif %}>
-                  {{ q.text }} {% if q.active %}(active){% endif %}
+                  {{ q }}
                 </option>
               {% endfor %}
             </select>

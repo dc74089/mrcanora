@@ -36,6 +36,7 @@
 
           ctx.click(function (evt) {
               var activePoints = chart.getElementAtEvent(evt);
+              var stu_ids = {{ student_ids|safe }}
 
               // make sure click was on an actual point
               if (activePoints.length > 0) {
@@ -43,7 +44,10 @@
                   var clickedElementindex = activePoints[0]._index;
                   var label = chart.data.labels[clickedElementindex];
                   var value = chart.data.datasets[clickedDatasetIndex].data[clickedElementindex];
-                  // TODO: Jump to correct row (if needed?)
+
+                  var stu_id = stu_ids[clickedElementindex];
+
+                  window.location.href = `{% url 'view_analytics' %}?student=${stu_id}`
               }
           });
       })
@@ -70,7 +74,9 @@
     <tbody>
     {% for et in tickets %}
       <tr>
-        <td>{{ et.student.fname }} {{ et.student.lname }}</td>
+        <td style="min-width: 175px">
+          <a href="{% url 'view_analytics' %}?student={{ et.student.id }}">{{ et.student.fname }} {{ et.student.lname }}</a>
+        </td>
         <td>{{ et.understanding }}</td>
         <td>{{ et.learning_goal }}</td>
         <td>{{ et.extra }}</td>

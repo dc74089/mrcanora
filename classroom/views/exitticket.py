@@ -2,7 +2,7 @@ from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
-from classroom.models import ExitTicket
+from classroom.models import ExitTicket, Student
 
 
 def submit(request):
@@ -23,7 +23,7 @@ def view(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
 
-    if 'homeroom' not in request.GET:
+    if 'homeroom' not in request.GET and 'student' not in request.GET:
         return HttpResponseBadRequest()
 
     if 'date' in request.GET:
@@ -39,7 +39,20 @@ def view(request):
         return render(request, "classroom/analytics_day.html", {
             "names": names,
             "ratings": ratings,
-            "tickets": day_ets
+            "tickets": day_ets,
+            "student_ids": [x.student.id for x in day_ets]
+        })
+    elif 'student' in request.GET:
+        student_ets = ExitTicket.objects.filter(student__id=request.GET['student'])
+        student_ets.order_by("-date")
+
+        names = [str(et.date) for et in student_ets]
+        ratings = [et.understanding for et in student_ets]
+
+        return render(request, "classroom/analytics_student.html", {
+            "names": names,
+            "ratings": ratings,
+            "tickets": student_ets,
         })
     else:
         recent_ets = ExitTicket.objects.filter(
@@ -66,5 +79,6 @@ def view(request):
         return render(request, 'classroom/analytics.html', {
             "dates": [str(x) for x in dates],
             "averages": averages,
-            "homeroom": request.GET['homeroom']
+            "homeroom": request.GET['homeroom'],
+            "students": Student.objects.filter(homeroom=request.GET['homeroom']).order_by("lname", "fname")
         })

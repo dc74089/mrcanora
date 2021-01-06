@@ -23,7 +23,11 @@
 
 {% block content %}
   <div class="jumbotron">
-    <h1>Welcome, {{ student.fname }}!</h1>
+    {% if student.id == "dc74089" %}
+      <h1>Howdy, Mr. Canora!</h1>
+    {% else %}
+      <h1>Welcome, {{ student.fname }}!</h1>
+    {% endif %}
   </div>
 
   <div class="row mb-5">

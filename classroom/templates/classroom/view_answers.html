@@ -1,5 +1,17 @@
 {% extends 'classroom/base.html' %}
 
+{% block script %}
+  <script>
+      {% if answers %}
+          $(function () {
+          setTimeout(function () {
+              location.reload()
+          }, 1000)
+      {% endif %}
+      })
+  </script>
+{% endblock %}
+
 {% block content %}
   {% if answers %}
     <div class="card mb-3">

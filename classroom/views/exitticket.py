@@ -56,7 +56,6 @@ def view(request):
         })
     else:
         recent_ets = ExitTicket.objects.filter(
-            date__gte=timezone.now()-timezone.timedelta(days=14),
             student__homeroom=request.GET['homeroom']
         )
 

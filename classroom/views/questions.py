@@ -63,8 +63,10 @@ def view(request):
         return HttpResponseForbidden()
 
     ctx = {}
-    if 'homeroom' in request.GET:
-        ctx['homeroom'] = request.GET['homeroom']
+    if 'homeroom' not in request.GET:
+        return HttpResponseBadRequest()
+
+    ctx['homeroom'] = request.GET['homeroom']
 
     if "qid" in request.GET:
         q = TeambuildingQuestion.objects.get(id=request.GET['qid'])
@@ -84,10 +86,12 @@ def view(request):
 
         ctx['answers'] = out
         if len(out) > 0:
-            ctx['coltype'] = "col-lg-" + str(12//len(out)) if len(out) <= 4 else "col-4"
+            ctx['coltype'] = "col-lg-" + str(12 // len(out)) if len(out) <= 4 else "col-lg-3"
 
-        ctx['questions'] = TeambuildingQuestion.objects.filter(used=True).exclude(id=q.id)
+        ctx['questions'] = [x for x in TeambuildingQuestion.objects.filter(used=True) if
+                            TeambuildingResponse.objects.filter(question=x, student__homeroom=ctx['homeroom']).exists()]
     else:
-        ctx['questions'] = TeambuildingQuestion.objects.filter(used=True)
+        ctx['questions'] = [x for x in TeambuildingQuestion.objects.filter(used=True) if
+                            TeambuildingResponse.objects.filter(question=x, student__homeroom=ctx['homeroom']).exists()]
 
     return render(request, "classroom/view_answers.html", ctx)

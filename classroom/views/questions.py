@@ -43,7 +43,7 @@ def answer(request):
         data = request.GET
 
         q = TeambuildingQuestion.objects.get(id=data['qid'])
-        r = TeambuildingResponse(question=q, student_id=request.session['sid'])
+        r, created = TeambuildingResponse.objects.get_or_create(question=q, student_id=request.session['sid'])
         r.answer = q.get_answers()[int(data['ans'])]
 
         r.save()

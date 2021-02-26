@@ -79,8 +79,10 @@ def escape(request):
     q = ""
     e = ""
     img = 0
+    last = False
 
     ans = request.GET.get("answer")
+    if ans: ans = ans.lower()
 
     if not ans:
         q = "Find the MD5 hash of <code>yikes</code>."
@@ -97,9 +99,9 @@ def escape(request):
             "</code>"
         e = "48d6215903dff56238e52e8891380c8f"
     elif ans == "48d6215903dff56238e52e8891380c8f":
-        q = "You got it! The missing word was <code>bl</code>ue, so write this down: <code>3 = bl</code>\n\n" \
-            "There's a single letter that has this hash: <code>e1671797c52e15f763380b45e841ec32</code>, " \
-            "either use our hash cracking tool OR \"guess and check\" to find what it is. Enter the letter:"
+        q = "Sweet! The missing word was <code>bl</code>ue, so write this down: <code>3 = bl</code>\n\n" \
+            "There's a single lowercase letter that has this hash: <code>e1671797c52e15f763380b45e841ec32</code>, " \
+            "use our hash cracking tool OR \"guess and check\" to find what it is. Enter the letter:"
         e = "e"
     elif ans == "e":
         q = "Yup! It was <code>e</code>, so write this down: <code>4 = e</code>\n\n" \
@@ -122,12 +124,35 @@ def escape(request):
             "Look! Our friend is back. " \
             "Letter number <code>5</code> followed by letter number <code>4</code> is the symbol for an element. " \
             "Which one? Enter it in all lowercase, please"
+        img = 2
         e = "iron"
     elif ans == "iron":
-        q = "We're almost there! "
+        q = "Iron is correct. We're almost at the <code>end</code> of our <code>game</code>!\n\n" \
+            "Fill in the blank: <code>Iron ____</code> and enter it in all lowercase. " \
+            "You should have enough of a hint already ;)"
+        e = "man"
+    elif ans == "man":
+        last = True
+        word = "cannonball".upper()
+
+        try:
+            sid = int(request.session['sid'])
+            pos = sid % len(word)
+        except (ValueError, KeyError):
+            pos = 0
+
+        letter = word[::-1][pos]
+
+        q = "<code>Man</code>, you're good! That was the last step in our search.\n\n" \
+            "<i>" \
+            "It's too late to turn back\n" \
+            "So listen to these words,\n" \
+            "This riddle doesn't rhyme\n" \
+            f"Go write <code>{letter}</code> on the board in slot <code>{pos}</code>"
 
     return render(request, "classroom/pw-escape.html", {
         "question": q,
         "expected": e,
-        "image": img
+        "image": img,
+        "last": last,
     })

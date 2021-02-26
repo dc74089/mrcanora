@@ -4,7 +4,7 @@
 {% block script %}
   <script>
       function validate() {
-          let result = $("#answer").val() == "{{ expected }}"
+          let result = $("#answer").val().lower() == "{{ expected }}"
 
           if (!result) {
               $(".alert").removeClass("d-none")
@@ -22,18 +22,21 @@
       {% if image == 1 %}
         <img src="{% static 'classroom/pigpen.png' %}" class="w-25 float-right mb-4">
       {% endif %}
-      {% if image == 2 %}
-        <img src="{% static 'classroom/pigpen.png' %}" class="w-25 float-right mb-4">
-      {% endif %}
 
       <p>{{ question | safe | linebreaks }}</p>
 
-      <form action="{% url 'escape' %}" method="get" onsubmit="return validate()">
-        <div class="form-group">
-          <input class="form-control" name="answer" id="answer" type="text">
-        </div>
-        <button class="btn btn-secondary">Submit</button>
-      </form>
+      {% if image == 2 %}
+        <img src="{% static 'classroom/number-table.png' %}" class="w-100 mb-4">
+      {% endif %}
+
+      {% if not last %}
+        <form action="{% url 'escape' %}" method="get" onsubmit="return validate()">
+          <div class="form-group">
+            <input class="form-control" name="answer" id="answer" type="text">
+          </div>
+          <button class="btn btn-secondary">Submit</button>
+        </form>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

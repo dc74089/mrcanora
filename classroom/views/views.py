@@ -81,7 +81,7 @@ def escape(request):
     img = 0
     last = False
 
-    ans = request.GET.get("answer")
+    ans = request.GET.get("answer").strip()
     if ans: ans = ans.lower()
 
     if "escape-progress" not in request.session:

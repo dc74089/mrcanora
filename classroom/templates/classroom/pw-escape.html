@@ -4,7 +4,7 @@
 {% block script %}
   <script>
       function validate() {
-          let result = $("#answer").val().lower() == "{{ expected }}"
+          let result = $("#answer").val().toLowerCase() == "{{ expected }}"
 
           if (!result) {
               $(".alert").removeClass("d-none")

@@ -36,7 +36,8 @@ def index(request):
                   .exclude(response__student__id=request.session['sid'])
         if SiteConfig.objects.get(key="answer_questions") else False,
         "exit_ticket": SiteConfig.objects.get(key="exit_ticket")
-                       and not ExitTicket.objects.filter(student__id=request.session['sid'], date=timezone.now())
+                       and not ExitTicket.objects.filter(student__id=request.session['sid'], date=timezone.now()),
+        "escape": SiteConfig.objects.get(key="escape"),
     })
 
 
@@ -71,4 +72,62 @@ def admin(request):
         "questions": TeambuildingQuestion.objects.all(),
         "config": SiteConfig.objects.all(),
         "homerooms": homerooms,
+    })
+
+
+def escape(request):
+    q = ""
+    e = ""
+    img = 0
+
+    ans = request.GET.get("answer")
+
+    if not ans:
+        q = "Find the MD5 hash of <code>yikes</code>."
+        e = "658ca1bc659254fc78f8b78ffa9afca6"
+    elif ans == "658ca1bc659254fc78f8b78ffa9afca6":
+        q = "Awesome! Write this down: <code>1 = tr</code>\n\n" \
+            "There's an item missing from this list. Enter its hash:<br><code>" \
+            "red: bda9643ac6601722a28f238714274da4\n" \
+            "orange: fe01d67a002dfa0f3ac084298142eccd\n" \
+            "???: d487dd0b55dfcacdd920ccbdaeafa351\n" \
+            "???: 9f27410725ab8cc8854a2769c7a516b8\n" \
+            "indigo: 8a99d28c3c43cafed58cdbac5f4e9201\n" \
+            "???: d1d813a48d99f0e102f7d0a1b9068001\n" \
+            "</code>"
+        e = "48d6215903dff56238e52e8891380c8f"
+    elif ans == "48d6215903dff56238e52e8891380c8f":
+        q = "You got it! The missing word was <code>bl</code>ue, so write this down: <code>3 = bl</code>\n\n" \
+            "There's a single letter that has this hash: <code>e1671797c52e15f763380b45e841ec32</code>, " \
+            "either use our hash cracking tool OR \"guess and check\" to find what it is. Enter the letter:"
+        e = "e"
+    elif ans == "e":
+        q = "Yup! It was <code>e</code>, so write this down: <code>4 = e</code>\n\n" \
+            "We need to break this hash using our tool now: <code>42239b8342a1fe81a71703f6de711073</code>. " \
+            "It's a long one, so let's try the \"common passwords\" mode."
+        e = "cactus"
+    elif ans == "cactus":
+        q = "You got it! The password was \"cactus\", <code>ou</code>ch! Write this down: <code>3 = ou</code>\n\n" \
+            "Here's an easy one. 1, 2, 3, 4, what word have we formed? Enter it in all lowercase, please:"
+        e = "trouble"
+    elif ans == "trouble":
+        q = "Almost there! You've got the word <code>trouble</code>.\n\n" \
+            "Write the word trouble using the pigpen cipher. " \
+            "Look at your drawing, what's the answer to my math problem?\n\n" \
+            "<code>Number of Straight Lines * Number of Dots"
+        img = 1
+        e = "54"
+    elif ans == "54":
+        q = "The answer is <code>54</code>\n\n" \
+            "Look! Our friend is back. " \
+            "Letter number <code>5</code> followed by letter number <code>4</code> is the symbol for an element. " \
+            "Which one? Enter it in all lowercase, please"
+        e = "iron"
+    elif ans == "iron":
+        q = "We're almost there! "
+
+    return render(request, "classroom/pw-escape.html", {
+        "question": q,
+        "expected": e,
+        "image": img
     })

@@ -1,0 +1,39 @@
+{% extends 'classroom/base.html' %}
+{% load static %}
+
+{% block script %}
+  <script>
+      function validate() {
+          let result = $("#answer").val() == "{{ expected }}"
+
+          if (!result) {
+              $(".alert").removeClass("d-none")
+          }
+
+          return result;
+      }
+  </script>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+      <div class="alert alert-danger d-none">Sorry! That's not it.</div>
+      {% if image == 1 %}
+        <img src="{% static 'classroom/pigpen.png' %}" class="w-25 float-right mb-4">
+      {% endif %}
+      {% if image == 2 %}
+        <img src="{% static 'classroom/pigpen.png' %}" class="w-25 float-right mb-4">
+      {% endif %}
+
+      <p>{{ question | safe | linebreaks }}</p>
+
+      <form action="{% url 'escape' %}" method="get" onsubmit="return validate()">
+        <div class="form-group">
+          <input class="form-control" name="answer" id="answer" type="text">
+        </div>
+        <button class="btn btn-secondary">Submit</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

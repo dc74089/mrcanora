@@ -85,3 +85,4 @@ class SiteConfig(models.Model):
         SiteConfig.objects.get_or_create(key="exit_ticket")
         SiteConfig.objects.get_or_create(key="answer_questions")
         SiteConfig.objects.get_or_create(key="view_answers")
+        SiteConfig.objects.get_or_create(key="escape")

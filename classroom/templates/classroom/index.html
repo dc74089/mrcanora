@@ -30,6 +30,10 @@
     {% else %}
       <h1>{{ greeting }}, {{ student.fname }}!</h1>
     {% endif %}
+    {% if escape %}
+      <hr>
+      <p><a href="{% url 'escape' %}">Click here for the escape room activity</a></p>
+    {% endif %}
   </div>
 
   <div class="row mb-5">

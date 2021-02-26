@@ -22,4 +22,6 @@ urlpatterns = [
     path('exitticket/analytics', exitticket.view, name="view_analytics"),
 
     path('configuration/set', configuration.configure, name="configure"),
+
+    path('escape', views.escape, name="escape"),
 ]

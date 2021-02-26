@@ -100,7 +100,7 @@ def escape(request):
     elif ans == "658ca1bc659254fc78f8b78ffa9afca6":
         request.session['escape-progress'] = max(progress, 1)
 
-        q = "Awesome! Write this down: <code>1 = tr</code>\n\n" \
+        q = "Awesome! Write this down: <code>1 = TR</code>\n\n" \
             "There's an item missing from this list. Enter its hash:<br><code>" \
             "red: bda9643ac6601722a28f238714274da4\n" \
             "orange: fe01d67a002dfa0f3ac084298142eccd\n" \
@@ -110,11 +110,11 @@ def escape(request):
             "???: d1d813a48d99f0e102f7d0a1b9068001\n" \
             "</code>"
         e = "48d6215903dff56238e52e8891380c8f"
-    elif ans == "48d6215903dff56238e52e8891380c8f":
+    elif ans == "48d6215903dff56238e52e8891380c8f" or ans == "blue":
         if progress < 1: return HttpResponseBadRequest()
         request.session['escape-progress'] = max(progress, 2)
 
-        q = "Sweet! The missing word was <code>bl</code>ue, so write this down: <code>3 = bl</code>\n\n" \
+        q = "Sweet! The missing word was <code>bl</code>ue, so write this down: <code>3 = BL</code>\n\n" \
             "There's a single lowercase letter that has this hash: <code>e1671797c52e15f763380b45e841ec32</code>, " \
             "use our hash cracking tool OR \"guess and check\" to find what it is. Enter the letter:"
         e = "e"
@@ -122,7 +122,7 @@ def escape(request):
         if progress < 2: return HttpResponseBadRequest()
         request.session['escape-progress'] = max(progress, 3)
 
-        q = "Yup! It was <code>e</code>, so write this down: <code>4 = e</code>\n\n" \
+        q = "Yup! It was <code>e</code>, so write this down: <code>4 = E</code>\n\n" \
             "We need to break this hash using our tool now: <code>42239b8342a1fe81a71703f6de711073</code>. " \
             "It's a long one, so let's try the \"common passwords\" mode."
         e = "cactus"
@@ -130,7 +130,7 @@ def escape(request):
         if progress < 3: return HttpResponseBadRequest()
         request.session['escape-progress'] = max(progress, 4)
 
-        q = "You got it! The password was \"cactus\", <code>ou</code>ch! Write this down: <code>3 = ou</code>\n\n" \
+        q = "You got it! The password was \"cactus\", <code>ou</code>ch! Write this down: <code>2 = OU</code>\n\n" \
             "Here's an easy one. 1, 2, 3, 4, what word have we formed? Enter it in all lowercase, please:"
         e = "trouble"
     elif ans == "trouble":

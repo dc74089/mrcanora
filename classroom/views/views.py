@@ -1,6 +1,6 @@
 import random
 
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
@@ -84,10 +84,19 @@ def escape(request):
     ans = request.GET.get("answer")
     if ans: ans = ans.lower()
 
+    if "escape-progress" not in request.session:
+        request.session['escape-progress'] = 0
+
+    progress = request.session['escape-progress']
+
     if not ans:
+        request.session['escape-progress'] = max(progress, 0)
+
         q = "Find the MD5 hash of <code>yikes</code>."
         e = "658ca1bc659254fc78f8b78ffa9afca6"
     elif ans == "658ca1bc659254fc78f8b78ffa9afca6":
+        request.session['escape-progress'] = max(progress, 1)
+
         q = "Awesome! Write this down: <code>1 = tr</code>\n\n" \
             "There's an item missing from this list. Enter its hash:<br><code>" \
             "red: bda9643ac6601722a28f238714274da4\n" \
@@ -99,20 +108,32 @@ def escape(request):
             "</code>"
         e = "48d6215903dff56238e52e8891380c8f"
     elif ans == "48d6215903dff56238e52e8891380c8f":
+        if progress < 1: return HttpResponseBadRequest()
+        request.session['escape-progress'] = max(progress, 2)
+
         q = "Sweet! The missing word was <code>bl</code>ue, so write this down: <code>3 = bl</code>\n\n" \
             "There's a single lowercase letter that has this hash: <code>e1671797c52e15f763380b45e841ec32</code>, " \
             "use our hash cracking tool OR \"guess and check\" to find what it is. Enter the letter:"
         e = "e"
     elif ans == "e":
+        if progress < 2: return HttpResponseBadRequest()
+        request.session['escape-progress'] = max(progress, 3)
+
         q = "Yup! It was <code>e</code>, so write this down: <code>4 = e</code>\n\n" \
             "We need to break this hash using our tool now: <code>42239b8342a1fe81a71703f6de711073</code>. " \
             "It's a long one, so let's try the \"common passwords\" mode."
         e = "cactus"
     elif ans == "cactus":
+        if progress < 3: return HttpResponseBadRequest()
+        request.session['escape-progress'] = max(progress, 4)
+
         q = "You got it! The password was \"cactus\", <code>ou</code>ch! Write this down: <code>3 = ou</code>\n\n" \
             "Here's an easy one. 1, 2, 3, 4, what word have we formed? Enter it in all lowercase, please:"
         e = "trouble"
     elif ans == "trouble":
+        if progress < 4: return HttpResponseBadRequest()
+        request.session['escape-progress'] = max(progress, 5)
+
         q = "Almost there! You've got the word <code>trouble</code>.\n\n" \
             "Write the word trouble using the pigpen cipher. " \
             "Look at your drawing, what's the answer to my math problem?\n\n" \
@@ -120,6 +141,9 @@ def escape(request):
         img = 1
         e = "54"
     elif ans == "54":
+        if progress < 5: return HttpResponseBadRequest()
+        request.session['escape-progress'] = max(progress, 6)
+
         q = "The answer is <code>54</code>\n\n" \
             "Look! Our friend is back. " \
             "Letter number <code>5</code> followed by letter number <code>4</code> is the symbol for an element. " \
@@ -127,11 +151,15 @@ def escape(request):
         img = 2
         e = "iron"
     elif ans == "iron":
+        if progress < 6: return HttpResponseBadRequest()
+        request.session['escape-progress'] = max(progress, 7)
+
         q = "Iron is correct. We're almost at the <code>end</code> of our <code>game</code>!\n\n" \
-            "Fill in the blank: <code>Iron ____</code> and enter it in all lowercase. " \
+            "Fill in the blank: <code>Iron ____</code> and enter its hash. " \
             "You should have enough of a hint already ;)"
-        e = "man"
-    elif ans == "man":
+        e = "39c63ddb96a31b9610cd976b896ad4f0"
+    elif ans == "39c63ddb96a31b9610cd976b896ad4f0":
+        if progress < 7: return HttpResponseBadRequest()
         last = True
         word = "cannonball".upper()
 
@@ -144,11 +172,13 @@ def escape(request):
         letter = word[::-1][pos]
 
         q = "<code>Man</code>, you're good! That was the last step in our search.\n\n" \
-            "<i>" \
-            "It's too late to turn back\n" \
-            "So listen to these words,\n" \
+            "<b><i>" \
+            "It's too late to turn </i>back<i>\n" \
+            "So listen to these </i>words<i>,\n" \
             "This riddle doesn't rhyme\n" \
-            f"Go write <code>{letter}</code> on the board in slot <code>{pos}</code>"
+            f"Go write <code>{letter}</code> on the board in slot <code>{pos}</code> if it's not already there.\n\n" \
+            f"</i></b>" \
+            "Show Mr. Canora this screen, and he will let you know what to do next."
 
     return render(request, "classroom/pw-escape.html", {
         "question": q,

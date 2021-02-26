@@ -101,7 +101,8 @@ def escape(request):
         request.session['escape-progress'] = max(progress, 1)
 
         q = "Awesome! Write this down: <code>1 = TR</code>\n\n" \
-            "There's an item missing from this list. Enter its hash:<br><code>" \
+            "What color is missing from this list (<b>There should be 7, and there's only 6</b>)? " \
+            "Enter the hash of the missing color:<br><code>" \
             "red: bda9643ac6601722a28f238714274da4\n" \
             "orange: fe01d67a002dfa0f3ac084298142eccd\n" \
             "???: d487dd0b55dfcacdd920ccbdaeafa351\n" \

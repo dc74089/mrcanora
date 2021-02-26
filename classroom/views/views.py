@@ -18,7 +18,11 @@ def index(request):
 
     if last + timezone.timedelta(hours=16) < timezone.now():
         greeting = random.choice(["Hey", "Howdy", "What's Up", "Sup", "Hiya", "Merhaba", "Bonjour", "Ahoy",
-                                  "Good Morrow", "What's Kickin'", "Hi", "Greetings"])
+                                  "Good Morrow", "What's Kickin'", "Hi", "Greetings", "Looking great today",
+                                  "Ayyo", "I like ya cut", "How Now", "It's a good day to have a good day",
+                                  "Beep Boop", "Hipppity Hoppity", "Hey Now", "It's a beautiful day in paradise",
+                                  "Glad to see you", "Owa Owa", "Didn't see you there", "Don't Forget to Be Awesome",
+                                  "I'm glad you're here", "I missed you", "Welcome", "**Fun Greeting Here**"])
 
         request.session['greeting'] = greeting
         request.session['greeting_update'] = timezone.now().replace(tzinfo=timezone.utc).timestamp()

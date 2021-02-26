@@ -95,7 +95,10 @@ def escape(request):
     if not ans:
         request.session['escape-progress'] = max(progress, 0)
 
-        q = "Find the MD5 hash of <code>yikes</code>."
+        q = "You'll need to open " \
+            "<a href='https://cryptii.com/pipes/md5-hash' target='_blank'>an MD5 Hash Generator</a> and " \
+            "<a href='https://terminal.canora.us/' target='_blank'>our hash cracker</a>\n\n" \
+            "Find the MD5 hash of <code>yikes</code>."
         e = "658ca1bc659254fc78f8b78ffa9afca6"
     elif ans == "658ca1bc659254fc78f8b78ffa9afca6":
         request.session['escape-progress'] = max(progress, 1)

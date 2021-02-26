@@ -24,11 +24,11 @@
 {% block content %}
   <div class="jumbotron">
     {% if student.id == "dc74089" %}
-      <h1>Howdy, Mr. Canora!</h1>
+      <h1>{{ greeting }}, Teacher Dude!</h1>
     {% elif student.id == "16722" %}
-      <h1>Welcome, <strike>Gabby</strike> Courtney</h1>
+      <h1>{{ greeting }}, <strike>Gabby</strike> Courtney</h1>
     {% else %}
-      <h1>Welcome, {{ student.fname }}!</h1>
+      <h1>{{ greeting }}, {{ student.fname }}!</h1>
     {% endif %}
   </div>
 

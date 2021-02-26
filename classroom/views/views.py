@@ -1,3 +1,5 @@
+import random
+
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.utils import timezone
@@ -9,11 +11,26 @@ from classroom.models import Student, TeambuildingQuestion, SiteConfig, ExitTick
 def index(request):
     if not util.check_active_student(request): return redirect("student_login")
 
+    if "greeting" not in request.session:
+        last = timezone.datetime.fromtimestamp(0).replace(tzinfo=timezone.utc)
+    else:
+        last = timezone.datetime.utcfromtimestamp(request.session['greeting_update']).replace(tzinfo=timezone.utc)
+
+    if last + timezone.timedelta(hours=16) < timezone.now():
+        greeting = random.choice(["Hey", "Howdy", "What's Up", "Sup", "Hiya", "Merhaba", "Bonjour", "Ahoy",
+                                  "Good Morrow", "What's Kickin'", "Hi", "Greetings"])
+
+        request.session['greeting'] = greeting
+        request.session['greeting_update'] = timezone.now().replace(tzinfo=timezone.utc).timestamp()
+    else:
+        greeting = request.session['greeting']
+
     return render(request, "classroom/index.html", {
         "student": Student.objects.get(id=request.session['sid']),
+        "greeting": greeting,
         "questions": TeambuildingQuestion.objects.filter(active=True)
-                     .exclude(response__student__id=request.session['sid'])
-                     if SiteConfig.objects.get(key="answer_questions") else False,
+                  .exclude(response__student__id=request.session['sid'])
+        if SiteConfig.objects.get(key="answer_questions") else False,
         "exit_ticket": SiteConfig.objects.get(key="exit_ticket")
                        and not ExitTicket.objects.filter(student__id=request.session['sid'], date=timezone.now())
     })

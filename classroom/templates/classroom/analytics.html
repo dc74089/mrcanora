@@ -60,19 +60,21 @@
         </div>
       </div>
     </div>
-    <div class="col-12 mt-4">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card-body">Individual Student Analytics</h3>
-          <p class="text-center">
-            {% for student in students %}
-              <a class="btn btn-primary my-2" href="{% url 'view_analytics' %}?student={{ student.id }}">
-                {{ student.fname }} {{ student.lname }}
-              </a>
-            {% endfor %}
-          </p>
+    {% if students %}
+      <div class="col-12 mt-4">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-body">Individual Student Analytics</h3>
+            <p class="text-center">
+              {% for student in students %}
+                <a class="btn btn-primary my-2" href="{% url 'view_analytics' %}?student={{ student.id }}">
+                  {{ student.fname }} {{ student.lname }}
+                </a>
+              {% endfor %}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    {% endif %}
   </div>
 {% endblock %}

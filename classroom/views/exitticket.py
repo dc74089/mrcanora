@@ -29,9 +29,14 @@ def view(request):
     if 'date' in request.GET:
         date = timezone.datetime.strptime(request.GET['date'], "%Y-%m-%d").date()
 
-        day_ets = ExitTicket.objects.filter(
-            student__homeroom=request.GET['homeroom'], date=date
-        ).order_by("student__lname")
+        if request.GET.get("homeroom") == "all":
+            day_ets = ExitTicket.objects.filter(
+                date=date
+            ).order_by("student__lname")
+        else:
+            day_ets = ExitTicket.objects.filter(
+                student__homeroom=request.GET['homeroom'], date=date
+            ).order_by("student__lname")
 
         names = [f"{x.student.fname} {x.student.lname}" for x in day_ets]
         ratings = [x.understanding for x in day_ets]
@@ -55,9 +60,12 @@ def view(request):
             "tickets": student_ets,
         })
     else:
-        recent_ets = ExitTicket.objects.filter(
-            student__homeroom=request.GET['homeroom']
-        )
+        if request.GET.get("homeroom") == "all":
+            recent_ets = ExitTicket.objects.all()
+        else:
+            recent_ets = ExitTicket.objects.filter(
+                student__homeroom=request.GET['homeroom']
+            )
 
         ets_by_date = {}
         understanding_by_date = {}

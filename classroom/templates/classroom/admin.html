@@ -70,6 +70,7 @@
           </form>
           <form class="mb-2" action="{% url 'view_analytics' %}" method="get">
             <select class="custom-select d-inline-block w-auto" name="homeroom">
+              <option value="all">All</option>
               {% for hr in homerooms %}
                 <option value="{{ hr.0 }}">{{ hr.1 }}</option>
               {% endfor %}

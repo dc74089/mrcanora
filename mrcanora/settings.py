@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
     'classroom'
 ]
 
@@ -76,6 +77,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mrcanora.urls'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 * 8  # 8 Weeks
+
+CRONJOBS = [
+    ("10 10 * * *", "classroom.tasks.enable_exit_ticket"),
+    ("40 10 * * *", "classroom.tasks.disable_exit_ticket"),
+    ("05 13 * * *", "classroom.tasks.enable_exit_ticket"),
+    ("35 13 * * *", "classroom.tasks.disable_exit_ticket"),
+
+    ("*/2 * * * *", "classroom.tasks.debug_log"),
+]
 
 TEMPLATES = [
     {

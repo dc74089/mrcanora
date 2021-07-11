@@ -20,6 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = not os.getenv("PROD", False)
 DOCKER = os.getenv("DOCKER", False)
+SIXTH_COURSE_ID = 9035
+OTHER_COURSE_IDS = []
 
 
 # Quick-start development settings - unsuitable for production

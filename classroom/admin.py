@@ -8,6 +8,8 @@ class ExitTicketAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Student)
+admin.site.register(Assignment)
+admin.site.register(Submission)
 admin.site.register(TeambuildingQuestion)
 admin.site.register(TeambuildingResponse)
 admin.site.register(SiteConfig)

@@ -34,9 +34,28 @@ class Student(models.Model):
     lname = models.TextField()
     homeroom = models.CharField(max_length=5, default="NA", choices=homerooms)
     enabled = models.BooleanField(default=True)
+    email = models.TextField(null=True)
+    canvas_id = models.IntegerField(null=True, unique=True)
 
     def __str__(self):
         return f"{self.fname} {self.lname} ({self.id}, {self.homeroom})"
+
+
+class Assignment(models.Model):
+    canvas_id = models.BigIntegerField(unique=True, primary_key=True)
+    name = models.TextField()
+    module = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class Submission(models.Model):
+    canvas_id = models.BigIntegerField(unique=True, primary_key=True)
+    student = models.ForeignKey("Student", on_delete=models.CASCADE)
+    assignment = models.ForeignKey("Assignment", on_delete=models.CASCADE)
+    satisfactory = models.BooleanField(null=True)
+    submitted_at = models.DateTimeField(null=True)
 
 
 class TeambuildingQuestion(models.Model):

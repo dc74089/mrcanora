@@ -6,28 +6,27 @@ from classroom.models import Student, Submission
 
 
 def tracker(request, group):
-    if not (request.user.is_authenticated and request.user.is_staff):
-        return HttpResponseForbidden()
-
-    ctx = {'students': []}
+    students = []
     last_week = timezone.now().replace(hour=0, minute=0, second=0) - timezone.timedelta(days=7)
-    q = Student.objects.filter(homeroom=group)
+    q = Student.objects.filter(homeroom=group).order_by("lname")
 
     for stu in q:
         stars = 0
         extra_stars = 0
         incomplete = 0
-        incomplete_extra = 0
+        group = stu.get_homeroom_display()
 
         subs = Submission.objects.filter(student=stu, submitted_at__gte=last_week)
         for sub in subs:
-            if sub.satisfactory != "incomplete":
+            if sub.satisfactory != False:
                 stars += sub.assignment.name.count("⭐")
                 extra_stars += sub.assignment.name.count("✴️")
             else:
-                incomplete += sub.assignment.name.count("⭐")
-                incomplete_extra += sub.assignment.name.count("✴️")
+                incomplete += 1
 
-        ctx['students'].append((stu, range(stars), range(extra_stars), range(incomplete), range(incomplete_extra)))
+        students.append((stu, range(stars), range(extra_stars), range(incomplete)))
 
-    return render(request, "classroom/sixth_tracker.html", ctx)
+    return render(request, "classroom/sixth_tracker.html", {
+        "students": (students[:(len(students)+1)//2], students[(len(students)+1)//2:]),
+        "group": group,
+    })

@@ -4,13 +4,13 @@ from pprint import pprint
 import pytz
 from canvasapi.module import Module
 from django.conf import settings
-from django.core.management import BaseCommand
 from canvasapi import Canvas, enrollment, assignment, submission
 from django.utils.timezone import datetime
 from classroom.models import Student, Assignment, Submission
 
 
 def match_students():
+    print("Match Students")
     canvas = Canvas("https://lhps.instructure.com", os.getenv("CANVAS_TOKEN", ""))
 
     course = canvas.get_course(settings.SIXTH_COURSE_ID)
@@ -30,6 +30,7 @@ def match_students():
 
 
 def get_assignments():
+    print("Get Assignments")
     canvas = Canvas("https://lhps.instructure.com", os.getenv("CANVAS_TOKEN", ""))
 
     course = canvas.get_course(settings.SIXTH_COURSE_ID)
@@ -48,6 +49,7 @@ def get_assignments():
 
 
 def get_submissions():
+    print("Get Submissions")
     canvas = Canvas("https://lhps.instructure.com", os.getenv("CANVAS_TOKEN", ""))
 
     course = canvas.get_course(settings.SIXTH_COURSE_ID)
@@ -59,7 +61,7 @@ def get_submissions():
 
         sub: submission.Submission
         for sub in subs:
-            pprint(repr(sub))
+            # pprint(repr(sub))
             try:
                 if sub.workflow_state == "unsubmitted": continue
 
@@ -87,10 +89,3 @@ def do_all():
     match_students()
     get_assignments()
     get_submissions()
-
-
-class Command(BaseCommand):
-    help = "Get all needed info from Canvas"
-
-    def handle(self, *args, **options):
-        do_all()

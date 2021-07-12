@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import auth, views, questions, configuration, exitticket, students
+from .views import auth, views, questions, configuration, exitticket, students, sixth
 
 urlpatterns = [
     path('login/admin', auth.login, name='login'),
@@ -24,4 +24,6 @@ urlpatterns = [
     path('configuration/set', configuration.configure, name="configure"),
 
     path('escape', views.escape, name="escape"),
+
+    path('sixth/tracker/<str:group>', sixth.tracker, name="sixth_tracker"),
 ]

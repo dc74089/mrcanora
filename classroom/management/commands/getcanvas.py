@@ -1,11 +1,12 @@
 import os
 from pprint import pprint
 
+import pytz
 from canvasapi.module import Module
 from django.conf import settings
 from django.core.management import BaseCommand
 from canvasapi import Canvas, enrollment, assignment, submission
-
+from django.utils.timezone import datetime
 from classroom.models import Student, Assignment, Submission
 
 
@@ -58,6 +59,7 @@ def get_submissions():
 
         sub: submission.Submission
         for sub in subs:
+            pprint(repr(sub))
             try:
                 if sub.workflow_state == "unsubmitted": continue
 
@@ -70,13 +72,14 @@ def get_submissions():
 
                 db_sub.student = Student.objects.get(canvas_id=sub.user_id)
                 db_sub.assignment = Assignment.objects.get(canvas_id=a.id)
+                db_sub.submitted_at = datetime.strptime(sub.submitted_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc)
 
                 if sub.grade:
                     db_sub.satisfactory = sub.grade != "incomplete"
 
                 db_sub.save()
             except Exception as e:
-                print(e.with_traceback())
+                print(e)
                 continue
 
 

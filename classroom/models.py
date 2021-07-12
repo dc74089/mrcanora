@@ -15,14 +15,14 @@ homerooms = (
     ("5D", "5D"),
     ("5E", "5E"),
     ("5F", "5F"),
-    ("6A", "6A"),
-    ("6B", "6B"),
-    ("6C", "6C"),
-    ("6D", "6D"),
-    ("6E", "6E"),
-    ("6F", "6F"),
-    ("6G", "6G"),
-    ("6H", "6H"),
+    ("6A", "6th, Q1, AM"),
+    ("6B", "6th, Q1, PM"),
+    ("6C", "6th, Q2, AM"),
+    ("6D", "6th, Q2, PM"),
+    ("6E", "6th, Q3, AM"),
+    ("6F", "6th, Q3, PM"),
+    ("6G", "6th, Q4, AM"),
+    ("6H", "6th, Q4, PM"),
     ("NA", "N/A"),
 )
 
@@ -56,6 +56,9 @@ class Submission(models.Model):
     assignment = models.ForeignKey("Assignment", on_delete=models.CASCADE)
     satisfactory = models.BooleanField(null=True)
     submitted_at = models.DateTimeField(null=True)
+
+    def __str__(self):
+        return f"{str(self.student)} submitted {str(self.assignment)}"
 
 
 class TeambuildingQuestion(models.Model):

@@ -123,6 +123,8 @@ if DOCKER:
             'PASSWORD': 'django',
             'HOST': 'mysql',
             'PORT': '3306',
+            'charset': 'utf8mb4',
+            'use_unicode': True,
         }
     }
 else:

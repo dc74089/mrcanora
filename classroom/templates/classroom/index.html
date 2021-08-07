@@ -54,6 +54,45 @@
         </div>
       </div>
     {% endif %}
+    {% if entry_ticket %}
+      <div class="col-12 col-lg-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h2>Entry Ticket</h2>
+            <form action="{% url 'submit_entryticket' %}" method="post">
+              {% csrf_token %}
+              {% if student.is_sixth %}
+                <div>
+                  <label for="objective">What are you working on today?</label>
+                  <select class="select custom-select" id="objective" name="objective">
+                    {% for module, alist in assignments.items %}
+                      <optgroup label="{{ module }}">
+                        {% for a in alist %}
+                          <option value="{{ a.canvas_id }}">{{ a.name }}</option>
+                        {% endfor %}
+                      </optgroup>
+                    {% endfor %}
+                  </select>
+                </div>
+              {% endif %}
+              <div class="mt-2">
+                <label for="location">Where are you sitting today?</label>
+                <select class="select custom-select" id="location" name="location">
+                  {% for cat, locs in seat_options.items %}
+                    <optgroup label="{{ cat }}">
+                      {% for l in locs %}
+                        <option value="{{ l }}">{{ l }}</option>
+                      {% endfor %}
+                    </optgroup>
+                  {% endfor %}
+                </select>
+              </div>
+              <button class="btn btn-success mt-3">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endif %}
     {% if exit_ticket %}
       <div class="col-12 col-lg-6 mb-3">
         <div class="card">

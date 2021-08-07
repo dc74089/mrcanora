@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import auth, views, questions, configuration, exitticket, students, sixth
+from .views import auth, views, questions, configuration, entryticket, exitticket, students, sixth
 
 urlpatterns = [
     path('login/admin', auth.login, name='login'),
@@ -10,8 +10,8 @@ urlpatterns = [
 
     path('', views.index, name="index"),
     path('admin', views.admin, name="admin"),
-
     path('admin/import_students', students.import_students, name="import_students"),
+    path('admin/contacttrace', entryticket.contact_trace, name="contacttrace"),
 
     path('questions/create', questions.create, name="create_question"),
     path('questions/select', questions.select, name="choose_questions"),
@@ -20,6 +20,8 @@ urlpatterns = [
 
     path('exitticket/submit', exitticket.submit, name="submit_exitticket"),
     path('exitticket/analytics', exitticket.view, name="view_analytics"),
+
+    path('entryticket/submit', entryticket.submit, name="submit_entryticket"),
 
     path('configuration/set', configuration.configure, name="configure"),
 

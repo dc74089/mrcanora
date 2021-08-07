@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 
 from classroom import util
-from classroom.models import Student, TeambuildingQuestion, SiteConfig, ExitTicket, homerooms
+from classroom.models import Student, TeambuildingQuestion, SiteConfig, ExitTicket, homerooms, EntryTicket, Assignment
 
 
 def index(request):
@@ -29,12 +29,33 @@ def index(request):
     else:
         greeting = request.session['greeting']
 
+    # Transform assignments
+    assignments = {}
+    for a in Assignment.objects.all():
+        if a.module not in assignments:
+            assignments[a.module] = []
+
+        assignments[a.module].append(a)
+
+    seats = {
+        "Under the Hallway Window": ["Seat 1", "Seat 2", "Seat 3", "Seat 4", "Seat 5"],
+        "Under the Outside Window": ["Seat 1", "Seat 2", "Seat 3", "Seat 4", "Seat 5"],
+        "Left of the TV": ["Seat 1", "Seat 2", "Seat 3", "Seat 4", "Seat 5"],
+        "In a Rolly Chair": ["By the Sink", "By the Hallway Window", "By the Outside Window", "By the Closets",
+                             "By the Living Room"],
+        "In the Living Room": ["On the Couch", "On the Floor"]
+    }
+
     return render(request, "classroom/index.html", {
         "student": Student.objects.get(id=request.session['sid']),
         "greeting": greeting,
         "questions": TeambuildingQuestion.objects.filter(active=True)
                   .exclude(response__student__id=request.session['sid'])
         if SiteConfig.objects.get(key="answer_questions") else False,
+        "assignments": assignments,
+        "seat_options": seats,
+        "entry_ticket": SiteConfig.objects.get(key="entry_ticket")
+                        and not EntryTicket.objects.filter(student__id=request.session['sid'], date=timezone.now()),
         "exit_ticket": SiteConfig.objects.get(key="exit_ticket")
                        and not ExitTicket.objects.filter(student__id=request.session['sid'], date=timezone.now()),
         "escape": SiteConfig.objects.get(key="escape"),

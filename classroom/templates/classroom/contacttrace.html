@@ -1,0 +1,58 @@
+{% extends 'classroom/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2>Contact Tracing Tool</h2>
+          <form action="{% url 'contacttrace' %}" method="get">
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <select class="custom-select" name="homeroom">
+                  {% for homeroom in homerooms %}
+                    <option value="{{ homeroom.0 }}">{{ homeroom.1 }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <select class="custom-select" name="date">
+                  <option value="">All Dates</option>
+                  {% for date in dates %}
+                    <option value="{{ date.0 }}">{{ date.1 }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-success mt-2">Go</button>
+          </form>
+        </div>
+      </div>
+
+      {% for tktgroup in tickets %}
+        <div class="mt-5">
+          <h2>{{ tktgroup.date }}</h2>
+          <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Location</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tkt in tktgroup.objects %}
+              <tr>
+              <td>{{ tkt.student }}</td>
+              <td>{{ tkt.seating_location }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+{% endblock %}

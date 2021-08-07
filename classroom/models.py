@@ -37,6 +37,9 @@ class Student(models.Model):
     email = models.TextField(null=True)
     canvas_id = models.IntegerField(null=True, unique=True)
 
+    def is_sixth(self):
+        return "6" in self.homeroom
+
     def __str__(self):
         return f"{self.fname} {self.lname} ({self.id}, {self.homeroom})"
 
@@ -89,6 +92,16 @@ class TeambuildingResponse(models.Model):
         return f"{self.student.fname} {self.student.lname} answered \"{self.answer}\" to \"{self.question.text}\""
 
 
+class EntryTicket(models.Model):
+    student = models.ForeignKey("Student", on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    seating_location = models.TextField()
+    objective = models.ForeignKey("Assignment", on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"EntryTicket {self.date} from {str(self.student)}"
+
+
 class ExitTicket(models.Model):
     student = models.ForeignKey("Student", on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
@@ -116,6 +129,7 @@ class SiteConfig(models.Model):
     @staticmethod
     def init():
         SiteConfig.objects.get_or_create(key="student_login")
+        SiteConfig.objects.get_or_create(key="entry_ticket")
         SiteConfig.objects.get_or_create(key="exit_ticket")
         SiteConfig.objects.get_or_create(key="answer_questions")
         SiteConfig.objects.get_or_create(key="view_answers")

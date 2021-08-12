@@ -54,7 +54,7 @@ def entryticket_status(request):
     sq = Student.objects.filter(homeroom__iexact=homeroom).order_by("lname")
     sarr = []
     for s in sq:
-        etq = s.entryticket_set.filter(date__day=timezone.now().timestamp())
+        etq = s.entryticket_set.filter(date__gte=timezone.now() - timezone.timedelta(hours=12))
         sarr.append((s, etq.exists()))
 
     print(sarr)

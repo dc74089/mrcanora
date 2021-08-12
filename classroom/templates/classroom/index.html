@@ -58,7 +58,7 @@
       <div class="col-12 col-lg-6 mb-3">
         <div class="card">
           <div class="card-body">
-            <h2>Entry Ticket</h2>
+            <h2>Check In</h2>
             <form action="{% url 'submit_entryticket' %}" method="post">
               {% csrf_token %}
               {% if student.is_sixth %}

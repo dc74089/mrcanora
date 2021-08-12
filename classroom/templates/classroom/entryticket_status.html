@@ -1,5 +1,15 @@
 {% extends 'classroom/base.html' %}
 
+{% block script %}
+<script>
+$().ready(function() {
+    setTimeout(function() {
+        location.reload()
+    }, 1000)
+})
+</script>
+{% endblock %}
+
 {% block content %}
   <div class="row">
     <div class="col-12">
@@ -10,18 +20,16 @@
               <thead>
               <tr>
                 <th>Name</th>
-                <th class="text-right">Entry Ticket</th>
+                <th class="text-right">Checked In</th>
               </tr>
               </thead>
               <tbody>
               {% for data in table %}
-                <tr>
+                <tr {% if not data.1 %} class="bg-danger text-white" {% endif %}>
                   <td>{{ data.0.fname }} {{ data.0.lname.0 }}.</td>
                   <td class="text-right">
                     {% if data.1 %}
                       ✅
-                    {% else %}
-                      ❌
                     {% endif %}
                   </td>
                 </tr>

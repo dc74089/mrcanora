@@ -1,5 +1,7 @@
 from django.contrib.admin.views.decorators import staff_member_required
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.utils import timezone
 
 from ..models import EntryTicket, Student, Assignment, homerooms
 
@@ -44,3 +46,21 @@ def contact_trace(request):
         ctx['tickets'] = transformed
 
     return render(request, "classroom/contacttrace.html", ctx)
+
+
+def entryticket_status(request):
+    homeroom = request.GET['homeroom']
+
+    sq = Student.objects.filter(homeroom__iexact=homeroom).order_by("lname")
+    sarr = []
+    for s in sq:
+        etq = s.entryticket_set.filter(date__day=timezone.now().timestamp())
+        sarr.append((s, etq.exists()))
+
+    print(sarr)
+    print((sarr[:(len(sarr)+1)//2], sarr[(len(sarr)+1)//2:]))
+
+    return render(request, "classroom/entryticket_status.html", {
+        "homeroom": homeroom,
+        "tables": (sarr[:(len(sarr)+1)//2], sarr[(len(sarr)+1)//2:])
+    })

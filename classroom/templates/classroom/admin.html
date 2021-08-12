@@ -60,6 +60,14 @@
       <div class="card mt-3">
         <div class="card-body">
           <h2 class="card-title">Links</h2>
+          <form class="mb-2" action="{% url 'entryticket_status' %}" method="get">
+            <select class="custom-select d-inline-block w-auto" name="homeroom">
+              {% for hr in homerooms %}
+                <option value="{{ hr.0 }}">{{ hr.1 }}</option>
+              {% endfor %}
+            </select>
+            <button class="btn btn-primary text-white">View EntryTicket Status</button>
+          </form>
           <form class="mb-2" action="{% url 'view_answers' %}" method="get">
             <select class="custom-select d-inline-block w-auto" name="homeroom">
               {% for hr in homerooms %}

@@ -1,0 +1,36 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        {% for table in tables %}
+          <div class="col-6">
+            <table class="table table-striped table-hover">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th class="text-right">Entry Ticket</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for data in table %}
+                <tr>
+                  <td>{{ data.0.fname }} {{ data.0.lname.0 }}.</td>
+                  <td class="text-right">
+                    {% if data.1 %}
+                      ✅
+                    {% else %}
+                      ❌
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

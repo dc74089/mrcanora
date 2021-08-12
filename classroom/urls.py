@@ -22,6 +22,7 @@ urlpatterns = [
     path('exitticket/analytics', exitticket.view, name="view_analytics"),
 
     path('entryticket/submit', entryticket.submit, name="submit_entryticket"),
+    path('entryticket/status', entryticket.entryticket_status, name="entryticket_status"),
 
     path('configuration/set', configuration.configure, name="configure"),
 

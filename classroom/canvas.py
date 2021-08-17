@@ -14,7 +14,7 @@ def build_emails():
 
     stu: Student
     for stu in q:
-        stu.email = f"{stu.lname}{stu.fname[:2]}@lhprep.org"
+        stu.email = f"{stu.lname}{stu.fname[:2]}@lhprep.org".lower()
         stu.save()
 
 
@@ -27,7 +27,7 @@ def match_students():
 
     enr: enrollment.Enrollment
     for enr in enrollments:
-        q = Student.objects.filter(email=enr.user.get("login_id"))
+        q = Student.objects.filter(email__iexact=enr.user.get("login_id"))
         if q.exists():
             stu = q.first()
             stu.canvas_id = enr.user_id

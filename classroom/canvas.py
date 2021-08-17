@@ -9,6 +9,15 @@ from django.utils.timezone import datetime
 from classroom.models import Student, Assignment, Submission
 
 
+def build_emails():
+    q = Student.objects.filter(email__isnull=True, homeroom__contains="6")
+
+    stu: Student
+    for stu in q:
+        stu.email = f"{stu.lname}{stu.fname[:2]}@lhprep.org"
+        stu.save()
+
+
 def match_students():
     print("Match Students")
     canvas = Canvas("https://lhps.instructure.com", os.getenv("CANVAS_TOKEN", ""))

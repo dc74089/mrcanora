@@ -52,6 +52,7 @@ def get_assignments():
 
         for a in assignments:
             if "✴️" not in a.title and "⭐️" not in a.title: continue
+            if not a.published: continue
 
             db_a, created = Assignment.objects.get_or_create(canvas_id=a.content_id)
             db_a.name = a.title

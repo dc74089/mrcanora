@@ -46,8 +46,11 @@ def index(request):
         "In the \"Living Room\"": ["On the Couch", "On the Floor"]
     }
 
+    s = Student.objects.get(id=request.session['sid'])
+    etq = s.entryticket_set.filter(date__gte=timezone.now() - timezone.timedelta(hours=12))
+
     return render(request, "classroom/index.html", {
-        "student": Student.objects.get(id=request.session['sid']),
+        "student": s,
         "greeting": greeting,
         "questions": TeambuildingQuestion.objects.filter(active=True)
                   .exclude(response__student__id=request.session['sid'])
@@ -55,7 +58,7 @@ def index(request):
         "assignments": assignments,
         "seat_options": seats,
         "entry_ticket": SiteConfig.objects.get(key="entry_ticket")
-                        and not EntryTicket.objects.filter(student__id=request.session['sid'], date=timezone.now()),
+                        and not etq.exists(),
         "exit_ticket": SiteConfig.objects.get(key="exit_ticket")
                        and not ExitTicket.objects.filter(student__id=request.session['sid'], date=timezone.now()),
         "escape": SiteConfig.objects.get(key="escape"),

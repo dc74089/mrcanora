@@ -94,7 +94,7 @@ class TeambuildingResponse(models.Model):
 
 class EntryTicket(models.Model):
     student = models.ForeignKey("Student", on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
     seating_location = models.TextField()
     objective = models.ForeignKey("Assignment", on_delete=models.SET_NULL, null=True)
 

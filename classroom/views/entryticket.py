@@ -19,7 +19,6 @@ def submit(request):
     return redirect("index")
 
 
-@staff_member_required
 def contact_trace(request):
     ctx = {
         "homerooms": homerooms
@@ -47,7 +46,7 @@ def contact_trace(request):
 
     return render(request, "classroom/contacttrace.html", ctx)
 
-
+@staff_member_required
 def entryticket_status(request):
     homeroom = request.GET['homeroom']
 

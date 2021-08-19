@@ -11,7 +11,6 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('admin', views.admin, name="admin"),
     path('admin/import_students', students.import_students, name="import_students"),
-    path('admin/contacttrace', entryticket.contact_trace, name="contacttrace"),
 
     path('questions/create', questions.create, name="create_question"),
     path('questions/select', questions.select, name="choose_questions"),
@@ -23,6 +22,7 @@ urlpatterns = [
 
     path('entryticket/submit', entryticket.submit, name="submit_entryticket"),
     path('entryticket/status', entryticket.entryticket_status, name="entryticket_status"),
+    path('contacttrace', entryticket.contact_trace, name="contacttrace"),
 
     path('configuration/set', configuration.configure, name="configure"),
 

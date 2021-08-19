@@ -29,10 +29,11 @@ def contact_trace(request):
 
         by_date = {}
         for tkt in tix:
-            if tkt.date not in by_date:
-                by_date[tkt.date] = []
+            date = tkt.date.date()
+            if date not in by_date:
+                by_date[date] = []
 
-            by_date[tkt.date].append(tkt)
+            by_date[date].append(tkt)
 
         transformed = []
         for k, arr in by_date.items():

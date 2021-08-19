@@ -1,3 +1,5 @@
+import re
+
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -39,13 +41,22 @@ def contact_trace(request):
         for k, arr in by_date.items():
             transformed.append({
                 "date": k,
-                "objects": sorted(arr, key=lambda x: x.seating_location)
+                "objects": sorted(arr, key=lambda x: sort_locations(x.seating_location))
             })
 
         transformed.sort(key=lambda x: x['date'], reverse=True)
         ctx['tickets'] = transformed
 
     return render(request, "classroom/contacttrace.html", ctx)
+
+
+def sort_locations(loc):
+    match = re.search(r'\d+', loc)
+    if match:
+        return match[0]
+
+    return loc
+
 
 @staff_member_required
 def entryticket_status(request):

@@ -42,7 +42,7 @@ def contact_trace(request):
                 "objects": sorted(arr, key=lambda x: x.seating_location)
             })
 
-        transformed.sort(key=lambda x: x['date'])
+        transformed.sort(key=lambda x: x['date'], reverse=True)
         ctx['tickets'] = transformed
 
     return render(request, "classroom/contacttrace.html", ctx)

@@ -41,7 +41,7 @@ def index(request):
         "Under the Hallway Window": ["Seat 1", "Seat 2", "Seat 3", "Seat 4", "Seat 5"],
         "Left of the TV": ["Seat 6", "Seat 7", "Seat 8", "Seat 9", "Seat 10", "Seat 11", "Seat 12"],
         "Under the Outside Window": ["Seat 13", "Seat 14", "Seat 15", "Seat 16"],
-        "In a Movable Chair": ["Spot 17", "Spot 19", "Spot 20", "Spot 21", "Spot 22", "Spot 23", "Spot 24",
+        "In a Movable Chair": ["Spot 17", "Spot 18", "Spot 19", "Spot 20", "Spot 21", "Spot 22", "Spot 23", "Spot 24",
                                "Spot 25"],
         "Under the TV": ["Spot 26", "Spot 27"],
         "At a Robotics Table": ["Spot 28", "Spot 29", "Spot 30", "Spot 31", "Spot 32", "Spot 33",

@@ -8,7 +8,7 @@
       <form action="{% url 'student_login' %}" method="POST">
         <p>Enter your 5-digit student number to log in:</p>
         {% csrf_token %}
-        <input class="form-control" type="number" name="sid">
+        <input class="form-control" type="number" min="0" inputmode="numeric" pattern="[0-9]*" name="sid">
         <button class="btn btn-success mt-3">Let's Go!</button>
       </form>
     {% endif %}

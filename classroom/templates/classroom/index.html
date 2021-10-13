@@ -61,7 +61,7 @@
             <h2>Check In</h2>
             <form action="{% url 'submit_entryticket' %}" method="post">
               {% csrf_token %}
-              {% if student.is_sixth %}
+              {% if student.is_sixth and False %}
                 <div>
                   <label for="objective">What are you working on today?</label>
                   <select class="select custom-select" id="objective" name="objective">

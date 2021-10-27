@@ -59,7 +59,9 @@ def get_assignments():
                 db_a.name = a.title
                 db_a.module = module.name
                 db_a.save()
-            except:
+            except Exception as e:
+                print(e)
+                print(repr(a))
                 continue
 
 

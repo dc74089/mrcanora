@@ -51,18 +51,21 @@ def get_assignments():
         assignments = [i for i in items]
 
         for a in assignments:
+            pprint(a)
             try:
-                if "✴️" not in a.title and "⭐️" not in a.title: continue
+                if "✴️" not in a.title and "⭐️" not in a.title and "⭐" not in a.title: continue
+                # print("Title Check")
                 if not a.published: continue
+                # print("Pub check")
 
                 db_a, created = Assignment.objects.get_or_create(canvas_id=a.content_id)
                 db_a.name = a.title
                 db_a.module = module.name
                 db_a.save()
+                print("Success")
             except Exception as e:
                 print(e)
-                print(repr(a))
-                continue
+                pprint(repr(a))
 
 
 def get_submissions():

@@ -48,7 +48,7 @@ def get_assignments():
     module: Module
     for module in modules:
         items = module.get_module_items()
-        assignments = [i for i in items if (i.type == "Assignment" or i.type == "Quiz")]
+        assignments = [i for i in items]
 
         for a in assignments:
             if "✴️" not in a.title and "⭐️" not in a.title: continue

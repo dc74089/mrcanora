@@ -94,6 +94,7 @@ def get_submissions():
                 db_sub.save()
             except Exception as e:
                 print(e)
+                pprint(repr(sub))
                 continue
 
 

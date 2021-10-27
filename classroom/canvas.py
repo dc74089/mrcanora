@@ -78,6 +78,7 @@ def get_submissions():
     a: assignment.Assignment
     for a in assignmets:
         subs = a.get_submissions()
+        aid = a.id
 
         sub: submission.Submission
         for sub in subs:
@@ -85,7 +86,11 @@ def get_submissions():
             try:
                 if sub.workflow_state == "unsubmitted": continue
 
-                q = Submission.objects.filter(student__canvas_id=sub.user_id, assignment__canvas_id=a.id)
+                if hasattr(sub, "quiz"):
+                    print("TRUE")
+                    aid = sub.quiz
+
+                q = Submission.objects.filter(student__canvas_id=sub.user_id, assignment__canvas_id=aid)
 
                 if q:
                     db_sub = q.first()
@@ -93,7 +98,7 @@ def get_submissions():
                     db_sub = Submission(canvas_id=sub.id)
 
                 db_sub.student = Student.objects.get(canvas_id=sub.user_id)
-                db_sub.assignment = Assignment.objects.get(canvas_id=a.id)
+                db_sub.assignment = Assignment.objects.get(canvas_id=aid)
                 db_sub.submitted_at = datetime.strptime(sub.submitted_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc)
 
                 if sub.grade:
@@ -101,9 +106,36 @@ def get_submissions():
 
                 db_sub.save()
             except Exception as e:
-                print(e)
-                pprint(repr(sub))
-                continue
+                try:
+                    if sub.workflow_state == "unsubmitted": continue
+
+                    if hasattr(sub, "grader_id"):
+                        aid = abs(sub.grader_id)
+                    else:
+                        continue
+
+                    q = Submission.objects.filter(student__canvas_id=sub.user_id, assignment__canvas_id=aid)
+
+                    if q:
+                        db_sub = q.first()
+                    else:
+                        db_sub = Submission(canvas_id=sub.id)
+
+                    db_sub.student = Student.objects.get(canvas_id=sub.user_id)
+                    db_sub.assignment = Assignment.objects.get(canvas_id=aid)
+                    db_sub.submitted_at = datetime.strptime(sub.submitted_at, "%Y-%m-%dT%H:%M:%SZ").replace(
+                        tzinfo=pytz.utc)
+
+                    if sub.grade:
+                        db_sub.satisfactory = sub.grade != "incomplete"
+
+                    db_sub.save()
+                except:
+                    print("Giving up:")
+                    print(e)
+                    print(sub.body)
+                    print(repr(sub))
+                    print()
 
 
 def do_all():

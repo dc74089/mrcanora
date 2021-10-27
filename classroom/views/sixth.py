@@ -19,7 +19,7 @@ def tracker(request, group):
         for sub in subs:
             if sub.satisfactory != False:
                 stars += sub.assignment.name.count("⭐")
-                extra_stars += sub.assignment.name.count("✴️")
+                extra_stars += sub.assignment.name.count("✴")
 
         students.append((stu, stars, extra_stars, incomplete))
 

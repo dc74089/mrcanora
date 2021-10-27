@@ -53,7 +53,7 @@ def get_assignments():
         for a in assignments:
             pprint(a)
             try:
-                if "✴️" not in a.title and "⭐️" not in a.title and "⭐" not in a.title: continue
+                if "✴" not in a.title and "⭐" not in a.title: continue
                 # print("Title Check")
                 if not a.published: continue
                 # print("Pub check")

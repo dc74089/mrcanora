@@ -10,7 +10,7 @@ def import_students(request):
 
         for line in in_str.split("\n"):
             last, first, sid, homeroom = [x.strip() for x in line.split(",")]
-            s, created = Student.objects.get_or_create(id=sid)
+            s, created = Student.objects.get_or_create(id=sid, grade=int(homeroom[0]))
 
             s.fname = first
             s.lname = last

@@ -33,9 +33,10 @@ class Student(models.Model):
     fname = models.TextField()
     lname = models.TextField()
     homeroom = models.CharField(max_length=5, default="NA", choices=homerooms)
+    grade = models.IntegerField()
     enabled = models.BooleanField(default=True)
-    email = models.TextField(null=True)
-    canvas_id = models.IntegerField(null=True, unique=True)
+    email = models.TextField(null=True, blank=True)
+    canvas_id = models.IntegerField(null=True, blank=True, unique=True)
 
     def is_sixth(self):
         return "6" in self.homeroom
@@ -68,6 +69,7 @@ class TeambuildingQuestion(models.Model):
     text = models.TextField()
     active = models.BooleanField(default=False)
     used = models.BooleanField(default=False)
+    grade = models.IntegerField(default=6)
     answer_list = models.TextField()  # Serialized as a JSON array of strings
 
     def set_answers(self, ans_list):

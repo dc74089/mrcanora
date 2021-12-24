@@ -7,7 +7,7 @@ from classroom.models import Student, Submission
 
 def tracker(request, group):
     students = []
-    q = Student.objects.filter(homeroom=group).order_by("lname")
+    q = Student.objects.filter(homeroom=group).order_by("fname")
 
     for stu in q:
         stars = 0

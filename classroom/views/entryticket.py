@@ -62,7 +62,7 @@ def sort_locations(loc):
 def entryticket_status(request):
     homeroom = request.GET['homeroom']
 
-    sq = Student.objects.filter(homeroom__iexact=homeroom).order_by("lname")
+    sq = Student.objects.filter(homeroom__iexact=homeroom).order_by("fname")
     sarr = []
     for s in sq:
         etq = s.entryticket_set.filter(date__gte=timezone.now() - timezone.timedelta(hours=12))

@@ -22,7 +22,11 @@ def index(request):
                                   "Ayyo", "I like ya cut", "How Now", "It's a good day to have a good day",
                                   "Beep Boop", "Hipppity Hoppity", "Heyyy", "It's a beautiful day in paradise",
                                   "Glad to see you", "Owa Owa", "Didn't see you there", "Don't Forget to Be Awesome",
-                                  "I'm glad you're here", "I missed you", "Welcome", "**Fun Greeting Here**"])
+                                  "I'm glad you're here", "I missed you", "Welcome", "**Fun Greeting Here**",
+                                  "Peek-A-Boo", "'Ello", "This call may be recorded for training purposes",
+                                  "We've been trying to reach you regarding you car's extended warranty",
+                                  "Greetings and Salutations", "Aloha", "Ciao", "I like your vibe",
+                                  "Top of the morning to ya", ])
 
         request.session['greeting'] = greeting
         request.session['greeting_update'] = timezone.now().replace(tzinfo=timezone.utc).timestamp()

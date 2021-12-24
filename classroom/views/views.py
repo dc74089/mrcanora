@@ -51,12 +51,18 @@ def index(request):
     s = Student.objects.get(id=request.session['sid'])
     etq = s.entryticket_set.filter(date__gte=timezone.now() - timezone.timedelta(hours=12))
 
+    if s.grade >= -1:
+        questions = TeambuildingQuestion.objects.filter(active=True)\
+            .filter(grade=s.grade)\
+            .exclude(response__student__id=request.session['sid'])
+    else:
+        questions = TeambuildingQuestion.objects.filter(active=True) \
+            .exclude(response__student__id=request.session['sid'])
+
     return render(request, "classroom/index.html", {
         "student": s,
         "greeting": greeting,
-        "questions": TeambuildingQuestion.objects.filter(active=True)
-                  .exclude(response__student__id=request.session['sid'])
-        if SiteConfig.objects.get(key="answer_questions") else False,
+        "questions": questions if SiteConfig.objects.get(key="answer_questions") else False,
         "assignments": assignments,
         "seat_options": seats,
         "entry_ticket": SiteConfig.objects.get(key="entry_ticket")

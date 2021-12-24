@@ -82,7 +82,7 @@ class TeambuildingQuestion(models.Model):
             return []
 
     def __str__(self):
-        return f"{self.text} ({', '.join(self.get_answers())})"
+        return f"({self.grade}) {self.text} ({', '.join(self.get_answers())})"
 
 
 class TeambuildingResponse(models.Model):

@@ -20,17 +20,7 @@
             <tr>
               <td>{{ data.0.fname }} {{ data.0.lname.0 }}.</td>
               <td class="text-right">
-                {% for star in data.1 %}
-                  ⭐
-                {% endfor %}
-
-                {% for star in data.2 %}
-                  ✴️
-                {% endfor %}
-
-                {% for incomplete in data.3 %}
-                  ❓
-                {% endfor %}
+                  ⭐ x{{ data.1 }}, ✴ x{{ data.2 }}
               </td>
             </tr>
           {% endfor %}
@@ -38,7 +28,7 @@
         </table>
       </div>
     {% endfor %}
-    <div class="col-12 text-center">
+    <div class="col-12 text-center d-none">
       <h6 class="mt-3 text-muted">Stars shown are from all assignments submitted in past 7 days</h6>
     </div>
   </div>

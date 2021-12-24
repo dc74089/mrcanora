@@ -9,11 +9,12 @@ def create(request):
     if request.method == "POST":
         data = request.POST
 
-        if 'qtext' in data and 'options' in data:
+        if 'qtext' in data and 'options' in data and 'grade' in data:
             q = TeambuildingQuestion()
 
             q.text = data['qtext']
             q.set_answers([x.strip() for x in data['options'].split('\n')])
+            q.grade = int(data['grade'])
 
             q.save()
 

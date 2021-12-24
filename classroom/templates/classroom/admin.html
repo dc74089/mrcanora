@@ -29,6 +29,12 @@
           <hr>
           <form action="{% url 'create_question' %}" method="post">
             {% csrf_token %}
+            <label for="grade">Grade</label>
+            <select class="custom-select form-control mb-3" name="grade" id="grade">
+              <option value="4">4th Grade</option>
+              <option value="5">5th Grade</option>
+              <option value="6">6th Grade</option>
+            </select>
             <label for="qtext">Question Text</label>
             <input type="text" class="form-control" name="qtext" id="qtext">
             <label for="options" class="mt-3">Options <small>(one per line)</small></label>

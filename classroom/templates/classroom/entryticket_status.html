@@ -1,13 +1,13 @@
 {% extends 'classroom/base.html' %}
 
 {% block script %}
-<script>
-$().ready(function() {
-    setTimeout(function() {
-        location.reload()
-    }, 1000)
-})
-</script>
+  <script>
+      $().ready(function () {
+          setTimeout(function () {
+              location.reload()
+          }, 1000)
+      })
+  </script>
 {% endblock %}
 
 {% block content %}
@@ -26,7 +26,9 @@ $().ready(function() {
               <tbody>
               {% for data in table %}
                 <tr {% if not data.1 %} class="bg-danger text-white" {% endif %}>
-                  <td>{{ data.0.fname }} {{ data.0.lname.0 }}.</td>
+                  <td><a href="{% url 'admin:classroom_student_change' data.0.id %}" class="text-white">
+                    {{ data.0.fname }} {{ data.0.lname.0 }}.
+                  </a></td>
                   <td class="text-right">
                     {% if data.1 %}
                       ✅

@@ -105,7 +105,7 @@ def admin(request):
     SiteConfig.init()
 
     return render(request, "classroom/admin.html", {
-        "questions": TeambuildingQuestion.objects.all(),
+        "questions": TeambuildingQuestion.objects.all().order_by('grade'),
         "config": SiteConfig.objects.all(),
         "homerooms": homerooms,
     })

@@ -46,7 +46,7 @@
         <h3>{% if question %}More {% endif %}Questions:</h3>
         {% for q in questions %}
           <a class="btn btn-danger mb-2"
-             href="{% url 'view_answers' %}?qid={{ q.id }}&homeroom={{ homeroom }}">{{ q.text }}</a>
+             href="{% url 'view_answers' %}?qid={{ q.id }}&homeroom={{ homeroom }}">{{ q }}</a>
         {% endfor %}
       </div>
     </div>

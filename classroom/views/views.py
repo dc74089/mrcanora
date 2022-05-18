@@ -24,7 +24,7 @@ def index(request):
                                   "Glad to see you", "Owa Owa", "Didn't see you there", "Don't Forget to Be Awesome",
                                   "I'm glad you're here", "I missed you", "Welcome", "**Fun Greeting Here**",
                                   "Peek-A-Boo", "'Ello", "This call may be recorded for training purposes",
-                                  "We've been trying to reach you regarding you car's extended warranty",
+                                  "We've been trying to reach you regarding your car's extended warranty",
                                   "Greetings and Salutations", "Aloha", "Ciao", "I like your vibe",
                                   "Top of the morning to ya", ])
 

@@ -60,7 +60,7 @@ def answer(request):
 def view(request):
     if not util.check_active_student(request): return redirect("student_login")
 
-    if not SiteConfig.objects.get(key="view_answers") and not request.user.is_superuser:
+    if not request.user.is_staff:
         return HttpResponseForbidden()
 
     ctx = {}

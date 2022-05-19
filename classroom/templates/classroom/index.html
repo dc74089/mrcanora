@@ -54,14 +54,14 @@
         </div>
       </div>
     {% endif %}
-    {% if entry_ticket %}
+    {% if covid or entry_ticket and student.is_sixth %}
       <div class="col-12 col-lg-6 mb-3">
         <div class="card">
           <div class="card-body">
             <h2>Check In</h2>
             <form action="{% url 'submit_entryticket' %}" method="post">
               {% csrf_token %}
-              {% if student.is_sixth and False %}
+              {% if entry_ticket and student.is_sixth %}
                 <div>
                   <label for="objective">What are you working on today?</label>
                   <select class="select custom-select" id="objective" name="objective">
@@ -75,17 +75,55 @@
                   </select>
                 </div>
               {% endif %}
-              <div class="mt-2">
-                <label for="location">Where are you sitting today?</label>
-                <select class="select custom-select" id="location" name="location">
-                  {% for cat, locs in seat_options.items %}
-                    <optgroup label="{{ cat }}">
-                      {% for l in locs %}
-                        <option value="{{ l }}">{{ l }}</option>
-                      {% endfor %}
-                    </optgroup>
-                  {% endfor %}
-                </select>
+              {% if covid %}
+                <div class="mt-2">
+                  <label for="location">Where are you sitting today?</label>
+                  <select class="select custom-select" id="location" name="location">
+                    {% for cat, locs in seat_options.items %}
+                      <optgroup label="{{ cat }}">
+                        {% for l in locs %}
+                          <option value="{{ l }}">{{ l }}</option>
+                        {% endfor %}
+                      </optgroup>
+                    {% endfor %}
+                  </select>
+                </div>
+              {% endif %}
+              <button class="btn btn-success mt-3">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% if music %}
+      <div class="col-12 col-lg-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="mb-0">Give me a Song</h2>
+            <h5>(if you want)</h5>
+            <hr/>
+            <form action="{% url 'music_submit' %}" method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="song_name">Song Name:</label>
+                <input type="text" class="form-control" name="song_name" id="song_name" required>
+              </div>
+              <div class="form-group">
+                <label for="song_artist">Artist (if you know it):</label>
+                <input type="text" class="form-control" name="song_artist" id="song_artist">
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="song_type" value="class" id="song_class" required>
+                <label class="form-check-label" for="song_class">
+                  I want you to add this to the class playlist (it's clean and you won't hate it)
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="song_type" value="personal" id="song_personal"
+                       required>
+                <label class="form-check-label" for="song_personal">
+                  I just want you to check out this song
+                </label>
               </div>
               <button class="btn btn-success mt-3">Submit</button>
             </form>

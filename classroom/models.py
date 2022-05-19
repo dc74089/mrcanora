@@ -41,8 +41,14 @@ class Student(models.Model):
     def is_sixth(self):
         return "6" in self.homeroom
 
+    def name(self):
+        return f"{self.fname} {self.lname}"
+
     def __str__(self):
         return f"{self.fname} {self.lname} ({self.id}, {self.homeroom})"
+
+    def __bool__(self):
+        return self.enabled
 
 
 class Assignment(models.Model):
@@ -118,6 +124,20 @@ class ExitTicket(models.Model):
         return self.understanding
 
 
+class MusicSuggestion(models.Model):
+    song = models.TextField(null=False, blank=False)
+    artist = models.TextField(null=True, blank=True)
+    student = models.ForeignKey("Student", default="dc74089", on_delete=models.SET_DEFAULT)
+    for_playlist = models.BooleanField()
+    investigated = models.BooleanField(default=False)
+
+    def __str__(self):
+        if self.artist:
+            return f"{str(self.student)} suggested {self.song} by {self.artist}{'*' if not self.investigated else ''}"
+        else:
+            return f"{str(self.student)} suggested {self.song}{'*' if not self.investigated else ''}"
+
+
 class SiteConfig(models.Model):
     key = models.CharField(max_length=100, primary_key=True)
     value = models.BooleanField(default=False)
@@ -134,5 +154,9 @@ class SiteConfig(models.Model):
         SiteConfig.objects.get_or_create(key="entry_ticket")
         SiteConfig.objects.get_or_create(key="exit_ticket")
         SiteConfig.objects.get_or_create(key="answer_questions")
-        SiteConfig.objects.get_or_create(key="view_answers")
-        SiteConfig.objects.get_or_create(key="escape")
+        SiteConfig.objects.get_or_create(key="music")
+        SiteConfig.objects.get_or_create(key="covid")
+
+    @staticmethod
+    def all_configs():
+        return {s.key: s.value for s in SiteConfig.objects.all()}

@@ -1,0 +1,75 @@
+{% extends 'classroom/base.html' %}
+
+
+{% block content %}
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <h2>New for Playlist</h2>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Suggested By</th>
+          <th>Song</th>
+          <th>Artist</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sug in playlist %}
+          <tr>
+            <td>{{ sug.student.name }}</td>
+            <td>{{ sug.song }}</td>
+            <td>{{ sug.artist }}</td>
+            <td><a href="{% url 'music_dismiss' sug.id %}" class="btn btn-primary">Dismiss</a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12 col-lg-6">
+      <h2>New for You</h2>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Suggested By</th>
+          <th>Song</th>
+          <th>Artist</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sug in personal %}
+          <tr>
+            <td>{{ sug.student.name }}</td>
+            <td>{{ sug.song }}</td>
+            <td>{{ sug.artist }}</td>
+            <td><a href="{% url 'music_dismiss' sug.id %}" class="btn btn-primary">Dismiss</a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12">
+      <h2>Previous Suggestions</h2>
+      {% for iter in all %}
+        <h3>{{ iter.0.name }}</h3>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Song</th>
+            <th>Artist</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for sug in iter.1 %}
+            <tr>
+              <td>{{ sug.song }}</td>
+              <td>{{ sug.artist }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

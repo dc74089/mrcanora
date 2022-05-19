@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import auth, views, questions, configuration, entryticket, exitticket, students, sixth
+from .views import auth, views, questions, configuration, entryticket, exitticket, students, sixth, music
 
 urlpatterns = [
     path('login/admin', auth.login, name='login'),
@@ -24,9 +24,11 @@ urlpatterns = [
     path('entryticket/status', entryticket.entryticket_status, name="entryticket_status"),
     path('contacttrace', entryticket.contact_trace, name="contacttrace"),
 
-    path('configuration/set', configuration.configure, name="configure"),
+    path('music/submit', music.submit_music, name="music_submit"),
+    path('music/dismiss/<int:id>', music.dismiss, name="music_dismiss"),
+    path('music', music.view_music, name="music"),
 
-    path('escape', views.escape, name="escape"),
+    path('configuration/set', configuration.configure, name="configure"),
 
     path('sixth/tracker/<str:group>', sixth.tracker, name="sixth_tracker"),
 ]

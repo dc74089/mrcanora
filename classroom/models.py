@@ -113,9 +113,9 @@ class EntryTicket(models.Model):
 class ExitTicket(models.Model):
     student = models.ForeignKey("Student", on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    learning_goal = models.TextField()
-    understanding = models.IntegerField()
-    extra = models.TextField()
+    learning_goal = models.TextField(null=True, blank=True)
+    understanding = models.IntegerField(default=5)
+    extra = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"ExitTicket {self.date} from {str(self.student)}"
@@ -152,10 +152,11 @@ class SiteConfig(models.Model):
     def init():
         SiteConfig.objects.get_or_create(key="student_login")
         SiteConfig.objects.get_or_create(key="entry_ticket")
-        SiteConfig.objects.get_or_create(key="exit_ticket")
+        SiteConfig.objects.get_or_create(key="covid")
+        SiteConfig.objects.get_or_create(key="exit_ticket_understanding")
+        SiteConfig.objects.get_or_create(key="exit_ticket_extra")
         SiteConfig.objects.get_or_create(key="answer_questions")
         SiteConfig.objects.get_or_create(key="music")
-        SiteConfig.objects.get_or_create(key="covid")
 
     @staticmethod
     def all_configs():

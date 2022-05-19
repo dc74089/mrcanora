@@ -6,13 +6,13 @@ from classroom.models import ExitTicket, Student
 
 
 def submit(request):
-    if request.method == "POST" and 'rating' in request.POST:
+    if request.method == "POST":
         data = request.POST
 
         et = ExitTicket(student_id=request.session['sid'])
-        et.understanding = int(data['rating'])
-        et.learning_goal = data['learning']
-        et.extra = data['extra']
+        et.understanding = int(data.get('rating', 5))
+        et.learning_goal = data.get('learning')
+        et.extra = data.get('extra')
         et.save()
 
         return redirect('index')

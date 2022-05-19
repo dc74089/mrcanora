@@ -82,6 +82,6 @@ def admin(request):
 
     return render(request, "classroom/admin.html", {
         "questions": TeambuildingQuestion.objects.all().order_by('grade'),
-        "config": SiteConfig.objects.all(),
+        "config": SiteConfig.objects.all().order_by("key"),
         "homerooms": homerooms,
     })

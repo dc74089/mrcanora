@@ -74,6 +74,6 @@ def do_music(request):
         last = timezone.datetime.utcfromtimestamp(request.session['last_music']).replace(tzinfo=timezone.utc)
 
     music = SiteConfig.objects.get(key="music").value and (
-                "last_music" not in request.session or last + timezone.timedelta(hours=16) < timezone.now())
+                "last_music" not in request.session or last + timezone.timedelta(hours=64) < timezone.now())
 
     return music

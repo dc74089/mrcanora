@@ -35,7 +35,7 @@ def index(request):
 
     greeting = util.do_greeting(request)
     questions = util.do_questions(request, s)
-    music = util.do_music(request)
+    music = util.do_music(request, s)
 
     return render(request, "classroom/index.html", util.smoosh(SiteConfig.all_configs(), {
         "student": s,

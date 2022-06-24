@@ -56,18 +56,20 @@ def do_greeting(request):
 
 
 def do_questions(request, s):
-    if s.grade >= -1:
+    if s.grade <= 12:
         questions = TeambuildingQuestion.objects.filter(active=True) \
             .filter(grade=s.grade) \
             .exclude(response__student__id=request.session['sid'])
     else:
-        questions = TeambuildingQuestion.objects.filter(active=True) \
+        questions = TeambuildingQuestion.objects.all() \
             .exclude(response__student__id=request.session['sid'])
 
     return questions
 
 
-def do_music(request):
+def do_music(request, s):
+    if s.grade < 6: return False
+
     if "last_music" not in request.session:
         last = timezone.datetime.fromtimestamp(0).replace(tzinfo=timezone.utc)
     else:

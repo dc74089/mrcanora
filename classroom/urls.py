@@ -11,6 +11,7 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('admin', views.admin, name="admin"),
     path('admin/import_students', students.import_students, name="import_students"),
+    path('admin/activate', students.activate_homeroom, name="activate_homeroom"),
 
     path('questions/create', questions.create, name="create_question"),
     path('questions/select', questions.select, name="choose_questions"),

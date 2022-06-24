@@ -43,6 +43,23 @@
           </form>
         </div>
       </div>
+      <div class="card mt-3">
+        <div class="card-body">
+          <h2>De/Activate Students</h2>
+          <form action="{% url 'activate_homeroom' %}" method="post">
+          {% csrf_token %}
+            <div class="form-group">
+              <label for="act-hr">Homeroom</label>
+              <select id="act-hr" name="homeroom" class="custom-select">
+                {% for hr in homerooms %}
+                  <option value="{{ hr.0 }}">{{ hr.1 }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          <button class="btn btn-success">Make Active Homeroom</button>
+          </form>
+        </div>
+      </div>
     </div>
 
     <div class="col-12 col-md-6 mt-3">

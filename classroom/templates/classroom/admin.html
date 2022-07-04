@@ -47,7 +47,7 @@
         <div class="card-body">
           <h2>De/Activate Students</h2>
           <form action="{% url 'activate_homeroom' %}" method="post">
-          {% csrf_token %}
+            {% csrf_token %}
             <div class="form-group">
               <label for="act-hr">Homeroom</label>
               <select id="act-hr" name="homeroom" class="custom-select">
@@ -56,7 +56,7 @@
                 {% endfor %}
               </select>
             </div>
-          <button class="btn btn-success">Make Active Homeroom</button>
+            <button class="btn btn-success">Make Active Homeroom</button>
           </form>
         </div>
       </div>
@@ -89,7 +89,7 @@
                 <option value="{{ hr.0 }}">{{ hr.1 }}</option>
               {% endfor %}
             </select>
-            <button class="btn btn-primary">View EntryTicket Status</button>
+            <button class="btn btn-success">View EntryTicket Status</button>
           </form>
           <form class="mb-2" action="{% url 'view_answers' %}" method="get">
             <select class="custom-select d-inline-block w-auto" name="homeroom">
@@ -97,7 +97,7 @@
                 <option value="{{ hr.0 }}">{{ hr.1 }}</option>
               {% endfor %}
             </select>
-            <button class="btn btn-secondary">View Question Answers</button>
+            <button class="btn btn-success">View Question Answers</button>
           </form>
           <form class="mb-2" action="{% url 'view_analytics' %}" method="get">
             <select class="custom-select d-inline-block w-auto" name="homeroom">
@@ -106,10 +106,16 @@
                 <option value="{{ hr.0 }}">{{ hr.1 }}</option>
               {% endfor %}
             </select>
-            <button class="btn btn-danger">View Lesson Analytics</button>
+            <button class="btn btn-success">View Lesson Analytics</button>
           </form>
-        <a class="btn btn-warning" href="{% url 'contacttrace' %}">Contact Tracing Tool</a>
-        <a class="btn btn-success" href="{% url 'music' %}">Music Tool</a>
+        <hr/>
+          <p>
+            {% if config.covid %}
+            <a class="btn btn-warning" href="{% url 'contacttrace' %}">Contact Tracing Tool</a>
+            {% endif %}
+            <a class="btn btn-primary text-white" href="{% url 'music' %}">Music Tool</a>
+            <a class="btn btn-warning" href="{% url 'sixth_spend_stars' %}">Star Bank Tool</a>
+          </p>
         </div>
       </div>
     </div>

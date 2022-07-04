@@ -2,9 +2,8 @@
 
 {% block content %}
   <div class="row">
-    <div class="col-12 text-center">
-      <h1 class="text-white">Coding & Robotics Assignment Tracker</h1>
-      <h2 class="text-muted mb-5">{{ group }}</h2>
+    <div class="col-12 text-center mb-5">
+      <h1 class="text-white">{{ group }} Assignment Tracker</h1>
     </div>
     {% for table in students %}
       <div class="col-6">
@@ -20,7 +19,7 @@
             <tr>
               <td>{{ data.0.fname }} {{ data.0.lname.0 }}.</td>
               <td class="text-right">
-                  ⭐ x{{ data.1 }}, ✴ x{{ data.2 }}
+                ⭐ x{{ data.1 }}, ✴ x{{ data.2 }}, 🏦 x{{ data.4 }}
               </td>
             </tr>
           {% endfor %}
@@ -28,8 +27,9 @@
         </table>
       </div>
     {% endfor %}
-    <div class="col-12 text-center d-none">
-      <h6 class="mt-3 text-muted">Stars shown are from all assignments submitted in past 7 days</h6>
+    <div class="col-12 text-center">
+      <hr class="border-top"/>
+      <h3 class="text-white mt-9">3-hour 3D Print = 🏦 x10<span class="mx-5">|</span>8-hour 3D Print = 🏦 x20</h3>
     </div>
   </div>
 {% endblock %}

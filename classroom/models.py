@@ -36,7 +36,8 @@ class Student(models.Model):
     grade = models.IntegerField()
     enabled = models.BooleanField(default=True)
     email = models.TextField(null=True, blank=True)
-    canvas_id = models.IntegerField(null=True, blank=True, unique=True)
+    canvas_id = models.IntegerField(null=True, blank=True)
+    used_stars = models.IntegerField(null=False, blank=False, default=0)
 
     def is_sixth(self):
         return "6" in self.homeroom
@@ -130,6 +131,7 @@ class MusicSuggestion(models.Model):
     student = models.ForeignKey("Student", default="dc74089", on_delete=models.SET_DEFAULT)
     for_playlist = models.BooleanField()
     investigated = models.BooleanField(default=False)
+    added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         if self.artist:

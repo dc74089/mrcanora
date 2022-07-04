@@ -1,6 +1,7 @@
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import render
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 
 from classroom.models import Student, Submission
 
@@ -21,9 +22,14 @@ def tracker(request, group):
                 stars += sub.assignment.name.count("⭐")
                 extra_stars += sub.assignment.name.count("✴")
 
-        students.append((stu, stars, extra_stars, incomplete))
+        students.append((stu, stars, extra_stars, incomplete, stars + extra_stars - stu.used_stars))
 
     return render(request, "classroom/sixth_tracker.html", {
         "students": (students[:(len(students)+1)//2], students[(len(students)+1)//2:]),
         "group": group,
     })
+
+
+@csrf_exempt
+def debit_credit_stars(request):
+    pass

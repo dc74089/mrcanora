@@ -2,7 +2,7 @@ from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
 
 from classroom import util
-from classroom.models import TeambuildingQuestion, TeambuildingResponse, SiteConfig
+from classroom.models import TeambuildingQuestion, TeambuildingResponse
 
 
 def create(request):

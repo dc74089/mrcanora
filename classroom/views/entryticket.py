@@ -1,7 +1,6 @@
 import re
 
 from django.contrib.admin.views.decorators import staff_member_required
-from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 

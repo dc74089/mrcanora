@@ -1,11 +1,9 @@
-import random
-
-from django.http import HttpResponseForbidden, HttpResponseBadRequest
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
 from classroom import util
-from classroom.models import Student, TeambuildingQuestion, SiteConfig, ExitTicket, homerooms, EntryTicket, Assignment
+from classroom.models import Student, TeambuildingQuestion, SiteConfig, ExitTicket, homerooms, Assignment
 
 
 def index(request):

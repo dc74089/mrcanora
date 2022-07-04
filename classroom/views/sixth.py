@@ -1,6 +1,6 @@
-from django.http.response import HttpResponseForbidden
-from django.shortcuts import render
-from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseBadRequest
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from classroom.models import Student, Submission
@@ -31,5 +31,26 @@ def tracker(request, group):
 
 
 @csrf_exempt
-def debit_credit_stars(request):
-    pass
+@login_required
+def spend_stars(request):
+    if request.method == "POST":
+        data = request.POST
+        if "student" not in data or "numstars" not in data:
+            return HttpResponseBadRequest()
+
+        sq = Student.objects.filter(id=data['student'])
+
+        if not sq.exists():
+            return HttpResponseBadRequest()
+
+        stu = sq.first()
+        stu.used_stars += int(data['numstars'])
+        stu.save()
+
+        return redirect('sixth_spend_stars')
+
+    ctx = {
+        "students": Student.objects.filter(grade=6, enabled=True).order_by("fname")
+    }
+
+    return render(request, "classroom/sixth_spend_stars.html", ctx)

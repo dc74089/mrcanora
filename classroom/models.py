@@ -15,14 +15,14 @@ homerooms = (
     ("5D", "5D"),
     ("5E", "5E"),
     ("5F", "5F"),
-    ("6A", "6th, Q1, AM"),
-    ("6B", "6th, Q1, PM"),
-    ("6C", "6th, Q2, AM"),
-    ("6D", "6th, Q2, PM"),
-    ("6E", "6th, Q3, AM"),
-    ("6F", "6th, Q3, PM"),
-    ("6G", "6th, Q4, AM"),
-    ("6H", "6th, Q4, PM"),
+    ("6A", "6 Q1 AM"),
+    ("6B", "6 Q1 PM"),
+    ("6C", "6 Q2 AM"),
+    ("6D", "6 Q2 PM"),
+    ("6E", "6 Q3 AM"),
+    ("6F", "6 Q3 PM"),
+    ("6G", "6 Q4 AM"),
+    ("6H", "6 Q4 PM"),
     ("NA", "N/A"),
 )
 
@@ -44,6 +44,24 @@ class Student(models.Model):
 
     def name(self):
         return f"{self.fname} {self.lname}"
+
+    def short_section(self):
+        if self.grade != 6: return self.get_homeroom_display()
+
+        return self.get_homeroom_display()[2:]
+
+    def get_total_stars(self):
+        subs = self.submission_set.all()
+        stars = 0
+        for sub in subs:
+            if sub.satisfactory != False:
+                stars += sub.assignment.name.count("⭐")
+                stars += sub.assignment.name.count("✴")
+
+        return stars
+
+    def get_remaining_stars(self):
+        return self.get_total_stars() - self.used_stars
 
     def __str__(self):
         return f"{self.fname} {self.lname} ({self.id}, {self.homeroom})"

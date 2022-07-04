@@ -32,4 +32,5 @@ urlpatterns = [
     path('configuration/set', configuration.configure, name="configure"),
 
     path('sixth/tracker/<str:group>', sixth.tracker, name="sixth_tracker"),
+    path('sixth/stars/spend', sixth.spend_stars, name="sixth_spend_stars"),
 ]

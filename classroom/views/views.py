@@ -17,17 +17,6 @@ def index(request):
 
         assignments[a.module].append(a)
 
-    seats = {
-        # "Under the Hallway Window": ["Seat 1", "Seat 2", "Seat 3", "Seat 4", "Seat 5"],
-        "Left of the TV": ["Seat 6", "Seat 7", "Seat 8", "Seat 9", "Seat 10", "Seat 11", "Seat 12"],
-        "Under the Outside Window": ["Seat 13", "Seat 14", "Seat 15", "Seat 16"],
-        "In a Movable Chair": ["Spot 17", "Spot 18", "Spot 19", "Spot 20", "Spot 21", "Spot 22", "Spot 23", "Spot 24",
-                               "Spot 25"],
-        "Under the TV": ["Spot 26", "Spot 27"],
-        "At a Robotics Table": ["The one by the Closets", "The one by the TV"],
-        "In the Living Room": ["Seat 36", "Seat 37", "Seat 38", "Seat 39", "Couch Left", "Couch Right"]
-    }
-
     s = Student.objects.get(id=request.session['sid'])
     etq = s.entryticket_set.filter(date__gte=timezone.now() - timezone.timedelta(hours=12))
 
@@ -40,7 +29,7 @@ def index(request):
         "greeting": greeting,
         "questions": questions if SiteConfig.objects.get(key="answer_questions") else False,
         "assignments": assignments,
-        "seat_options": seats,
+        "seat_options": util.seats,
         "entry_ticket": SiteConfig.objects.get(key="entry_ticket")
                         and not etq.exists(),
         "covid": SiteConfig.objects.get(key="covid")

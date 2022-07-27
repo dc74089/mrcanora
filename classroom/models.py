@@ -1,4 +1,5 @@
 import json
+import re
 
 from django.db import models
 
@@ -44,6 +45,13 @@ class Student(models.Model):
 
     def name(self):
         return f"{self.fname} {self.lname}"
+
+    def last_initial(self):
+        if self.grade > 12: return self.lname
+
+        names = re.split("[, ]", self.lname)
+        first_letters = [a[0] for a in names]
+        return "".join(first_letters)
 
     def short_section(self):
         if self.grade != 6: return self.get_homeroom_display()

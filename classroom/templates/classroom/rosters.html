@@ -1,0 +1,28 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+  <div class="row">
+    {% for key, t in tables.items %}
+      <div class="col-12 col-md-4">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Homeroom</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for s in t %}
+            <tr>
+              <td>{{ s.id }}</td>
+              <td><a href="{% url 'admin:classroom_student_change' s.id %}">{{ s.name }}</a></td>
+              <td>{{ s.get_homeroom_display }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

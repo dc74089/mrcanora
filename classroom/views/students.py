@@ -1,7 +1,20 @@
+from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 
 from classroom.models import Student, Assignment, Submission
+
+
+@login_required
+def rosters(request):
+    tables = {}
+    for s in Student.objects.all().exclude(homeroom="NA").order_by("homeroom", "lname"):
+        if s.homeroom not in tables:
+            tables[s.homeroom] = []
+
+        tables[s.homeroom].append(s)
+
+    return render(request, "classroom/rosters.html", {"tables": tables})
 
 
 def import_students(request):

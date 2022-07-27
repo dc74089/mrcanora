@@ -1,7 +1,7 @@
 from django.http.response import HttpResponseBadRequest
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
-from classroom.models import Student
+from classroom.models import Student, Assignment, Submission
 
 
 def import_students(request):
@@ -46,3 +46,18 @@ def activate_homeroom(request):
         stu.save()
 
     return redirect("admin")
+
+
+def rollover(request):
+    if request.method == "GET":
+        return render(request, "classroom/rollover.html")
+    else:
+        for s in Student.objects.all():
+            s.grade = -1
+            s.homeroom = "NA"
+            s.save()
+
+        Assignment.objects.all().delete()
+        Submission.objects.all().delete()
+
+        return render(request, "classroom/rollover.html", {"success": True})

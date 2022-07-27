@@ -52,7 +52,7 @@ def rollover(request):
     if request.method == "GET":
         return render(request, "classroom/rollover.html")
     else:
-        for s in Student.objects.all():
+        for s in Student.objects.all().exclude(id="dc74089"):
             s.grade = -1
             s.homeroom = "NA"
             s.save()

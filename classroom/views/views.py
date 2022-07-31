@@ -23,6 +23,7 @@ def index(request):
     greeting = util.do_greeting(request, s)
     questions = util.do_questions(request, s)
     music = util.do_music(request, s)
+    bdays = util.get_bdays() if request.user.is_authenticated else False
 
     return render(request, "classroom/index.html", util.smoosh(SiteConfig.all_configs(), {
         "student": s,
@@ -37,7 +38,7 @@ def index(request):
         "exit_ticket": SiteConfig.objects.get(key="exit_ticket")
                        and not ExitTicket.objects.filter(student__id=request.session['sid'], date=timezone.now()),
         "music": music,
-        "bdays": util.get_bdays()
+        "bdays": bdays
     }))
 
 

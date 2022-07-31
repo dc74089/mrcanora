@@ -12,6 +12,7 @@ urlpatterns = [
     path('admin', views.admin, name="admin"),
     path('admin/rosters', students.rosters, name="rosters"),
     path('admin/import_students', students.import_students, name="import_students"),
+    path('admin/import_bday', students.import_bdays, name="import_bdays"),
     path('admin/activate', students.activate_homeroom, name="activate_homeroom"),
     path('admin/rollover', students.rollover, name="rollover"),
 

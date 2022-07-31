@@ -35,6 +35,7 @@ class Student(models.Model):
     lname = models.TextField()
     homeroom = models.CharField(max_length=5, default="NA", choices=homerooms)
     grade = models.IntegerField(default=-1)
+    bday = models.DateField(null=True, blank=True)
     enabled = models.BooleanField(default=True)
     email = models.TextField(null=True, blank=True)
     canvas_id = models.IntegerField(null=True, blank=True)

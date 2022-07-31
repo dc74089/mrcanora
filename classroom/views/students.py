@@ -1,6 +1,11 @@
+import csv
+import pprint
+
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import HttpResponseBadRequest
 from django.shortcuts import redirect, render
+from django.utils import timezone
 
 from classroom.models import Student, Assignment, Submission
 
@@ -35,6 +40,24 @@ def import_students(request):
         return redirect("admin")
     else:
         return HttpResponseBadRequest()
+
+
+def import_bdays(request):
+    if request.method == "POST" and "file" in request.FILES:
+        fil = request.FILES['file']
+        reader = csv.DictReader(fil.read().decode('utf-8').splitlines())
+        notfound = 0
+
+        for row in reader:
+            try:
+                s = Student.objects.get(id__iexact=row['sid'])
+                s.bday = timezone.datetime.strptime(row['bday'], "%m/%d/%y")
+                s.save()
+            except ObjectDoesNotExist:
+                notfound += 1
+                print(f"Couldn't find {pprint.pformat(dict(row))}")
+
+        print(f"Couldn't find {notfound} students")
 
 
 def activate_homeroom(request):

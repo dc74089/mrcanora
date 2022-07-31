@@ -1,5 +1,8 @@
+import datetime
 import random
+from datetime import tzinfo
 
+import pytz
 from django.utils import timezone
 
 from classroom.models import Student, TeambuildingQuestion, SiteConfig
@@ -40,7 +43,9 @@ def check_active_student(request):
     return False
 
 
-def do_greeting(request):
+def do_greeting(request, student):
+    if is_student_bday(student): return "Happy Birthday"
+
     if "greeting" not in request.session:
         last = timezone.datetime.fromtimestamp(0).replace(tzinfo=timezone.utc)
     else:
@@ -92,3 +97,17 @@ def do_music(request, s):
                 "last_music" not in request.session or last + timezone.timedelta(hours=64) < timezone.now())
 
     return music
+
+
+def get_bdays():
+    today = timezone.now().astimezone(pytz.timezone("America/New_York"))
+    stus = Student.objects.filter(bday__month=today.month, bday__day=today.day, enabled=True)
+
+    return stus
+
+
+def is_student_bday(student):
+    today = timezone.now().astimezone(pytz.timezone("America/New_York"))
+    stus = Student.objects.filter(bday__month=today.month, bday__day=today.day, id=student.id)
+
+    return stus.exists()

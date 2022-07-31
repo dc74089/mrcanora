@@ -20,7 +20,7 @@ def index(request):
     s = Student.objects.get(id=request.session['sid'])
     etq = s.entryticket_set.filter(date__gte=timezone.now() - timezone.timedelta(hours=12))
 
-    greeting = util.do_greeting(request)
+    greeting = util.do_greeting(request, s)
     questions = util.do_questions(request, s)
     music = util.do_music(request, s)
 
@@ -37,6 +37,7 @@ def index(request):
         "exit_ticket": SiteConfig.objects.get(key="exit_ticket")
                        and not ExitTicket.objects.filter(student__id=request.session['sid'], date=timezone.now()),
         "music": music,
+        "bdays": util.get_bdays()
     }))
 
 

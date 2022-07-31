@@ -58,6 +58,8 @@ def import_bdays(request):
                 print(f"Couldn't find {pprint.pformat(dict(row))}")
 
         print(f"Couldn't find {notfound} students")
+        return redirect("admin")
+    return HttpResponseBadRequest()
 
 
 def activate_homeroom(request):

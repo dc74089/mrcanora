@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = not os.getenv("PROD", False)
 DOCKER = os.getenv("DOCKER", False)
-SIXTH_COURSE_ID = 9606
+SIXTH_COURSE_ID = 11134
 OTHER_COURSE_IDS = []
 
 

@@ -8,8 +8,7 @@ from django.utils import timezone
 from classroom.models import Student, TeambuildingQuestion, SiteConfig
 
 seats = {
-    "On a Stool": ["On a stool near Alan", "On a stool near the white 
-clock"],
+    "On a Stool": ["On a stool near Alan", "On a stool near the white clock"],
     "In a Desk": ["In a desk by the closets", "In a desk near the TV", "In a desk near the window"],
     "In a Rolling Chair": ["In an office chair under the window", "In a chair around the robot tables"],
     "On the Floor": ["Under the TV", "On the rug"],

@@ -68,6 +68,7 @@ def view(request):
         return HttpResponseBadRequest()
 
     ctx['homeroom'] = request.GET['homeroom']
+    ctx['grade'] = ctx['homeroom'][0]
 
     if "qid" in request.GET:
         q = TeambuildingQuestion.objects.get(id=request.GET['qid'])
@@ -77,7 +78,7 @@ def view(request):
         out = {}
 
         if 'homeroom' in request.GET:
-            ans = ans.filter(student__homeroom=request.GET['homeroom']) | ans.filter(student__homeroom="NA")
+            ans = ans.filter(student__homeroom=request.GET['homeroom']) | ans.filter(student__id="dc74089")
 
         for a in ans:
             if a.answer not in out:
@@ -90,9 +91,17 @@ def view(request):
             ctx['coltype'] = "col-lg-" + str(12 // len(out)) if len(out) <= 4 else "col-lg-3"
 
         ctx['questions'] = [x for x in TeambuildingQuestion.objects.filter(used=True) if
-                            TeambuildingResponse.objects.filter(question=x, student__homeroom=ctx['homeroom']).exists()]
+                            TeambuildingResponse.objects.filter(
+                                question=x,
+                                student__homeroom=ctx['homeroom'],
+                                question__grade=int(ctx['grade'])
+                            ).exists()]
     else:
         ctx['questions'] = [x for x in TeambuildingQuestion.objects.filter(used=True) if
-                            TeambuildingResponse.objects.filter(question=x, student__homeroom=ctx['homeroom']).exists()]
+                            TeambuildingResponse.objects.filter(
+                                question=x,
+                                student__homeroom=ctx['homeroom'],
+                                question__grade=int(ctx['grade'])
+                            ).exists()]
 
     return render(request, "classroom/view_answers.html", ctx)

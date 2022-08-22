@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = not os.getenv("PROD", False)
 DOCKER = os.getenv("DOCKER", False)
-SIXTH_COURSE_ID = 9606
+SIXTH_COURSE_ID = 11134
 OTHER_COURSE_IDS = []
 
 
@@ -87,7 +87,7 @@ CRONJOBS = [
     # ("05 13 * * *", "classroom.tasks.enable_exit_ticket"),
     # ("35 13 * * *", "classroom.tasks.disable_exit_ticket"),
 
-    ("*/5 8-15 * * *", "classroom.canvas.do_all"),
+    ("*/10 * * * *", "classroom.canvas.do_all"),
 
     ("*/2 * * * *", "classroom.tasks.debug_log"),
 ]

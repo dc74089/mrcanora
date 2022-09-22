@@ -41,8 +41,8 @@ def view_music(request):
     investigated = sorted([(stu, by_student[stu]) for stu in by_student.keys()], key=lambda x: x[0].lname)
 
     return render(request, "classroom/music_view.html", {
-        "playlist": MusicSuggestion.objects.filter(investigated=False, for_playlist=True),
-        "personal": MusicSuggestion.objects.filter(investigated=False, for_playlist=False),
+        "playlist": MusicSuggestion.objects.filter(investigated=False, for_playlist=True).order_by("added"),
+        "personal": MusicSuggestion.objects.filter(investigated=False, for_playlist=False).order_by("added"),
         "all": investigated
     })
 

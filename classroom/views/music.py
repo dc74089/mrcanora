@@ -32,7 +32,7 @@ def submit_music(request):
 def view_music(request):
     by_student = {}
 
-    for sug in MusicSuggestion.objects.filter(investigated=True):
+    for sug in MusicSuggestion.objects.filter(investigated=True).exclude(student__homeroom="NA"):
         if sug.student not in by_student:
             by_student[sug.student] = []
 

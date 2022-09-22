@@ -21,17 +21,20 @@
     </div>
 
     <div class="row">
-      {% for title, anslist in answers.items %}
+      {% for title, ansdict in answers.items %}
         <div class="col-12 {{ coltype }} mb-3">
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">{{ title }}</h4>
               <table class="table">
-                {% for ans in anslist %}
+                {% for ans in ansdict.students %}
                   <tr>
                     <td>{{ ans.student.fname }} {{ ans.student.last_initial }}</td>
                   </tr>
                 {% endfor %}
+              <tr>
+                <td><b>... and {{ ansdict.percentage }}% of students from other classes</b></td>
+              </tr>
               </table>
             </div>
           </div>

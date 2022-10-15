@@ -28,7 +28,7 @@
                 <tr {% if not data.1 %} class="bg-danger" {% endif %}>
                   <td><a href="{% url 'admin:classroom_student_change' data.0.id %}"
                          class="{% if data.1 %}text-dark{% else %}text-white{% endif %}">
-                    {{ data.0.fname }} {{ data.0.lname.0 }}.
+                    {{ data.0.fname }} {{ data.0.last_initial }}.
                   </a></td>
                   <td class="text-right">
                     {% if data.1 %}

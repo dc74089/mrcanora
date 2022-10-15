@@ -50,6 +50,12 @@ class Student(models.Model):
     def last_initial(self):
         if self.grade > 12: return self.lname
 
+        if self.id in (
+            18402,  # Connor Lange
+            17639,  # Connor Leung
+        ):
+            return self.lname
+
         names = re.split("[, ]", self.lname)
         first_letters = [a[0] for a in names]
         return "".join(first_letters)

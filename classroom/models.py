@@ -51,8 +51,8 @@ class Student(models.Model):
         if self.grade > 12: return self.lname
 
         if self.id in (
-            18402,  # Connor Lange
-            17639,  # Connor Leung
+            "18402",  # Connor Lange
+            "17639",  # Connor Leung
         ):
             return self.lname
 

@@ -53,3 +53,8 @@ def dismiss(request, id):
     sug.save()
 
     return redirect('music')
+
+
+def hide_for_student(request):
+    request.session['last_music'] = timezone.now().replace(tzinfo=timezone.utc).timestamp()
+    return redirect('index')

@@ -133,7 +133,10 @@
                   I just want you to check out this song
                 </label>
               </div>
-              <button class="btn btn-success mt-3">Submit</button>
+              <div class="mt-3">
+                <button class="btn btn-success">Submit</button>
+                <a class="btn btn-danger" href="{% url 'music_dismiss_student' %}">No Song; Hide Box</a>
+              </div>
             </form>
           </div>
         </div>

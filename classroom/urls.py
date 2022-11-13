@@ -1,6 +1,8 @@
-from django.urls import path
+from django.urls import path, re_path
+from django.views.static import serve
 
-from .views import auth, views, questions, configuration, entryticket, exitticket, students, sixth, music
+from mrcanora import settings
+from .views import auth, views, questions, configuration, entryticket, exitticket, students, sixth, music, ai
 
 urlpatterns = [
     path('login/admin', auth.login, name='login'),
@@ -37,4 +39,15 @@ urlpatterns = [
 
     path('sixth/tracker/<str:group>', sixth.tracker, name="sixth_tracker"),
     path('sixth/stars/spend', sixth.spend_stars, name="sixth_spend_stars"),
+
+    path('ai/studio', ai.ai_index, name="ai"),
+    path('ai/studio/submit', ai.new_request, name="ai_submit"),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+    ]

@@ -1,0 +1,83 @@
+{% extends 'classroom/base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="row mb-5">
+    {% if not inprogress %}
+      <div class="jumbotron w-100">
+        <h1>Submit an AI Art Request</h1>
+        <form action="{% url 'ai_submit' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="prompt">Prompt:</label>
+            <input class="form-control" type="text" name="prompt" id="prompt" required>
+          </div>
+          <div class="form-group">
+            <label for="resolution">Resolution</label>
+            <select class="form-control custom-select">
+              {% for opt in resolutions %}
+                <option value="{{ opt.0 }}">{{ opt.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <button class="btn btn-success">Submit</button>
+          </div>
+        </form>
+      </div>
+    {% else %}
+      <div class="col-12 mb-4">
+        <h2 class="">Your Active Request:</h2>
+        <div class="card">
+          <div class="card-body">
+            <div class="text-center blockquote">"{{ inprogress.prompt }}"</div>
+            <div class="progress mb-2">
+              <div class="progress-bar" role="progressbar" style="width: {{ inprogress.percentage }}%;"
+                   aria-valuenow="{{ inprogress.percentage }}" aria-valuemin="0"
+                   aria-valuemax="100">{{ inprogress.get_state_display }}
+              </div>
+            </div>
+            {% if inprogress.is_cancellable %}
+              <hr/>
+              <p class="text-center">You may cancel your request, but if you choose to do so, you will lose your spot in
+                line.</p>
+              <p class="text-center"><a class="btn btn-danger">Cancel my Request</a></p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+
+    {% if fulfilled %}
+      <div class="col-12">
+        <h2>Your Previous Requests:</h2>
+      </div>
+
+      {% for art in fulfilled %}
+        <div class="col-12 col-md-6 mb-2">
+          <div class="card">
+            {% if art.get_result %}
+              <a href="{{ art.get_result.file.url }}">
+                <img src="{{ art.get_result.file.url }}" class="card-img-top">
+              </a>
+            {% else %}
+              <img src="{% static 'classroom/gradient_blur.png' %}" class="card-img-top">
+            {% endif %}
+
+            <p class="blockquote text-center mt-1">
+              "{{ art.prompt }}"
+            </p>
+
+            {% if art.get_result %}
+              <p class="text-center">{{ art.get_result.finish_time }}</p>
+            {% else %}
+              <p class="text-center">Awaiting Moderation... Image will be here soon.</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}

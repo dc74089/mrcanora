@@ -1,5 +1,6 @@
 import json
 import re
+import uuid
 
 from django.db import models
 
@@ -28,6 +29,10 @@ homerooms = (
 )
 
 
+def user_dir(instance, filename):
+    return f"{instance.request.student.id}/{filename}"
+
+
 # Create your models here.
 class Student(models.Model):
     id = models.CharField(max_length=15, primary_key=True)
@@ -51,8 +56,8 @@ class Student(models.Model):
         if self.grade > 12: return self.lname
 
         if self.id in (
-            "18402",  # Connor Lange
-            "17639",  # Connor Leung
+                "18402",  # Connor Lange
+                "17639",  # Connor Leung
         ):
             return self.lname
 
@@ -173,6 +178,65 @@ class MusicSuggestion(models.Model):
             return f"{str(self.student)} suggested {self.song}{'*' if not self.investigated else ''}"
 
 
+class ArtRequest(models.Model):
+    resolutions = [
+        ("1280x720", "Landscape"),
+        ("720x1280", "Portrait"),
+        ("1920x1080", "Landscape HD"),
+        ("1080x1920", "Portrait HD"),
+        ("1284x2778", "iPhone 2k")
+    ]
+
+    states = [
+        (0, "Submitted"),
+        (2, "Accepted"),
+        (4, "Enqueued"),
+        (6, "Processing"),
+        (8, "Awaiting Moderation"),
+        (10, "Fulfilled"),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    student = models.ForeignKey("Student", on_delete=models.CASCADE)
+    prompt = models.TextField(null=False, blank=False)
+    resolution = models.CharField(max_length=50, default="1280x720", choices=resolutions)
+    extra_params = models.TextField(null=True, blank=True)
+    state = models.IntegerField(default=0, choices=states)
+    submit_time = models.DateTimeField(auto_now_add=True)
+
+    def is_cancellable(self):
+        return self.state < 4
+
+
+    def percentage(self):
+        return 10 * (self.state + 2)
+
+
+    def get_result(self):
+        if self.artresult_set.exists():
+            return self.artresult_set.first() if self.artresult_set.first().approved else None
+        else:
+            return None
+
+    def __str__(self):
+        return f"{str(self.student)}: {self.prompt}"
+
+    class Meta:
+        ordering = ['submit_time']
+
+
+class ArtResult(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    request = models.ForeignKey("ArtRequest", on_delete=models.CASCADE)
+    ordinal = models.PositiveIntegerField(default=0)
+    file = models.FileField(upload_to=user_dir)
+    approved = models.BooleanField(default=False)
+    finish_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Art for request \"{str(self.request)}\""
+
+
 class SiteConfig(models.Model):
     key = models.CharField(max_length=100, primary_key=True)
     value = models.BooleanField(default=False)
@@ -192,6 +256,8 @@ class SiteConfig(models.Model):
         SiteConfig.objects.get_or_create(key="exit_ticket_extra")
         SiteConfig.objects.get_or_create(key="answer_questions")
         SiteConfig.objects.get_or_create(key="music")
+        SiteConfig.objects.get_or_create(key="art-5")
+        SiteConfig.objects.get_or_create(key="art-6")
 
     @staticmethod
     def all_configs():

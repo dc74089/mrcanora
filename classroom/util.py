@@ -96,6 +96,21 @@ def do_music(request, s):
     return music
 
 
+def do_ai(request, s):
+    if s.grade > 12: return True
+
+    if s.grade == 6:
+        if not SiteConfig.objects.get("art-6"): return False
+
+        return True
+    elif s.grade == 5:
+        if not SiteConfig.objects.get("art-5"): return False
+
+        return True
+
+    return False
+
+
 def get_bdays():
     today = timezone.now().astimezone(pytz.timezone("America/New_York"))
     stus = Student.objects.filter(bday__month=today.month, bday__day=today.day, enabled=True)

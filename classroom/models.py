@@ -30,7 +30,14 @@ homerooms = (
 
 
 def user_dir(instance, filename):
-    return f"{instance.request.student.id}/{filename}"
+    return f"{instance.student.id}/{filename}"
+
+
+def get_next_queuepos():
+    if ArtRequest.objects.count() == 0: return 1
+
+    last = ArtRequest.objects.all().order_by("-queuepos").first()
+    return last.queuepos + 5
 
 
 # Create your models here.
@@ -190,51 +197,45 @@ class ArtRequest(models.Model):
     states = [
         (0, "Submitted"),
         (2, "Accepted"),
-        (4, "Enqueued"),
+        (4, "Up Next"),
         (6, "Processing"),
         (8, "Awaiting Moderation"),
         (10, "Fulfilled"),
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    queuepos = models.IntegerField(null=False, blank=False, default=get_next_queuepos)
     student = models.ForeignKey("Student", on_delete=models.CASCADE)
     prompt = models.TextField(null=False, blank=False)
     resolution = models.CharField(max_length=50, default="1280x720", choices=resolutions)
     extra_params = models.TextField(null=True, blank=True)
     state = models.IntegerField(default=0, choices=states)
     submit_time = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(upload_to=user_dir, null=True, blank=True)
+    approved = models.BooleanField(default=False)
+    finish_time = models.DateTimeField(null=True, blank=True)
 
     def is_cancellable(self):
         return self.state < 4
 
-
     def percentage(self):
         return 10 * (self.state + 2)
 
-
-    def get_result(self):
-        if self.artresult_set.exists():
-            return self.artresult_set.first() if self.artresult_set.first().approved else None
+    def image_url(self):
+        if self.approved:
+            return self.file.url
         else:
-            return None
+            return False
 
     def __str__(self):
         return f"{str(self.student)}: {self.prompt}"
 
+    @staticmethod
+    def get_queue():
+        return ArtRequest.objects.filter(state__lt=4).order_by("queuepos", "submit_time")
+
     class Meta:
         ordering = ['submit_time']
-
-
-class ArtResult(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    request = models.ForeignKey("ArtRequest", on_delete=models.CASCADE)
-    ordinal = models.PositiveIntegerField(default=0)
-    file = models.FileField(upload_to=user_dir)
-    approved = models.BooleanField(default=False)
-    finish_time = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Art for request \"{str(self.request)}\""
 
 
 class SiteConfig(models.Model):

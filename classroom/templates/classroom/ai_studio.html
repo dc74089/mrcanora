@@ -15,7 +15,7 @@
           </div>
           <div class="form-group">
             <label for="resolution">Resolution</label>
-            <select class="form-control custom-select">
+            <select class="form-control custom-select" name="resolution" id="resolution">
               {% for opt in resolutions %}
                 <option value="{{ opt.0 }}">{{ opt.1 }}</option>
               {% endfor %}
@@ -40,7 +40,14 @@
             </div>
             {% if inprogress.is_cancellable %}
               <hr/>
-              <p class="text-center">You may cancel your request, but if you choose to do so, you will lose your spot in
+              {% if queuepos == 0 %}
+                <p class="text-center">You're up next!</p>
+              {% elif queuepos == 1 %}
+                <p class="text-center">There is {{ queuepos }} person in front of you.</p>
+              {% else %}
+                <p class="text-center">There are {{ queuepos }} people in front of you.</p>
+              {% endif %}
+              <p class="text-center">You may cancel your request to add another, but if you choose to do so, you will lose your spot in
                 line.</p>
               <p class="text-center"><a class="btn btn-danger">Cancel my Request</a></p>
             {% endif %}
@@ -58,9 +65,9 @@
       {% for art in fulfilled %}
         <div class="col-12 col-md-6 mb-2">
           <div class="card">
-            {% if art.get_result %}
-              <a href="{{ art.get_result.file.url }}">
-                <img src="{{ art.get_result.file.url }}" class="card-img-top">
+            {% if art.image_url %}
+              <a href="{{ art.image_url }}">
+                <img src="{{ art.image_url }}" class="card-img-top">
               </a>
             {% else %}
               <img src="{% static 'classroom/gradient_blur.png' %}" class="card-img-top">
@@ -70,7 +77,7 @@
               "{{ art.prompt }}"
             </p>
 
-            {% if art.get_result %}
+            {% if art.image_url %}
               <p class="text-center">{{ art.get_result.finish_time }}</p>
             {% else %}
               <p class="text-center">Awaiting Moderation... Image will be here soon.</p>

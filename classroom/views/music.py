@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from django.utils import timezone
@@ -47,6 +48,7 @@ def view_music(request):
     })
 
 
+@login_required
 def dismiss(request, id):
     sug = MusicSuggestion.objects.get(id=id)
     sug.investigated = True

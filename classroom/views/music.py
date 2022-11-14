@@ -30,7 +30,12 @@ def submit_music(request):
     return redirect('index')
 
 
+@login_required
 def view_music(request):
+    return view_music_helper(request, True)
+
+
+def view_music_helper(request, authenticated=False):
     by_student = {}
 
     for sug in MusicSuggestion.objects.filter(investigated=True).exclude(student__homeroom="NA"):
@@ -44,7 +49,8 @@ def view_music(request):
     return render(request, "classroom/music_view.html", {
         "playlist": MusicSuggestion.objects.filter(investigated=False, for_playlist=True).order_by("added"),
         "personal": MusicSuggestion.objects.filter(investigated=False, for_playlist=False).order_by("added"),
-        "all": investigated
+        "all": investigated,
+        "authenticated": authenticated
     })
 
 

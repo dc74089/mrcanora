@@ -3,56 +3,58 @@
 
 {% block content %}
   <div class="row">
-    <div class="col-12 col-lg-6">
-      <h2>New for Playlist</h2>
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>Suggested By</th>
-          <th>Song</th>
-          <th>Artist</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for sug in playlist %}
+    {% if authenticated %}
+      <div class="col-12 col-lg-6">
+        <h2>New for Playlist</h2>
+        <table class="table table-striped">
+          <thead>
           <tr>
-            <td>{{ sug.student.name }}</td>
-            <td>{{ sug.song }}</td>
-            <td>{{ sug.artist }}</td>
-            <td><a href="{% url 'music_dismiss' sug.id %}" class="btn btn-primary">Dismiss</a></td>
+            <th>Suggested By</th>
+            <th>Song</th>
+            <th>Artist</th>
+            <th>Actions</th>
           </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    <div class="col-12 col-lg-6">
-      <h2>New for You</h2>
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>Suggested By</th>
-          <th>Song</th>
-          <th>Artist</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for sug in personal %}
+          </thead>
+          <tbody>
+          {% for sug in playlist %}
+            <tr>
+              <td>{{ sug.student.name }}</td>
+              <td>{{ sug.song }}</td>
+              <td>{{ sug.artist }}</td>
+              <td><a href="{% url 'music_dismiss' sug.id %}" class="btn btn-primary">Dismiss</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="col-12 col-lg-6">
+        <h2>New for You</h2>
+        <table class="table table-striped">
+          <thead>
           <tr>
-            <td>{{ sug.student.name }}</td>
-            <td>{{ sug.song }}</td>
-            <td>{{ sug.artist }}</td>
-            <td><a href="{% url 'music_dismiss' sug.id %}" class="btn btn-primary">Dismiss</a></td>
+            <th>Suggested By</th>
+            <th>Song</th>
+            <th>Artist</th>
+            <th>Actions</th>
           </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+          {% for sug in personal %}
+            <tr>
+              <td>{{ sug.student.name }}</td>
+              <td>{{ sug.song }}</td>
+              <td>{{ sug.artist }}</td>
+              <td><a href="{% url 'music_dismiss' sug.id %}" class="btn btn-primary">Dismiss</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
     <div class="col-12">
       <h2>Previous Suggestions</h2>
       {% for iter in all %}
-        <h3>{{ iter.0.name }}</h3>
+        <h3>{{ iter.0.fname }} {{ iter.0.last_initial }}</h3>
         <table class="table table-striped">
           <thead>
           <tr>

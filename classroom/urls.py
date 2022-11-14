@@ -32,7 +32,7 @@ urlpatterns = [
     path('music/dismiss/<int:id>', music.dismiss, name="music_dismiss"),
     path('music/dismiss', music.hide_for_student, name="music_dismiss_student"),
     path('music', music.view_music, name="music"),
-    path('music/public/view/please/dont/share', music.view_music_helper, name="music"),
+    path('music/public/view/please/dont/share', music.view_music_helper, name="music_public"),
 
     path('configuration/set', configuration.configure, name="configure"),
 

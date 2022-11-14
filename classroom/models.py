@@ -208,7 +208,7 @@ class ArtRequest(models.Model):
     student = models.ForeignKey("Student", on_delete=models.CASCADE)
     prompt = models.TextField(null=False, blank=False)
     resolution = models.CharField(max_length=50, default="1280x720", choices=resolutions)
-    extra_params = models.TextField(null=True, blank=True)
+    extra_params = models.TextField(null=True, blank=True, default="{}")
     state = models.IntegerField(default=0, choices=states)
     submit_time = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=user_dir, null=True, blank=True)
@@ -221,6 +221,15 @@ class ArtRequest(models.Model):
     def percentage(self):
         return 10 * (self.state + 2)
 
+    def get_height(self):
+        return self.resolution.split('x')[0]
+
+    def get_width(self):
+        return self.resolution.split('x')[1]
+
+    def get_extra_as_json(self):
+        return json.loads(self.extra_params)
+
     def image_url(self):
         if self.approved:
             return self.file.url
@@ -232,7 +241,11 @@ class ArtRequest(models.Model):
 
     @staticmethod
     def get_queue():
-        return ArtRequest.objects.filter(state__lt=4).order_by("queuepos", "submit_time")
+        return ArtRequest.objects.filter(state__lt=6, file='').order_by("queuepos", "submit_time")
+
+    @staticmethod
+    def get_next():
+        return ArtRequest.get_queue().first()
 
     class Meta:
         ordering = ['submit_time']

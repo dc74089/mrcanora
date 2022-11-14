@@ -1,5 +1,7 @@
+import os
+
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, HttpResponseBadRequest
+from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 
 from classroom import util
@@ -74,3 +76,49 @@ def moderate(request):
     return render(request, 'classroom/ai_moderate.html', {
         "modqueue": modqueue
     })
+
+
+def api_get_next_job(request):
+    job = ArtRequest.get_next()
+
+    return JsonResponse({
+        "id": job.id,
+        "student_id": job.student.id,
+        "prompt": job.prompt,
+        "width": job.get_width(),
+        "height": job.get_height(),
+        "params": job.get_extra_as_json(),
+    })
+
+
+def api_mark_in_progress(request):
+    if not validate_api(request):
+        return HttpResponseForbidden()
+
+    if 'id' not in request.POST:
+        return HttpResponseBadRequest()
+
+    job = ArtRequest.objects.get(id=request.POST['id'])
+
+    job.state = 6
+    job.save()
+
+    return HttpResponse(status=200)
+
+
+def api_submit_image(request):
+    if not validate_api(request):
+        return HttpResponseForbidden()
+
+    if 'id' not in request.POST or 'image' not in request.FILES:
+        return HttpResponseBadRequest()
+
+    job = ArtRequest.objects.get(id=request.POST['id'])
+
+    job.state = 8
+    job.file = request.FILES['image']
+    job.save()
+
+
+def validate_api(request):
+    return request.POST.get("api_key") == os.getenv('API_KEY', '5821622e-bd3f-4a69-a5cd-88b95646338a')

@@ -43,6 +43,10 @@ urlpatterns = [
     path('ai/studio', ai.ai_index, name="ai"),
     path('ai/studio/submit', ai.new_request, name="ai_submit"),
     path('ai/moderate', ai.moderate, name="ai_moderate"),
+
+    path('ai/api/getnext', ai.api_get_next_job, name="ai_api_nextjob"),
+    path('ai/api/markcurrent', ai.api_mark_in_progress, name="ai_api_markinprogress"),
+    path('ai/api/submitimage', ai.api_submit_image, name="ai_api_submitimage"),
 ]
 
 

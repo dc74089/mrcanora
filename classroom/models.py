@@ -201,6 +201,7 @@ class ArtRequest(models.Model):
         (6, "Processing"),
         (8, "Awaiting Moderation"),
         (10, "Fulfilled"),
+        (12, "Cancelled")
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

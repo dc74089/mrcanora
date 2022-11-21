@@ -3,6 +3,7 @@ import os
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from classroom import util
 from classroom.models import ArtRequest, Student
@@ -13,7 +14,7 @@ def ai_index(request):
 
     if not util.do_ai(request, s): return HttpResponseForbidden()
 
-    fulfilled = ArtRequest.objects.filter(student__id=s.id, state__gte=8)
+    fulfilled = ArtRequest.objects.filter(student__id=s.id, state__range=(8, 10)).reverse()
 
     ipq = ArtRequest.objects.filter(student__id=s.id, state__lt=8)
     in_progress = ipq.first() if ipq.exists() else False
@@ -52,6 +53,18 @@ def new_request(request):
     return redirect('ai')
 
 
+def cancel(request, id):
+    req = ArtRequest.objects.get(id=id)
+
+    if req.student == util.check_active_student(request):
+        req.state = 12
+        req.save()
+
+        return redirect('ai')
+
+    return HttpResponseForbidden()
+
+
 @login_required
 def moderate(request):
     data = request.GET
@@ -87,10 +100,12 @@ def api_get_next_job(request):
         "prompt": job.prompt,
         "width": job.get_width(),
         "height": job.get_height(),
+        "resolution": job.resolution,
         "params": job.get_extra_as_json(),
     })
 
 
+@csrf_exempt
 def api_mark_in_progress(request):
     if not validate_api(request):
         return HttpResponseForbidden()
@@ -106,6 +121,7 @@ def api_mark_in_progress(request):
     return HttpResponse(status=200)
 
 
+@csrf_exempt
 def api_submit_image(request):
     if not validate_api(request):
         return HttpResponseForbidden()
@@ -118,6 +134,8 @@ def api_submit_image(request):
     job.state = 8
     job.file = request.FILES['image']
     job.save()
+
+    return HttpResponse(status=200)
 
 
 def validate_api(request):

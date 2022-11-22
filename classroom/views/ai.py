@@ -57,12 +57,14 @@ def cancel(request, id):
     req = ArtRequest.objects.get(id=id)
 
     if req.student == util.check_active_student(request):
+        return HttpResponseForbidden()
+
+    if req.is_cancellable():
         req.state = 12
         req.save()
 
-        return redirect('ai')
+    return redirect('ai')
 
-    return HttpResponseForbidden()
 
 
 @login_required

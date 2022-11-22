@@ -1,0 +1,21 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+  <div class="row">
+    {% for art in modqueue %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card">
+          <img src="{{ art.file.url }}" class="card-img-top">
+
+          <p class="blockquote text-center mt-1">"{{ art.prompt }}"</p>
+          <p class="text-center">{{ art.student.name }}<br/>{{ art.student.get_homeroom_display }}</p>
+
+          <p class="text-center">
+            <a class="btn btn-success" href="{% url 'ai_moderate' %}?id={{ art.id }}&action=approve">Approve</a>
+            <a class="btn btn-danger" href="{% url 'ai_moderate' %}?id={{ art.id }}&action=respin">Re-Spin</a>
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

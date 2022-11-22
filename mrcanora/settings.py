@@ -174,6 +174,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 if DOCKER:
     STATIC_ROOT = "/app/static"
+    MEDIA_ROOT = "/app/media"
+else:
+    MEDIA_ROOT = "media"

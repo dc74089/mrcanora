@@ -31,6 +31,15 @@
   </div>
 
   <div class="row mb-5">
+    {% if ai %}
+      <div class="col-12 mb-3">
+        <div class="card">
+          <div class="card-body text-center">
+            <a href="{% url 'ai' %}" class="btn btn-primary text-white">AI Art Studio</a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
     {% if bdays %}
       <div class="col-12 col-lg-6 mb-3">
         <div class="card">

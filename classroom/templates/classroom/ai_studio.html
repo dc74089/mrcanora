@@ -4,7 +4,7 @@
 
 {% block content %}
   <div class="row mb-5">
-    {% if not inprogress %}
+    {% if student.grade > 12 or not inprogress %}
       <div class="jumbotron w-100">
         <h1>Submit an AI Art Request</h1>
         <form action="{% url 'ai_submit' %}" method="post">
@@ -24,6 +24,13 @@
           <div>
             <button class="btn btn-success">Submit</button>
           </div>
+          {% if student.grade > 12 %}
+            <div>
+              <hr>
+              <h5>You have "unlimited mode" enabled for your account. You do not need to wait for a request to finish
+                before adding a new one, so requests waiting in the queue will not be shown.</h5>
+            </div>
+          {% endif %}
         </form>
       </div>
     {% else %}
@@ -47,9 +54,11 @@
               {% else %}
                 <p class="text-center">There are {{ queuepos }} people in front of you.</p>
               {% endif %}
-              <p class="text-center">You may cancel your request to add another, but if you choose to do so, you will lose your spot in
+              <p class="text-center">You may cancel your request to add another, but if you choose to do so, you will
+                lose your spot in
                 line.</p>
-              <p class="text-center"><a class="btn btn-danger" href="{% url 'ai_cancel' inprogress.id %}">Cancel my Request</a></p>
+              <p class="text-center"><a class="btn btn-danger" href="{% url 'ai_cancel' inprogress.id %}">Cancel my
+                Request</a></p>
             {% endif %}
           </div>
         </div>

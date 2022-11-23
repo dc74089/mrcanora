@@ -34,6 +34,7 @@ def ai_index(request):
         "inprogress": in_progress,
         "resolutions": ArtRequest.resolutions,
         "queuepos": queue_pos,
+        "student": s,
     })
 
 

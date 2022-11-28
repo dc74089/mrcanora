@@ -100,11 +100,11 @@ def do_ai(request, s):
     if s.grade > 12: return True
 
     if s.grade == 6:
-        if not SiteConfig.objects.get("art-6"): return False
+        if not SiteConfig.objects.get(key="art-6"): return False
 
         return True
     elif s.grade == 5:
-        if not SiteConfig.objects.get("art-5"): return False
+        if not SiteConfig.objects.get(key="art-5"): return False
 
         return True
 

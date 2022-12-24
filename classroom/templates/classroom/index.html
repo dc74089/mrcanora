@@ -96,12 +96,8 @@
                 <div class="mt-2">
                   <label for="location">Where are you sitting today?</label>
                   <select class="select custom-select" id="location" name="location">
-                    {% for cat, locs in seat_options.items %}
-                      <optgroup label="{{ cat }}">
-                        {% for l in locs %}
-                          <option value="{{ l }}">{{ l }}</option>
-                        {% endfor %}
-                      </optgroup>
+                    {% for loc in seat_options %}
+                      <option value="{{ loc }}">{{ loc }}</option>
                     {% endfor %}
                   </select>
                 </div>

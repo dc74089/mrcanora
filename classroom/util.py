@@ -1,19 +1,19 @@
-import datetime
 import random
-from datetime import tzinfo
 
 import pytz
 from django.utils import timezone
 
 from classroom.models import Student, TeambuildingQuestion, SiteConfig
 
-seats = {
-    "On a Stool": ["On a stool near Alan", "On a stool near the white clock"],
-    "In a Desk": ["In a desk by the closets", "In a desk near the TV", "In a desk near the window"],
-    "In a Rolling Chair": ["In an office chair under the window", "In a chair around the robot tables"],
-    "On the Floor": ["Under the TV", "On the rug"],
-    "Other": ["On the Couch"]
-}
+seats = (
+    'In a Rolling Desk',
+    'Under the TV',
+    'At the High Counter',
+    'At the Low Counter',
+    'At a Robot Table',
+    'On the Rug',
+    'On the Couch',
+)
 
 
 def smoosh(dict_a, dict_b):

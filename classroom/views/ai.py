@@ -38,6 +38,17 @@ def ai_index(request):
     })
 
 
+@login_required
+def ai_queue(request):
+    queue = list(ArtRequest.get_queue())
+    finished = list(ArtRequest.objects.all().exclude(state__lt=6, file=''))
+
+    return render(request, "classroom/ai_queue.html", {
+        "queue": queue,
+        "finished": finished
+    })
+
+
 def new_request(request):
     if request.method != "POST":
         return HttpResponseBadRequest()

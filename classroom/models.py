@@ -247,8 +247,8 @@ class ArtRequest(models.Model):
             return False
 
     def image_in_url(self):
-        if self.file != '':
-            return self.file.url
+        if self.image_in != '':
+            return self.image_in.url
         else:
             return False
 

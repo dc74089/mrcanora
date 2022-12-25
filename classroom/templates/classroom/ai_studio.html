@@ -2,24 +2,67 @@
 
 {% load static %}
 
+{% block script %}
+  <script>
+      $(function () {
+          $('input[type=radio][name=type]').change(function () {
+              if (this.id == 'txt2img') {
+                  $('#imgopts').hide()
+              } else if (this.id == 'img2img') {
+                  $('#imgopts').show()
+              }
+          });
+
+          $('#imgopts').hide();
+      });
+  </script>
+{% endblock %}
+
 {% block content %}
   <div class="row mb-5">
     {% if student.grade > 12 or not inprogress %}
       <div class="jumbotron w-100">
         <h1>Submit an AI Art Request</h1>
-        <form action="{% url 'ai_submit' %}" method="post">
+        <form action="{% url 'ai_submit' %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
+          <div class="form-group">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="txt2img" name="type" checked>
+              <label class="form-check-label" for="txt2img">txt2img</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="img2img" name="type">
+              <label class="form-check-label" for="img2img">img2img</label>
+            </div>
+          </div>
           <div class="form-group">
             <label for="prompt">Prompt:</label>
             <input class="form-control" type="text" name="prompt" id="prompt" required>
           </div>
           <div class="form-group">
+            <label for="negative">Negative Prompt:</label>
+            <input class="form-control" type="text" name="negative" id="negative">
+          </div>
+          <div class="form-group d-none">
             <label for="resolution">Resolution</label>
             <select class="form-control custom-select" name="resolution" id="resolution">
               {% for opt in resolutions %}
                 <option value="{{ opt.0 }}">{{ opt.1 }}</option>
               {% endfor %}
             </select>
+          </div>
+          <div id="imgopts">
+            <hr>
+            <div class="form-group">
+              <label for="resolution">Seed Image</label>
+              <input type="file" class="form-control-file" name="image_in">
+            </div>
+            <hr>
+            <div class="form-group">
+              <label for="noise">Strength (between 0 and 1)</label>
+              <small>Larger numbers change more about your original image.</small>
+              <input type="number" class="form-control" min="0" max="1" step="0.01" name="strength" id="strength" value="0.3">
+            </div>
           </div>
           <div>
             <button class="btn btn-success">Submit</button>

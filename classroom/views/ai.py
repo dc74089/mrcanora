@@ -60,8 +60,16 @@ def new_request(request):
         return HttpResponseBadRequest()
 
     req = ArtRequest(student=s, prompt=data['prompt'], resolution=data['resolution'])
-    req.save()
 
+    if 'negative' in data and data['negative']:
+        req.set_extra_param('negative_prompt', data['negative'])
+
+    if 'image_in' in request.FILES:
+        req.image_in = request.FILES['image_in']
+        req.set_extra_param('strength', data.get('strength', 0.3))
+
+
+    req.save()
     return redirect('ai')
 
 
@@ -108,15 +116,19 @@ def moderate(request):
 def api_get_next_job(request):
     job = ArtRequest.get_next()
 
-    return JsonResponse({
-        "id": job.id,
-        "student_id": job.student.id,
-        "prompt": job.prompt,
-        "width": job.get_width(),
-        "height": job.get_height(),
-        "resolution": job.resolution,
-        "params": job.get_extra_as_json(),
-    })
+    if job:
+        return JsonResponse({
+            "id": job.id,
+            "student_id": job.student.id,
+            "prompt": job.prompt,
+            "width": job.get_width(),
+            "height": job.get_height(),
+            "resolution": job.resolution,
+            "params": job.get_extra_as_json(),
+            "image_in": job.image_in_url(),
+        })
+    else:
+        return HttpResponse(status=204)
 
 
 @csrf_exempt

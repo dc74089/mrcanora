@@ -32,6 +32,9 @@ homerooms = (
 def user_dir(instance, filename):
     return f"{instance.student.id}/{filename}"
 
+def user_in_dir(instance, filename):
+    return f"{instance.student.id}/in/{filename}"
+
 
 def get_next_queuepos():
     if ArtRequest.objects.count() == 0: return 1
@@ -208,6 +211,7 @@ class ArtRequest(models.Model):
     queuepos = models.IntegerField(null=False, blank=False, default=get_next_queuepos)
     student = models.ForeignKey("Student", on_delete=models.CASCADE)
     prompt = models.TextField(null=False, blank=False)
+    image_in = models.FileField(upload_to=user_in_dir, null=True, blank=True)
     resolution = models.CharField(max_length=50, default="1280x720", choices=resolutions)
     extra_params = models.TextField(null=True, blank=True, default="{}")
     state = models.IntegerField(default=0, choices=states)
@@ -231,8 +235,19 @@ class ArtRequest(models.Model):
     def get_extra_as_json(self):
         return json.loads(self.extra_params)
 
+    def set_extra_param(self, key, value):
+        data = self.get_extra_as_json()
+        data[key] = value
+        self.extra_params = json.dumps(data)
+
     def image_url(self):
         if self.approved:
+            return self.file.url
+        else:
+            return False
+
+    def image_in_url(self):
+        if self.file != '':
             return self.file.url
         else:
             return False

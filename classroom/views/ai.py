@@ -65,7 +65,7 @@ def new_request(request):
         req.set_extra_param('negative_prompt', data['negative'])
 
     if 'guidance' in data:
-        req.set_extra_param('guidance_scale', data['guidance'])
+        req.set_extra_param('guidance_scale', float(data['guidance']))
 
     if 'image_in' in request.FILES:
         req.image_in = request.FILES['image_in']

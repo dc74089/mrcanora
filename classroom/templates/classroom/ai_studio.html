@@ -4,6 +4,12 @@
 
 {% block script %}
   <script>
+      let fill = function (prompt, negative, guidance) {
+          $('#prompt').val(prompt);
+          $('#negative').val(negative);
+          $('#guidance').val(guidance);
+      }
+
       $(function () {
           $('input[type=radio][name=type]').change(function () {
               if (this.id == 'txt2img') {
@@ -47,7 +53,8 @@
           <div class="form-group">
             <label for="guidance">Guidance Scale:</label>
             <small>Higher numbers are more closely aligned to your prompt, but "weirder"</small>
-            <input class="form-control" type="number" name="guidance" id="guidance" value="7.5" min="2" max="20" step="0.1">
+            <input class="form-control" type="number" name="guidance" id="guidance" value="7.5" min="2" max="20"
+                   step="0.1">
           </div>
           <div class="form-group d-none">
             <label for="resolution">Resolution</label>
@@ -133,20 +140,29 @@
             {% endif %}
 
             <div class="card-body">
-              <p>Prompt: <code>{{ art.prompt }}</code></p>
+              <div class="mb-3">
+                <p>Prompt: <code>{{ art.prompt }}</code></p>
 
-              {% if art.negative_prompt %}
-                <p>Negative Prompt: <code>{{ art.negative_prompt }}</code></p>
-              {% endif %}
+                {% if art.negative_prompt %}
+                  <p>Negative Prompt: <code>{{ art.negative_prompt }}</code></p>
+                {% endif %}
 
-              <p>Other Options:</p>
-              <code>{{ art.get_extra_as_json_formatted }}</code>
+                <p>Other Options:</p>
+                <code>{{ art.get_extra_as_json_formatted }}</code>
+              </div>
 
               {% if art.image_url %}
-                <p class="text-center">{{ art.get_result.finish_time }}</p>
+                <p class="text-center">
+                  <a class="btn btn-success"
+                     href="#"
+                     onclick="fill('{{ art.prompt }}', '{{ art.negative_prompt }}', '{{ art.get_guidance }}')">
+                    Copy Attributes</a>
+                </p>
               {% else %}
                 <p class="text-center">Awaiting Moderation... Image will be here soon.</p>
               {% endif %}
+
+
             </div>
           </div>
         </div>

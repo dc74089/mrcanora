@@ -235,6 +235,9 @@ class ArtRequest(models.Model):
     def get_width(self):
         return self.resolution.split('x')[1]
 
+    def get_guidance(self):
+        return self.get_extra_as_json().get('guidance_scale', 7.5)
+
     def get_extra_as_json(self):
         return json.loads(self.extra_params)
 

@@ -38,6 +38,12 @@ def ai_index(request):
     })
 
 
+def exemplars(request):
+    return render(request, "classroom/ai_exemplars.html", {
+        "arts": ArtRequest.objects.filter(exemplar=True)
+    })
+
+
 @login_required
 def ai_queue(request):
     queue = list(ArtRequest.get_queue())
@@ -62,7 +68,7 @@ def new_request(request):
     req = ArtRequest(student=s, prompt=data['prompt'], resolution=data['resolution'])
 
     if 'negative' in data and data['negative']:
-        req.set_extra_param('negative_prompt', data['negative'])
+        req.negative_prompt = data['negative']
 
     if 'guidance' in data:
         req.set_extra_param('guidance_scale', float(data['guidance']))
@@ -124,10 +130,11 @@ def api_get_next_job(request):
             "id": job.id,
             "student_id": job.student.id,
             "prompt": job.prompt,
+            "negative": job.negative_prompt,
             "width": job.get_width(),
             "height": job.get_height(),
             "resolution": job.resolution,
-            "params": job.get_extra_as_json(),
+            "params": job.get_extra_with_negative(),
             "image_in": request.build_absolute_uri(job.image_in_url()) if job.image_in_url() else False,
         })
     else:

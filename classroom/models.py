@@ -1,4 +1,5 @@
 import json
+import pprint
 import re
 import uuid
 
@@ -211,6 +212,7 @@ class ArtRequest(models.Model):
     queuepos = models.IntegerField(null=False, blank=False, default=get_next_queuepos)
     student = models.ForeignKey("Student", on_delete=models.CASCADE)
     prompt = models.TextField(null=False, blank=False)
+    negative_prompt = models.TextField(null=True, blank=True)
     image_in = models.FileField(upload_to=user_in_dir, null=True, blank=True)
     resolution = models.CharField(max_length=50, default="1280x720", choices=resolutions)
     extra_params = models.TextField(null=True, blank=True, default="{}")
@@ -219,6 +221,7 @@ class ArtRequest(models.Model):
     file = models.FileField(upload_to=user_dir, null=True, blank=True)
     approved = models.BooleanField(default=False)
     finish_time = models.DateTimeField(null=True, blank=True)
+    exemplar = models.BooleanField(default=False, null=True, blank=True)
 
     def is_cancellable(self):
         return self.state < 4
@@ -234,6 +237,17 @@ class ArtRequest(models.Model):
 
     def get_extra_as_json(self):
         return json.loads(self.extra_params)
+
+    def get_extra_as_json_formatted(self):
+        return pprint.pformat(self.get_extra_as_json())
+
+    def get_extra_with_negative(self):
+        out = self.get_extra_as_json()
+
+        if self.negative_prompt:
+            out['negative_prompt'] = self.negative_prompt
+
+        return out
 
     def set_extra_param(self, key, value):
         data = self.get_extra_as_json()

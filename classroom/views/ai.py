@@ -64,6 +64,9 @@ def new_request(request):
     if 'negative' in data and data['negative']:
         req.set_extra_param('negative_prompt', data['negative'])
 
+    if 'guidance' in data:
+        req.set_extra_param('guidance_scale', data['guidance'])
+
     if 'image_in' in request.FILES:
         req.image_in = request.FILES['image_in']
         req.set_extra_param('strength', float(data.get('strength', 0.3)))

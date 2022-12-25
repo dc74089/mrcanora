@@ -155,7 +155,7 @@
                 <p class="text-center">
                   <a class="btn btn-success"
                      href="#"
-                     onclick="fill('{{ art.prompt }}', '{{ art.negative_prompt }}', '{{ art.get_guidance }}')">
+                     onclick="fill('{{ art.prompt | escapejs }}', '{{ art.negative_prompt | escapejs }}', '{{ art.get_guidance | escapejs }}')">
                     Copy Attributes</a>
                 </p>
               {% else %}

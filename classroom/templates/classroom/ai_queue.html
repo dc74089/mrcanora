@@ -36,20 +36,20 @@
       <table class="table table-hover table-striped">
         <thead>
         <tr>
-          <th>Position</th>
           <th>Student</th>
           <th>Prompt</th>
           <th>Status</th>
+          <th>Image</th>
           <th>Raw Pos</th>
         </tr>
         </thead>
         <tbody>
         {% for req in finished %}
           <tr>
-            <td>{{ forloop.counter }}</td>
             <td>{{ req.student }}</td>
             <td><a href="{% url 'admin:classroom_artrequest_change' req.id %}">{{ req.prompt }}</a></td>
             <td>{{ req.get_state_display }}</td>
+            <td><img style="position:absolute;max-width:100%;max-height:100%;top:0;" src="{{ req.image_url }}"></td>
             <td>{{ req.queuepos }}</td>
           </tr>
         {% endfor %}

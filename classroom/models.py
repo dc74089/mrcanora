@@ -257,7 +257,7 @@ class ArtRequest(models.Model):
 
     @staticmethod
     def get_queue():
-        return ArtRequest.objects.filter(state__lt=6, file='').order_by("queuepos", "submit_time")
+        return ArtRequest.objects.filter(state__lte=6, file='').order_by("queuepos", "submit_time")
 
     @staticmethod
     def get_next():

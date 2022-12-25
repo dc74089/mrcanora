@@ -23,6 +23,7 @@
     {% if student.grade > 12 or not inprogress %}
       <div class="jumbotron w-100">
         <h1>Submit an AI Art Request</h1>
+        <h5><a href="{% url 'ai_exemplars' %}">Click here to view some example prompts and images</a></h5>
         <form action="{% url 'ai_submit' %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="form-group">

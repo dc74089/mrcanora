@@ -50,9 +50,11 @@
             <td><a href="{% url 'admin:classroom_artrequest_change' req.id %}">{{ req.prompt }}</a></td>
             <td>{{ req.get_state_display }}</td>
             <td style="width: 100px;" class="mx-1">
-              <a href="{{ req.image_url }}">
-                <img style="width: 90px;" src="{{ req.image_url }}">
-              </a>
+              {% if req.file %}
+                <a href="{{ req.image_url }}">
+                  <img style="width: 90px;" src="{{ req.image_url }}">
+                </a>
+              {% endif %}
             </td>
             <td>{{ req.queuepos }}</td>
           </tr>

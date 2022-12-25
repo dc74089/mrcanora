@@ -15,7 +15,7 @@
             <a class="btn btn-danger" href="{% url 'ai_moderate' %}?id={{ art.id }}&action=respin">Re-Spin</a>
           </p>
           <p class="text-center">
-            <a class="btn btn-primary" href="{% url 'admin:classroom_artrequest_change' req.id %}">Django Admin</a>
+            <a class="btn btn-primary" href="{% url 'admin:classroom_artrequest_change' art.id %}">Django Admin</a>
           </p>
         </div>
       </div>

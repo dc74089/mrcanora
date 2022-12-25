@@ -24,7 +24,6 @@ DOCKER = os.getenv("DOCKER", False)
 SIXTH_COURSE_ID = 11044
 OTHER_COURSE_IDS = []
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -43,7 +42,6 @@ elif DEBUG:
 else:
     SECRET_KEY = ''
 
-
 ALLOWED_HOSTS = [
     'mr.canora.us'
 ]
@@ -53,7 +51,6 @@ if DEBUG:
         '127.0.0.1',
         'localhost'
     ])
-
 
 # Application definition
 
@@ -65,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_crontab',
+    'django_cleanup.apps.CleanupConfig',
     'classroom'
 ]
 
@@ -112,7 +110,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mrcanora.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -137,7 +134,6 @@ else:
         }
     }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -156,32 +152,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LOGGING = {
-   'version': 1,
-   'disable_existing_loggers': False,
-   'formatters': {
-       'verbose': {
-           'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-       },
-   },
-   'handlers': {
-       'console': {
-           'level': 'INFO',
-           'class': 'logging.StreamHandler',
-           'stream': sys.stdout,
-           'formatter': 'verbose'
-       },
-   },
-   'loggers': {
-       '': {
-           'handlers': ['console'],
-           'level': 'INFO',
-           'propagate': True,
-       },
-   },
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -195,7 +189,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

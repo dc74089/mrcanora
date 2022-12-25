@@ -36,6 +36,16 @@
         <div class="card">
           <div class="card-body text-center">
             <a href="{% url 'ai' %}" class="btn btn-primary text-white">AI Art Studio</a>
+
+            {% if user.is_authenticated %}
+              <a href="{% url 'ai_queue' %}" class="btn btn-primary text-white">Queue</a>
+            {% endif %}
+
+            {% if moderation_needed > 0 %}
+              <a href="{% url 'ai_moderate' %}" class="btn btn-primary text-white">
+                Moderation ({{ moderation_needed }})
+              </a>
+            {% endif %}
           </div>
         </div>
       </div>

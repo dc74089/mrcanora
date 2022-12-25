@@ -3,7 +3,7 @@ import random
 import pytz
 from django.utils import timezone
 
-from classroom.models import Student, TeambuildingQuestion, SiteConfig
+from classroom.models import Student, TeambuildingQuestion, SiteConfig, ArtRequest
 
 seats = (
     'In a Rolling Desk',
@@ -109,6 +109,13 @@ def do_ai(request, s):
         return True
 
     return False
+
+
+def do_ai_mod(request, s):
+    if request.user.is_authenticated:
+        return ArtRequest.objects.filter(approved=False).exclude(file='').count()
+    else:
+        return -1
 
 
 def get_bdays():

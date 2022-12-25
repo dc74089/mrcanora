@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 
 from classroom import util
-from classroom.models import Student, TeambuildingQuestion, SiteConfig, ExitTicket, homerooms, Assignment
+from classroom.models import Student, TeambuildingQuestion, SiteConfig, ExitTicket, homerooms, Assignment, ArtRequest
 
 
 def index(request):
@@ -24,6 +24,7 @@ def index(request):
     questions = util.do_questions(request, s)
     music = util.do_music(request, s)
     ai = util.do_ai(request, s)
+    ai_mod = util.do_ai_mod(request, s)
     bdays = util.get_bdays() if request.user.is_authenticated else False
 
     return render(request, "classroom/index.html", util.smoosh(SiteConfig.all_configs(), {
@@ -40,7 +41,8 @@ def index(request):
                        and not ExitTicket.objects.filter(student__id=request.session['sid'], date=timezone.now()),
         "music": music,
         "ai": ai,
-        "bdays": bdays
+        "moderation_needed": ai_mod,
+        "bdays": bdays,
     }))
 
 

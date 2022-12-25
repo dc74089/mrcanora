@@ -66,7 +66,7 @@ def new_request(request):
 
     if 'image_in' in request.FILES:
         req.image_in = request.FILES['image_in']
-        req.set_extra_param('strength', data.get('strength', 0.3))
+        req.set_extra_param('strength', float(data.get('strength', 0.3)))
 
 
     req.save()

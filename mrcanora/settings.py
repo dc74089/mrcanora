@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_crontab',
+    'django_unused_media',
     'django_cleanup.apps.CleanupConfig',
     'classroom'
 ]

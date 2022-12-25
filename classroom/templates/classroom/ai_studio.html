@@ -131,20 +131,22 @@
               <img src="{% static 'classroom/gradient_blur.png' %}" class="card-img-top">
             {% endif %}
 
-            <p>Prompt: <code>{{ art.prompt }}</code></p>
+            <div class="card-body">
+              <p>Prompt: <code>{{ art.prompt }}</code></p>
 
-            {% if art.negative_prompt %}
-              <p>Negative Prompt: <code>{{ art.negative_prompt }}</code></p>
-            {% endif %}
+              {% if art.negative_prompt %}
+                <p>Negative Prompt: <code>{{ art.negative_prompt }}</code></p>
+              {% endif %}
 
-            <p>Other Options:</p>
-            <code>{{ art.get_extra_as_json_formatted }}</code>
+              <p>Other Options:</p>
+              <code>{{ art.get_extra_as_json_formatted }}</code>
 
-            {% if art.image_url %}
-              <p class="text-center">{{ art.get_result.finish_time }}</p>
-            {% else %}
-              <p class="text-center">Awaiting Moderation... Image will be here soon.</p>
-            {% endif %}
+              {% if art.image_url %}
+                <p class="text-center">{{ art.get_result.finish_time }}</p>
+              {% else %}
+                <p class="text-center">Awaiting Moderation... Image will be here soon.</p>
+              {% endif %}
+            </div>
           </div>
         </div>
       {% endfor %}

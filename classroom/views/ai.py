@@ -128,7 +128,7 @@ def api_get_next_job(request):
             "height": job.get_height(),
             "resolution": job.resolution,
             "params": job.get_extra_as_json(),
-            "image_in": request.build_absolute_uri(job.image_in_url()),
+            "image_in": request.build_absolute_uri(job.image_in_url()) if job.image_in_url() else False,
         })
     else:
         return HttpResponse(status=204)

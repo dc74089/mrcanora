@@ -1,8 +1,10 @@
+import itertools
 import os
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
+from django.templatetags.static import static
 from django.views.decorators.csrf import csrf_exempt
 
 from classroom import util
@@ -39,8 +41,43 @@ def ai_index(request):
 
 
 def exemplars(request):
+    positive = [
+        "trending on artstation",
+        "beautiful",
+        "ultra detailed",
+        "best one yet",
+        "symmetrical (only if it makes sense)",
+        "ethereal (means light, airy, etc... only if it makes sense)",
+    ]
+
+    negative = [
+        "black and white",
+        "bad anatomy",
+        "deformed",
+        "extra limbs",
+        "too many legs",
+        "too many hands",
+        "too bright",
+        "too dark",
+    ]
+
     return render(request, "classroom/ai_exemplars.html", {
-        "arts": ArtRequest.objects.filter(exemplar=True)
+        "arts": ArtRequest.objects.filter(exemplar=True),
+        "artists": [
+            ("Alan Lee", static("classroom/artist_study/Alan Lee.png")),
+            ("Andy Warhol", static("classroom/artist_study/Andy Warhol.png")),
+            ("Banksy", static("classroom/artist_study/Banksy.png")),
+            ("Dali", static("classroom/artist_study/Dali.png")),
+            ("Degas", static("classroom/artist_study/Degas.png")),
+            ("Ismail Inceoglu", static("classroom/artist_study/Ismail Inceoglu.jpeg")),
+            ("Makoto Shinkai", static("classroom/artist_study/Makoto Shinkai.jpg")),
+            ("Monet", static("classroom/artist_study/Monet.png")),
+            ("Picasso", static("classroom/artist_study/Picasso.png")),
+            ("Qinni", static("classroom/artist_study/Qinni.jpeg")),
+            ("Sparth", static("classroom/artist_study/Sparth.jpeg")),
+            ("Van Gogh", static("classroom/artist_study/Van Gogh.png")),
+        ],
+        "keywords": itertools.zip_longest(positive, negative)
     })
 
 

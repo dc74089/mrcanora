@@ -1,29 +1,101 @@
 {% extends 'classroom/base.html' %}
 
 {% block content %}
-  <table class="table table-hover">
-    <thead>
-    <tr>
-      <th class="w-50">Image</th>
-      <th class="w-50">Settings</th>
-    </tr>
-    </thead>
-    {% for art in arts %}
+  <div class="jumbotron">
+    <h1>Prompt Examples & Tips</h1>
+    <hr/>
+    <p><a href="#prompts">Click here to jump to full prompt examples</a></p>
+    <p><a href="#artists">Click here to jump to artist style examples</a></p>
+    <p><a href="#keywords">Click here to jump to keyword guidance</a></p>
+  </div>
+
+  <div>
+    <h1>Tips</h1>
+    Format your prompt like this:
+    <code>a {medium} of {subject}, {important keywords}, by {artist}, {less important keywords}</code>
+    <ul>
+      <li><code>Medium</code>: portrait, photo, painting, digital render, childs drawing, etc.</li>
+      <li><code>Subject</code>: a unicorn, an astronaut, a boy, a girl, etc.</li>
+      <li><code>Important Keywords</code>: Keywords that you'd like to have <em>more</em> of an effect should come
+        first. See <a href="#keywords">keywords</a>.
+      </li>
+      <li><code>Artist</code>: Use "by ________" or "in the style of ________" to guide your image. See <a
+          href="#artists">artists</a>.
+      </li>
+      <li><code>Less Important Keywords</code>: Keywords that you'd like to have <em>less</em> of an effect should come
+        last. See <a href="#keywords">keywords</a>.
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <h1 id="prompts">Prompt Examples</h1>
+    <table class="table table-hover">
+      <thead>
       <tr>
-        <td>
-          <img src="{{ art.image_url }}" class="w-100">
-        </td>
-        <td>
-          <p>Prompt: <code>{{ art.prompt }}</code></p>
-
-          {% if art.negative_prompt %}
-            <p>Negative Prompt: <code>{{ art.negative_prompt }}</code></p>
-          {% endif %}
-
-          <p>Other Options:</p>
-          <code>{{ art.get_extra_as_json_formatted }}</code>
-        </td>
+        <th class="w-50">Image</th>
+        <th class="w-50">Settings</th>
       </tr>
-    {% endfor %}
-  </table>
+      </thead>
+      <tbody>
+      {% for art in arts %}
+        <tr>
+          <td>
+            <img src="{{ art.image_url }}" class="w-100">
+          </td>
+          <td>
+            <p>Prompt: <code>{{ art.prompt }}</code></p>
+
+            {% if art.negative_prompt %}
+              <p>Negative Prompt: <code>{{ art.negative_prompt }}</code></p>
+            {% endif %}
+
+            <p>Other Options:</p>
+            <code>{{ art.get_extra_as_json_formatted }}</code>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <h1 id="artists">Artist Examples</h1>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th class="w-50">Artist</th>
+        <th class="w-50">Example Image</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for artist in artists %}
+        <tr>
+          <td class="text-center font-weight-bold"><h3>{{ artist.0 }}</h3></td>
+          <td><img class="w-100" src="{{ artist.1 }}"></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <h1 id="keywords">Keywords</h1>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th class="w-50">Positive Examples</th>
+        <th class="w-50">Negative Examples</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for ex in keywords %}
+        <tr>
+          <td>{% if ex.0 %}{{ ex.0 }}{% endif %}</td>
+          <td>{% if ex.1 %}{{ ex.1 }}{% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}

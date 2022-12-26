@@ -84,7 +84,7 @@ def exemplars(request):
 @login_required
 def ai_queue(request):
     queue = list(ArtRequest.get_queue())
-    finished = reversed(list(ArtRequest.objects.all().exclude(state__lt=6, file='')))
+    finished = reversed(list(ArtRequest.objects.all().exclude(state__lte=6, file='')))
 
     return render(request, "classroom/ai_queue.html", {
         "queue": queue,

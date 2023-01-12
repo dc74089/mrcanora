@@ -33,8 +33,14 @@ homerooms = (
 def user_dir(instance, filename):
     return f"{instance.student.id}/{filename}"
 
+
 def user_in_dir(instance, filename):
     return f"{instance.student.id}/in/{filename}"
+
+
+def user_selfie_dir(instance, filename):
+    extension = filename.split(".")[-1]
+    return f"{instance.student.id}/training/{uuid.uuid4()}.{extension}"
 
 
 def get_next_queuepos():
@@ -282,6 +288,11 @@ class ArtRequest(models.Model):
 
     class Meta:
         ordering = ['submit_time']
+
+
+class Selfie(models.Model):
+    student = models.ForeignKey("Student", models.CASCADE)
+    file = models.FileField(upload_to=user_selfie_dir, null=True, blank=True)
 
 
 class SiteConfig(models.Model):

@@ -81,6 +81,10 @@ def exemplars(request):
     })
 
 
+def training(request):
+    return render(request, "classroom/ai_training.html")
+
+
 @login_required
 def ai_queue(request):
     queue = list(ArtRequest.get_queue())

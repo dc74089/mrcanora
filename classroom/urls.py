@@ -44,6 +44,9 @@ urlpatterns = [
     path('ai/studio', ai.ai_index, name="ai"),
     path('ai/studio/submit', ai.new_request, name="ai_submit"),
     path('ai/studio/cancel/<str:id>', ai.cancel, name="ai_cancel"),
+
+    path('ai/train', ai.training, name="ai_training"),
+
     path('ai/moderate', ai.moderate, name="ai_moderate"),
     path('ai/queue', ai.ai_queue, name="ai_queue"),
     path('ai/exemplars', ai.exemplars, name="ai_exemplars"),

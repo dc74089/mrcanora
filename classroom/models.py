@@ -301,6 +301,7 @@ class SiteConfig(models.Model):
         SiteConfig.objects.get_or_create(key="covid")
         SiteConfig.objects.get_or_create(key="exit_ticket_understanding")
         SiteConfig.objects.get_or_create(key="exit_ticket_extra")
+        SiteConfig.objects.get_or_create(key="exit_ticket")
         SiteConfig.objects.get_or_create(key="answer_questions")
         SiteConfig.objects.get_or_create(key="music")
         SiteConfig.objects.get_or_create(key="art-5")

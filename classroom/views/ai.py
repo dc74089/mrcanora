@@ -81,6 +81,20 @@ def exemplars(request):
     })
 
 
+def feature(request, id):
+    req = ArtRequest.objects.get(id=id)
+    stu = req.student
+
+    for r in ArtRequest.objects.filter(student__id=stu.id, user_feature_photo=True):
+        r.user_feature_photo = False
+        r.save()
+
+    req.user_feature_photo = True
+    req.save()
+
+    return redirect('ai')
+
+
 def training(request):
     return render(request, "classroom/ai_training.html")
 

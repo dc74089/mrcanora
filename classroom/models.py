@@ -228,6 +228,7 @@ class ArtRequest(models.Model):
     approved = models.BooleanField(default=False)
     finish_time = models.DateTimeField(null=True, blank=True)
     exemplar = models.BooleanField(default=False, null=True, blank=True)
+    user_feature_photo = models.BooleanField(default=False, null=False, blank=False)
 
     def is_cancellable(self):
         return self.state < 4

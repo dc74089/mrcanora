@@ -95,6 +95,17 @@ def feature(request, id):
     return redirect('ai')
 
 
+def all_features(request):
+    iq = ArtRequest.objects.filter(user_feature_photo=True)
+
+    if 'homeroom' in request.GET:
+        iq.filter(student__homeroom=request.GET['homeroom'])
+
+    return render(request, "classroom/ai_featured.html", {
+        "images": iq
+    })
+
+
 def training(request):
     return render(request, "classroom/ai_training.html")
 

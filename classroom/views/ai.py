@@ -128,25 +128,29 @@ def new_request(request):
     s = Student.objects.get(id=request.session['sid'])
     data = request.POST
 
-    if 'prompt' not in data or 'resolution' not in data:
-        return HttpResponseBadRequest()
+    num = int(data.get("multiplier", 1))
 
-    req = ArtRequest(student=s, prompt=data['prompt'], resolution=data['resolution'])
+    for i in range(num):
+        if 'prompt' not in data or 'resolution' not in data:
+            return HttpResponseBadRequest()
 
-    if 'negative' in data and data['negative']:
-        req.negative_prompt = data['negative']
+        req = ArtRequest(student=s, prompt=data['prompt'], resolution=data['resolution'])
 
-    if 'guidance' in data:
-        req.set_extra_param('guidance_scale', float(data['guidance']))
+        if 'negative' in data and data['negative']:
+            req.negative_prompt = data['negative']
 
-    if 'image_in' in request.FILES:
-        req.image_in = request.FILES['image_in']
-        req.set_extra_param('strength', float(data.get('strength', 0.3)))
+        if 'guidance' in data:
+            req.set_extra_param('guidance_scale', float(data['guidance']))
 
-    if request.user.is_authenticated and request.user.is_superuser:
-        req.approved = True
+        if 'image_in' in request.FILES:
+            req.image_in = request.FILES['image_in']
+            req.set_extra_param('strength', float(data.get('strength', 0.3)))
 
-    req.save()
+        if request.user.is_authenticated and request.user.is_superuser:
+            req.approved = True
+
+        req.save()
+
     return redirect('ai')
 
 

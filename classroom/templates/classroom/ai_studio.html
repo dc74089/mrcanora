@@ -31,7 +31,7 @@
         <h1>Submit an AI Art Request</h1>
         <h5><a href="{% url 'ai_exemplars' %}">Click here to view some example prompts and images</a></h5>
         <form action="{% url 'ai_submit' %}" method="post" enctype="multipart/form-data"
-        onsubmit="$('#submitbtn').prop('disabled',true); return true;">
+              onsubmit="$('#submitbtn').prop('disabled',true); return true;">
           {% csrf_token %}
           <div class="form-group">
             <div class="form-check form-check-inline">
@@ -57,6 +57,13 @@
             <input class="form-control" type="number" name="guidance" id="guidance" value="7.5" min="2" max="20"
                    step="0.1">
           </div>
+          {% if student.grade > 12 %}
+            <div class="form-group">
+              <label for="guidance">Number of Images:</label>
+              <small>Number of images to generate with these settings.</small>
+              <input class="form-control" type="number" name="multiplier" id="multiplier" value="1" min="1" step="1">
+            </div>
+          {% endif %}
           <div class="form-group d-none">
             <label for="resolution">Resolution</label>
             <select class="form-control custom-select" name="resolution" id="resolution">

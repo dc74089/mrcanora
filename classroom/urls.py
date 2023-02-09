@@ -52,6 +52,7 @@ urlpatterns = [
     path('ai/moderate', ai.moderate, name="ai_moderate"),
     path('ai/queue', ai.ai_queue, name="ai_queue"),
     path('ai/exemplars', ai.exemplars, name="ai_exemplars"),
+    path('ai/featured', ai.all_features, name="ai_featured"),
 
     path('ai/api/getnext', ai.api_get_next_job, name="ai_api_nextjob"),
     path('ai/api/markcurrent', ai.api_mark_in_progress, name="ai_api_markinprogress"),

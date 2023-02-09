@@ -47,6 +47,7 @@ urlpatterns = [
     path('ai/studio/markfeaturephoto/<str:id>', ai.feature, name="ai_feature"),
 
     path('ai/train', ai.training, name="ai_training"),
+    path('ai/train/delete', ai.training, name="ai_training_delete_selfie"),
 
     path('ai/moderate', ai.moderate, name="ai_moderate"),
     path('ai/queue', ai.ai_queue, name="ai_queue"),

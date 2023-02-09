@@ -30,7 +30,8 @@
       <div class="jumbotron w-100">
         <h1>Submit an AI Art Request</h1>
         <h5><a href="{% url 'ai_exemplars' %}">Click here to view some example prompts and images</a></h5>
-        <form action="{% url 'ai_submit' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'ai_submit' %}" method="post" enctype="multipart/form-data"
+        onsubmit="$('#submitbtn').prop('disabled',true); return true;">
           {% csrf_token %}
           <div class="form-group">
             <div class="form-check form-check-inline">
@@ -79,7 +80,7 @@
             </div>
           </div>
           <div>
-            <button class="btn btn-success">Submit</button>
+            <button id="submitbtn" class="btn btn-success">Submit</button>
           </div>
           {% if student.grade > 12 %}
             <div>

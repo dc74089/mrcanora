@@ -106,6 +106,13 @@ def all_features(request):
     })
 
 
+def kiosk(request):
+    iq = ArtRequest.objects.filter(user_feature_photo=True)
+
+    return render(request, "classroom/ai_kiosk.html", {
+        "images": iq
+    })
+
 def training(request):
     return render(request, "classroom/ai_training.html")
 

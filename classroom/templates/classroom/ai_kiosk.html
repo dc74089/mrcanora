@@ -5,6 +5,7 @@
   <title>AI Art</title>
 
   <link rel="stylesheet" href="{% static 'classroom/splide/dist/css/splide.min.css' %}">
+  <link rel="stylesheet" href="{% static 'classroom/bootstrap.css' %}"/>
 
   <script src="{% static 'classroom/splide/dist/js/splide.min.js' %}"></script>
 
@@ -16,22 +17,27 @@
               "autoplay": true,
               "direction": "ttb",
               "height": "100vh",
-              "type": "loop"
+              "type": "loop",
+              "interval": 10000
           });
           splide.mount();
       });
   </script>
 </head>
-<body>
+<body class="bg-dark">
 <section class="splide" aria-label="Splide Basic HTML Example">
   <div class="splide__track">
     <ul class="splide__list">
       {% for image in images %}
         <li class="splide__slide">
-          <img src="{{ image.image_url }}" style="width: 100%">
-          <h1 style="text-align: center">{{ image.prompt }}</h1>
-          <h2 style="text-align:center;">{{ image.student.fname }} {{ image.student.last_initial }}</h2>
-          <h2 style="text-align:center;">{{ image.student.get_homeroom_display }}</h2>
+          <div class="my-auto bg-dark text-white">
+            <img src="{{ image.image_url }}" style="width: 100%">
+            <div class="mx-auto mt-5" style="max-width: 80%">
+              <h1 style="text-align: center">"{{ image.prompt }}"</h1>
+              <h2 style="text-align:center;">{{ image.student.fname }} {{ image.student.last_initial }}</h2>
+              <h2 style="text-align:center;">{{ image.student.get_homeroom_display }}</h2>
+            </div>
+          </div>
         </li>
       {% endfor %}
     </ul>

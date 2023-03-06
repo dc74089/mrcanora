@@ -157,13 +157,9 @@
                      href="#"
                      onclick="fill('{{ art.prompt | escapejs }}', '{{ art.negative_prompt | escapejs }}', '{{ art.get_guidance | escapejs }}')">
                     Copy Attributes</a>
-                  <a class="btn btn-primary"
-                     href="{% url 'ai_feature' art.id %}">
-                    Mark as My Favorite
-                  </a>
                 </p>
                 {% if art.user_feature_photo %}
-                  <h5>My Current Favorite</h5>
+                  <h5 class="text-center">Currently Featured</h5>
                 {% endif %}
               {% else %}
                 <p class="text-center">Awaiting Moderation... Image will be here soon.</p>

@@ -52,7 +52,8 @@
             <td style="width: 100px;" class="mx-1">
               {% if req.file %}
                 <a href="{{ req.image_url }}">
-                  <img style="width: 90px;" src="{{ req.image_url }}">
+                  {% comment %}<img style="width: 90px;" src="{{ req.image_url }}">{% endcomment %}
+                  Link
                 </a>
               {% endif %}
             </td>

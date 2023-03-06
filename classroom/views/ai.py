@@ -8,7 +8,7 @@ from django.templatetags.static import static
 from django.views.decorators.csrf import csrf_exempt
 
 from classroom import util
-from classroom.models import ArtRequest, Student
+from classroom.models import ArtRequest, Student, homerooms
 
 
 def ai_index(request):
@@ -81,22 +81,43 @@ def exemplars(request):
     })
 
 
-def feature(request, id):
-    req = ArtRequest.objects.get(id=id)
-    stu = req.student
+@csrf_exempt
+@login_required
+def choose_featured(request):
+    if request.method == "GET":
+        if 'homeroom' in request.GET:
+            images_q = ArtRequest.objects.filter(student__homeroom=request.GET.get("homeroom", ""))
+            images = {}
 
-    for r in ArtRequest.objects.filter(student__id=stu.id, user_feature_photo=True):
-        r.user_feature_photo = False
-        r.save()
+            for req in images_q:
+                if req.student not in images:
+                    images[req.student] = []
 
-    req.user_feature_photo = True
-    req.save()
+                images[req.student].append(req)
 
-    return redirect('ai')
+            return render(request, "classroom/ai_choose_featured.html", {
+                "homeroom": request.GET.get("homeroom"),
+                "homerooms": homerooms,
+                "images": images,
+            })
+        else:
+            return render(request, "classroom/ai_choose_featured.html", {
+                "homerooms": homerooms
+            })
+    else:
+        data = request.POST
+
+        if 'id' in data and 'feature' in data:
+            req = ArtRequest.objects.get(id=data['id'])
+            req.feature_photo = True if data['feature'] == 'true' else False
+            req.save()
+
+            return HttpResponse(status=200)
+
 
 
 def all_features(request):
-    iq = ArtRequest.objects.filter(user_feature_photo=True)
+    iq = ArtRequest.objects.filter(feature_photo=True)
 
     if 'homeroom' in request.GET:
         iq.filter(student__homeroom=request.GET['homeroom'])

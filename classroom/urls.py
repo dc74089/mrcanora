@@ -44,13 +44,13 @@ urlpatterns = [
     path('ai/studio', ai.ai_index, name="ai"),
     path('ai/studio/submit', ai.new_request, name="ai_submit"),
     path('ai/studio/cancel/<str:id>', ai.cancel, name="ai_cancel"),
-    path('ai/studio/markfeaturephoto/<str:id>', ai.feature, name="ai_feature"),
 
     path('ai/train', ai.training, name="ai_training"),
 
     path('ai/moderate', ai.moderate, name="ai_moderate"),
     path('ai/queue', ai.ai_queue, name="ai_queue"),
     path('ai/exemplars', ai.exemplars, name="ai_exemplars"),
+    path('ai/featured/choose', ai.choose_featured, name="ai_choose_featured"),
     path('ai/featured', ai.all_features, name="ai_featured"),
 
     path('ai/api/getnext', ai.api_get_next_job, name="ai_api_nextjob"),

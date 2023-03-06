@@ -34,27 +34,28 @@
 
   {% if images %}
     {% for stu, reqs in images.items %}
-      <div class="row">
       <h3>{{ stu }}</h3>
-      {% for image in reqs %}
-        <div class="col-12 col-md-6 col-lg-4 mb-3">
-          <div class="card">
-            <img src="{{ image.image_url }}" class="w-100">
 
-            <div class="card-body">
-              <h4 class="text-center">{{ image.prompt }}</h4>
-              <h5 class="text-center">
-                <a id="feature-{{ image.id }}" {% if image.feature_photo %}style="display: none;"{% endif %}
-                   class="btn btn-success" onclick="markFeatured('{{ image.id }}', true)">Feature</a>
-                <a id="unfeature-{{ image.id }}" {% if not image.feature_photo %}style="display: none;"{% endif %}
-                   class="btn btn-danger" onclick="markFeatured('{{ image.id }}', false)">Remove Feature</a>
-              </h5>
+      <div class="row">
+        {% for image in reqs %}
+          <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <div class="card">
+              <img src="{{ image.image_url }}" class="w-100">
+
+              <div class="card-body">
+                <h4 class="text-center">{{ image.prompt }}</h4>
+                <h5 class="text-center">
+                  <a id="feature-{{ image.id }}" {% if image.feature_photo %}style="display: none;"{% endif %}
+                     class="btn btn-success" onclick="markFeatured('{{ image.id }}', true)">Feature</a>
+                  <a id="unfeature-{{ image.id }}" {% if not image.feature_photo %}style="display: none;"{% endif %}
+                     class="btn btn-danger" onclick="markFeatured('{{ image.id }}', false)">Remove Feature</a>
+                </h5>
+              </div>
             </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
     {% endfor %}
-  </div>
 
     <hr/>
   {% endif %}

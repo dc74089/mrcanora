@@ -34,9 +34,8 @@
 
   {% if images %}
     {% for stu, reqs in images.items %}
-      <h3>{{ stu }}</h3>
-
       <div class="row">
+      <h3>{{ stu }}</h3>
       {% for image in reqs %}
         <div class="col-12 col-md-6 col-lg-4 mb-3">
           <div class="card">

@@ -60,7 +60,6 @@ urlpatterns = [
     path('ai/api/submitimage', ai.api_submit_image, name="ai_api_submitimage"),
 ]
 
-
 if settings.DEBUG:
     urlpatterns += [
         re_path(r'^media/(?P<path>.*)$', serve, {

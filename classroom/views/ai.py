@@ -115,7 +115,6 @@ def choose_featured(request):
             return HttpResponse(status=200)
 
 
-
 def all_features(request):
     iq = ArtRequest.objects.filter(feature_photo=True)
 
@@ -133,6 +132,7 @@ def kiosk(request):
     return render(request, "classroom/ai_kiosk.html", {
         "images": iq
     })
+
 
 def training(request):
     return render(request, "classroom/ai_training.html")
@@ -193,7 +193,6 @@ def cancel(request, id):
         req.save()
 
     return redirect('ai')
-
 
 
 @login_required

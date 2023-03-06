@@ -3,18 +3,18 @@
 {% block script %}
   <script>
       function markFeatured(uuid, featured) {
-        $.post("{% url 'ai_choose_featured' %}", {
-            "id": uuid,
-            "feature": featured
-        }).then(function () {
-            if (featured) {
-                $("#feature-" + uuid).hide();
-                $("#unfeature-" + uuid).show();
-            } else {
-                $("#feature-" + uuid).show();
-                $("#unfeature-" + uuid).hide();
-            }
-        })
+          $.post("{% url 'ai_choose_featured' %}", {
+              "id": uuid,
+              "feature": featured
+          }).then(function () {
+              if (featured) {
+                  $("#feature-" + uuid).hide();
+                  $("#unfeature-" + uuid).show();
+              } else {
+                  $("#feature-" + uuid).show();
+                  $("#unfeature-" + uuid).hide();
+              }
+          })
       }
   </script>
 {% endblock %}

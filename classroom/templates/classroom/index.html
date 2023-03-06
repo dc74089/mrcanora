@@ -39,7 +39,8 @@
 
             {% if user.is_authenticated %}
               <a href="{% url 'ai_training' %}" class="btn btn-success text-white">Train Image Model</a>
-              <a href="{% url 'ai_queue' %}" class="btn btn-primary text-white">Queue</a>
+              <a href="{% url 'ai_queue' %}" class="btn btn-warning">Queue</a>
+              <a href="{% url 'ai_choose_featured' %}" class="btn btn-dark text-white">Choose Featured</a>
             {% endif %}
 
             {% if moderation_needed > 0 %}

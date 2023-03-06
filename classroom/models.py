@@ -292,7 +292,8 @@ class ArtRequest(models.Model):
 
 
 class Selfie(models.Model):
-    student = models.ForeignKey("Student", models.CASCADE)
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, null=False, blank=False)
+    student = models.ForeignKey("Student", on_delete=models.SET_NULL, null=True, blank=True)
     file = models.FileField(upload_to=user_selfie_dir, null=True, blank=True)
 
 

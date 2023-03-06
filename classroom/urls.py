@@ -46,12 +46,14 @@ urlpatterns = [
     path('ai/studio/cancel/<str:id>', ai.cancel, name="ai_cancel"),
 
     path('ai/train', ai.training, name="ai_training"),
+    path('ai/train/delete', ai.training, name="ai_training_delete_selfie"),
 
     path('ai/moderate', ai.moderate, name="ai_moderate"),
     path('ai/queue', ai.ai_queue, name="ai_queue"),
     path('ai/exemplars', ai.exemplars, name="ai_exemplars"),
     path('ai/featured/choose', ai.choose_featured, name="ai_choose_featured"),
     path('ai/featured', ai.all_features, name="ai_featured"),
+    path('ai/kiosk', ai.kiosk, name="ai_kiosk"),
 
     path('ai/api/getnext', ai.api_get_next_job, name="ai_api_nextjob"),
     path('ai/api/markcurrent', ai.api_mark_in_progress, name="ai_api_markinprogress"),

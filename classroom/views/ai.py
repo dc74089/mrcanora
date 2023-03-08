@@ -82,7 +82,6 @@ def exemplars(request):
 
 
 @csrf_exempt
-@login_required
 def choose_featured(request):
     if request.method == "GET":
         if 'homeroom' in request.GET:
@@ -105,6 +104,9 @@ def choose_featured(request):
                 "homerooms": homerooms
             })
     else:
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden()
+
         data = request.POST
 
         if 'id' in data and 'feature' in data:

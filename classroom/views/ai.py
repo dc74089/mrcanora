@@ -174,7 +174,7 @@ def new_request(request):
             req.image_in = request.FILES['image_in']
             req.set_extra_param('strength', float(data.get('strength', 0.3)))
 
-        if request.user.is_authenticated and request.user.is_superuser:
+        if s.grade > 20:
             req.approved = True
 
         req.save()

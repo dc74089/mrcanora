@@ -73,7 +73,6 @@ def exemplars(request):
             ("Makoto Shinkai", static("classroom/artist_study/Makoto Shinkai.jpg")),
             ("Monet", static("classroom/artist_study/Monet.png")),
             ("Picasso", static("classroom/artist_study/Picasso.png")),
-            ("Qinni", static("classroom/artist_study/Qinni.jpeg")),
             ("Sparth", static("classroom/artist_study/Sparth.jpeg")),
             ("Van Gogh", static("classroom/artist_study/Van Gogh.png")),
         ],

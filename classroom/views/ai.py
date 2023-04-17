@@ -215,6 +215,11 @@ def moderate(request):
 
             return redirect('ai_moderate')
 
+        if data['action'] == 'delete':
+            art.delete()
+
+            return redirect('ai_moderate')
+
     modqueue = ArtRequest.objects.filter(approved=False).exclude(file='')
 
     return render(request, 'classroom/ai_moderate.html', {

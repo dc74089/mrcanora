@@ -43,7 +43,8 @@ else:
     SECRET_KEY = ''
 
 ALLOWED_HOSTS = [
-    'mr.canora.us'
+    'mr.canora.us',
+    'oldmr.canora.us'
 ]
 
 if DEBUG:

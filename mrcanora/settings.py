@@ -82,10 +82,14 @@ ROOT_URLCONF = 'mrcanora.urls'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 * 8  # 8 Weeks
 
 CRONJOBS = [
-    # ("10 10 * * *", "classroom.tasks.enable_exit_ticket"),
-    # ("40 10 * * *", "classroom.tasks.disable_exit_ticket"),
-    # ("05 13 * * *", "classroom.tasks.enable_exit_ticket"),
-    # ("35 13 * * *", "classroom.tasks.disable_exit_ticket"),
+    ("45 8 * * *", "classroom.tasks.enable_exit_ticket"),
+    ("00 9 * * *", "classroom.tasks.disable_exit_ticket"),
+    ("20 10 * * *", "classroom.tasks.enable_exit_ticket"),
+    ("35 10 * * *", "classroom.tasks.disable_exit_ticket"),
+    ("15 13 * * *", "classroom.tasks.enable_exit_ticket"),
+    ("35 13 * * *", "classroom.tasks.disable_exit_ticket"),
+    ("40 14 * * *", "classroom.tasks.enable_exit_ticket"),
+    ("00 15 * * *", "classroom.tasks.disable_exit_ticket"),
 
     # ("*/10 * * * *", "classroom.canvas.do_all"),
 

@@ -24,9 +24,9 @@ def smoosh(dict_a, dict_b):
 def check_active_student(request):
     if request.user.is_authenticated and request.user.is_staff:
         if 'sid' not in request.session:
-            request.session['sid'] = "dc74089"
+            request.session['sid'] = "brgoodman"
 
-        obj, created = Student.objects.get_or_create(id="dc74089")
+        obj, created = Student.objects.get_or_create(id="brgoodman")
         if created: obj.save()
         return obj
 

@@ -73,7 +73,6 @@ def do_greeting(request, student):
 def do_questions(request, s):
     if s.grade <= 12:
         questions = TeambuildingQuestion.objects.filter(active=True) \
-            .filter(grade=s.grade) \
             .exclude(response__student__id=request.session['sid'])
     else:
         questions = TeambuildingQuestion.objects.all() \

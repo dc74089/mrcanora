@@ -6,26 +6,10 @@ import uuid
 from django.db import models
 
 homerooms = (
-    ("4A", "4A"),
-    ("4B", "4B"),
-    ("4C", "4C"),
-    ("4D", "4D"),
-    ("4E", "4E"),
-    ("4F", "4F"),
-    ("5A", "5A"),
-    ("5B", "5B"),
-    ("5C", "5C"),
-    ("5D", "5D"),
-    ("5E", "5E"),
-    ("5F", "5F"),
-    ("6A", "6 Q1 AM"),
-    ("6B", "6 Q1 PM"),
-    ("6C", "6 Q2 AM"),
-    ("6D", "6 Q2 PM"),
-    ("6E", "6 Q3 AM"),
-    ("6F", "6 Q3 PM"),
-    ("6G", "6 Q4 AM"),
-    ("6H", "6 Q4 PM"),
+    ("6AM", "6th AM"),
+    ("6PM", "6th PM"),
+    ("78AM", "1st Period"),
+    ("78PM", "7th Period"),
     ("NA", "N/A"),
 )
 

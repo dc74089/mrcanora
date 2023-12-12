@@ -90,7 +90,7 @@ def view(request):
             out[a.answer]['count'] += 1
 
         if 'homeroom' in request.GET:
-            ans = ans.filter(student__homeroom=request.GET['homeroom']) | ans.filter(student__id="dc74089")
+            ans = ans.filter(student__homeroom=request.GET['homeroom']) | ans.filter(student__id="dc74089") | ans.filter(student__id="brgoodman")
 
         for a in ans:
             out[a.answer]['students'].append(a)

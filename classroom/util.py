@@ -54,10 +54,10 @@ def do_greeting(request, student):
                                   "Ayyo", "I like ya cut", "How Now", "It's a good day to have a good day",
                                   "Beep Boop", "Hipppity Hoppity", "Heyyy", "It's a beautiful day in paradise",
                                   "Glad to see you", "Didn't see you there", "Don't Forget to Be Awesome",
-                                  "I'm glad you're here", "I missed you", "Welcome", "**Fun Greeting Here**",
+                                  "I'm glad you're here", "Welcome", "**Fun Greeting Here**",
                                   "Peek-A-Boo", "'Ello", "This call may be recorded for training purposes",
                                   "We've been trying to reach you regarding your car's extended warranty",
-                                  "Greetings and Salutations", "Aloha", "Ciao", "I like your vibe",
+                                  "Greetings and Salutations", "Aloha", "Ciao",
                                   "Top of the morning to ya", "Salvē", "Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",
                                   "Good afternoon. My name is Russell, and I am a Wilderness Explorer in Tribe 54, "
                                   "Sweat Lodge 12. Are you in need of any assistance today", ])

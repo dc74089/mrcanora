@@ -87,7 +87,9 @@ CRONJOBS = [
     # ("05 13 * * *", "classroom.tasks.enable_exit_ticket"),
     # ("35 13 * * *", "classroom.tasks.disable_exit_ticket"),
 
-    ("*/10 * * * *", "classroom.canvas.do_all"),
+    # ("*/10 * * * *", "classroom.canvas.do_all"),
+
+    ("0 2 * * *", "classroom.tasks.enable_random_question"),
 
     ("*/2 * * * *", "classroom.tasks.debug_log"),
 ]
